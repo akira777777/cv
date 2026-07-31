@@ -14,9 +14,18 @@
     <meta property="og:description" content="Multidisciplinary design portfolio featuring Product, Brand Identity, Editorial, and Campaign visual systems. Based in Prague.">
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#fdf8f8">
-    
-    <!-- Tailwind CSS (via CDN) -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+     <!-- Instant Dark Mode Detection Script -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <!-- Tailwind Config (MUST BE BEFORE CDN SCRIPT) -->
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -25,7 +34,7 @@
                     colors: {
                         "inverse-on-surface": "#f4f0ef",
                         "primary-fixed": "#e5e2e1",
-                        "primary-container": "#1c1b1b",
+                        "primary-container": "#1c1b1a",
                         "on-secondary-fixed-variant": "#5e4113",
                         "surface": "#fdf8f8",
                         "background": "#fdf8f8",
@@ -107,6 +116,7 @@
             }
         };
     </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
     <!-- Google Fonts & Material Symbols -->
     <link href="https://fonts.googleapis.com" rel="preconnect">

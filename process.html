@@ -15,8 +15,18 @@
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#fdf8f8">
 
-    <!-- Tailwind CSS (via CDN) -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Instant Dark Mode Detection Script -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <!-- Tailwind Config (MUST BE BEFORE CDN SCRIPT) -->
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -107,6 +117,8 @@
             }
         };
     </script>
+    <!-- Tailwind CSS (via CDN) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
     <!-- Google Fonts & Material Symbols -->
     <link href="https://fonts.googleapis.com" rel="preconnect">

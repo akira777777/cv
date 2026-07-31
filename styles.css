@@ -39,10 +39,16 @@ html.dark body {
     color: #f4f0ef !important;
 }
 html.dark .bg-surface,
-html.dark .bg-background {
+html.dark .bg-background,
+html.dark .bg-surface-bright {
     background-color: #121111 !important;
 }
-html.dark .bg-surface-container {
+html.dark .bg-background\/80,
+html.dark .bg-surface\/80 {
+    background-color: rgba(18, 17, 17, 0.85) !important;
+}
+html.dark .bg-surface-container,
+html.dark .bg-surface-container-lowest {
     background-color: #1d1b1a !important;
 }
 html.dark .bg-surface-container-low {
@@ -51,13 +57,29 @@ html.dark .bg-surface-container-low {
 html.dark .bg-surface-container-high {
     background-color: #272524 !important;
 }
+html.dark .bg-surface-container\/90,
+html.dark .bg-surface-container\/95 {
+    background-color: rgba(29, 27, 26, 0.95) !important;
+}
 html.dark .text-primary {
     color: #f4f0ef !important;
+}
+html.dark .text-primary\/10 {
+    color: rgba(244, 240, 239, 0.12) !important;
 }
 html.dark .text-on-surface-variant {
     color: #b5b0ad !important;
 }
-html.dark .border-outline\/10 {
+html.dark .text-secondary {
+    color: #d4af37 !important;
+}
+html.dark .bg-secondary {
+    background-color: #d4af37 !important;
+    color: #121111 !important;
+}
+html.dark .border-outline\/5,
+html.dark .border-outline\/10,
+html.dark .border-outline\/20 {
     border-color: rgba(244, 240, 239, 0.12) !important;
 }
 html.dark .border-primary {
