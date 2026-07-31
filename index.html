@@ -132,93 +132,105 @@
     <!-- Paper Texture Overlay -->
     <div class="paper-grain"></div>
 
-    <!-- Background 3D Animation -->
+    <!-- Background 3D Animation Container -->
     <div class="fixed inset-0 w-full h-full -z-10 bg-transparent pointer-events-none opacity-40">
-        <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
         <div class="w-full h-full" id="threejs-container"></div>
-        <script>
-            (function() {
-                window.animationSettings = window.animationSettings || {
-                    motion: true,
-                    nodes: true,
-                    grid: true,
-                    primaryColor: 0x1a1a1a,
-                    accentColor: 0x785929
-                };
-
-                if (typeof THREE === 'undefined') return;
-
-                const container = document.getElementById('threejs-container');
-                const width = window.innerWidth;
-                const height = window.innerHeight;
-
-                const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-                camera.position.z = 5;
-
-                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(width, height);
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                container.appendChild(renderer.domElement);
-
-                // Grid helper
-                const gridHelper = new THREE.GridHelper(10, 20, 0x1a1a1a, 0x1a1a1a);
-                gridHelper.rotation.x = Math.PI / 2;
-                gridHelper.material.transparent = true;
-                gridHelper.material.opacity = 0.05;
-                scene.add(gridHelper);
-
-                // Simple vertical line geometry
-                const lineGeometry = new THREE.BufferGeometry().setFromPoints([
-                    new THREE.Vector3(0, 5, 0),
-                    new THREE.Vector3(0, -5, 0)
-                ]);
-                const lineMaterial = new THREE.LineBasicMaterial({ color: window.animationSettings.primaryColor, transparent: true, opacity: 0.15 });
-                const timelineLine = new THREE.Line(lineGeometry, lineMaterial);
-                scene.add(timelineLine);
-
-                // Adding floating nodes
-                const points = [];
-                const nodeGroup = new THREE.Group();
-                for (let i = 0; i < 8; i++) {
-                    const geometry = new THREE.CircleGeometry(0.06, 32);
-                    const material = new THREE.MeshBasicMaterial({ color: window.animationSettings.primaryColor });
-                    const point = new THREE.Mesh(geometry, material);
-                    point.position.y = 3 - (i * 0.9);
-                    nodeGroup.add(point);
-                    points.push(point);
-                }
-                scene.add(nodeGroup);
-
-                function animate() {
-                    requestAnimationFrame(animate);
-                    const time = Date.now() * 0.001;
-                    
-                    if (window.animationSettings.motion) {
-                        points.forEach((point, i) => {
-                            point.position.x = Math.sin(time + i) * 0.2;
-                            point.scale.setScalar(1 + Math.sin(time * 2 + i) * 0.3);
-                        });
-                    }
-
-                    nodeGroup.visible = window.animationSettings.nodes;
-                    gridHelper.visible = window.animationSettings.grid;
-                    lineMaterial.color.setHex(window.animationSettings.primaryColor);
-                    points.forEach(p => p.material.color.setHex(window.animationSettings.accentColor));
-
-                    renderer.render(scene, camera);
-                }
-
-                window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                }, { passive: true });
-
-                animate();
-            })();
-        </script>
     </div>
+
+    <!-- Three.js Background Animation -->
+    <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+    <script>
+        (function() {
+            window.animationSettings = window.animationSettings || {
+                motion: true,
+                nodes: true,
+                grid: true,
+                primaryColor: 0x1a1a1a,
+                accentColor: 0x785929
+            };
+
+            if (typeof THREE === 'undefined') return;
+
+            // Skip animation for reduced motion users
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            const container = document.getElementById('threejs-container');
+            if (!container) return;
+
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            camera.position.z = 5;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Grid helper
+            const gridHelper = new THREE.GridHelper(10, 20, 0x1a1a1a, 0x1a1a1a);
+            gridHelper.rotation.x = Math.PI / 2;
+            gridHelper.material.transparent = true;
+            gridHelper.material.opacity = 0.05;
+            scene.add(gridHelper);
+
+            // Simple vertical line geometry
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(0, 5, 0),
+                new THREE.Vector3(0, -5, 0)
+            ]);
+            const lineMaterial = new THREE.LineBasicMaterial({ color: window.animationSettings.primaryColor, transparent: true, opacity: 0.15 });
+            const timelineLine = new THREE.Line(lineGeometry, lineMaterial);
+            scene.add(timelineLine);
+
+            // Adding floating nodes
+            const points = [];
+            const nodeGroup = new THREE.Group();
+            for (let i = 0; i < 8; i++) {
+                const geometry = new THREE.CircleGeometry(0.06, 32);
+                const material = new THREE.MeshBasicMaterial({ color: window.animationSettings.primaryColor });
+                const point = new THREE.Mesh(geometry, material);
+                point.position.y = 3 - (i * 0.9);
+                nodeGroup.add(point);
+                points.push(point);
+            }
+            scene.add(nodeGroup);
+
+            // Disable motion if user prefers reduced motion
+            if (prefersReducedMotion) {
+                window.animationSettings.motion = false;
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const time = Date.now() * 0.001;
+                
+                if (window.animationSettings.motion) {
+                    points.forEach((point, i) => {
+                        point.position.x = Math.sin(time + i) * 0.2;
+                        point.scale.setScalar(1 + Math.sin(time * 2 + i) * 0.3);
+                    });
+                }
+
+                nodeGroup.visible = window.animationSettings.nodes;
+                gridHelper.visible = window.animationSettings.grid;
+                lineMaterial.color.setHex(window.animationSettings.primaryColor);
+                points.forEach(p => p.material.color.setHex(window.animationSettings.accentColor));
+
+                renderer.render(scene, camera);
+            }
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }, { passive: true });
+
+            animate();
+        })();
+    </script>
 
     <!-- Top Navigation -->
     <nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline/10" id="navbar">
@@ -355,7 +367,6 @@
                 <div class="col-span-4 md:col-span-6 mt-12 md:mt-0 relative md:-ml-24 md:-mt-24 h-[350px] sm:h-[530px] md:h-[795px] z-0">
                     <div class="w-full h-full relative overflow-hidden bg-surface-container-low shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] image-mask-reveal parallax-wrapper rounded-lg">
                         <img alt="Portrait of Elizaveta Vakalova" decoding="async" fetchpriority="high" loading="eager" class="w-full h-full object-cover object-center absolute inset-0 parallax-bg" src="assets/images/hero_portrait.webp">
-
                     </div>
                     <!-- Decorative Line -->
                     <div class="hidden md:block absolute -right-12 -top-12 w-[1px] h-[120%] bg-secondary transform rotate-[15deg] opacity-40"></div>
@@ -453,14 +464,12 @@
                 <a href="#" data-case-study="alpine" class="col-span-4 md:col-span-9 md:-ml-12 order-1 md:order-2 group relative z-10 cursor-pointer">
                     <div class="w-full aspect-[16/10] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-lg parallax-wrapper">
                         <img decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" alt="Alpine Retreat Editorial Spread" src="assets/images/project_alpine.webp">
-
                         <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"></div>
                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out transform translate-y-4 group-hover:translate-y-0">
                             <span class="font-label-caps text-on-primary bg-primary/50 backdrop-blur-md px-6 py-3 rounded-full uppercase tracking-widest">View Project</span>
                         </div>
                     </div>
                 </a>
-
             </div>
 
             <!-- Project 04 (3D Motion Campaign Video Showcase) -->
@@ -545,47 +554,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const observerOptions = {
-                threshold: 0.15,
-                rootMargin: "0px 0px -100px 0px"
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('.fade-in-up, .image-mask-reveal').forEach((el) => {
-                observer.observe(el);
-            });
-
-            // Sticky nav logic
-            let ticking = false;
-            let lastScroll = 0;
-            const navbar = document.getElementById('navbar');
-
-            window.addEventListener('scroll', () => {
-                if (!ticking) {
-                    window.requestAnimationFrame(() => {
-                        const scrolled = window.scrollY;
-                        if (scrolled <= 0) {
-                            navbar.style.transform = "translateY(0)";
-                        } else if (scrolled > lastScroll && scrolled > 80) {
-                            navbar.style.transform = "translateY(-100%)";
-                        } else {
-                            navbar.style.transform = "translateY(0)";
-                        }
-                        lastScroll = scrolled;
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            }, { passive: true });
-
-            // Controls panel sidebar logic
+            // Controls panel sidebar logic (specific to index.html)
             const settingsToggle = document.getElementById('settings-toggle');
             const settingsClose = document.getElementById('settings-close');
             const settingsPanel = document.getElementById('settings-panel');

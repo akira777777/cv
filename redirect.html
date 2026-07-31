@@ -245,11 +245,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const card = document.getElementById('main-card');
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
             // 1. Entrance Animation
             setTimeout(() => {
                 card.classList.add('is-visible');
             }, 100);
+
+            // Skip tilt effect for reduced motion users or touch devices
+            if (prefersReducedMotion || window.matchMedia('(pointer: coarse)').matches) return;
 
             // Micro-interaction with requestAnimationFrame throttling
             // Only activate after entrance animation completes
@@ -270,7 +274,14 @@
                 }
             }, { passive: true });
 
+            // Reset tilt when mouse leaves the window
             document.addEventListener('mouseleave', () => {
+                if (!tiltEnabled) return;
+                card.style.transform = `translateY(0) scale(1) rotateY(0deg) rotateX(0deg)`;
+            });
+
+            // Also reset on window blur (more reliable than mouseleave)
+            window.addEventListener('blur', () => {
                 if (!tiltEnabled) return;
                 card.style.transform = `translateY(0) scale(1) rotateY(0deg) rotateX(0deg)`;
             });

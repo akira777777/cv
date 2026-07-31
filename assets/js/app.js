@@ -490,6 +490,13 @@ window.PortfolioApp = (function() {
         const targetVal = parseFloat(el.getAttribute('data-target') || '0');
         const prefix = el.getAttribute('data-prefix') || '';
         const suffix = el.getAttribute('data-suffix') || '';
+
+        // For reduced motion users, set final value immediately
+        if (prefersReducedMotion()) {
+            el.textContent = `${prefix}${targetVal}${suffix}`;
+            return;
+        }
+
         const duration = 1500;
         const startTime = performance.now();
 
@@ -515,8 +522,13 @@ window.PortfolioApp = (function() {
         document.querySelectorAll('nav a.font-label-caps').forEach(link => {
             const href = link.getAttribute('href');
             if (href === path || (path === '' && href === 'index.html')) {
-                link.classList.add('text-secondary', 'font-semibold');
+                // Only set aria-current for accessibility — visual styling is handled
+                // by hardcoded classes in HTML and CSS [aria-current="page"] rule
                 link.setAttribute('aria-current', 'page');
+                // Ensure the active link has consistent styling (in case HTML doesn't hardcode it)
+                if (!link.classList.contains('text-primary') || !link.querySelector('.border-secondary')) {
+                    link.classList.add('text-secondary');
+                }
             }
         });
     }
@@ -661,6 +673,9 @@ window.PortfolioApp = (function() {
         const parallaxBgElements = document.querySelectorAll('.parallax-bg');
         if (!parallaxBgElements.length) return;
 
+        // Skip parallax for users who prefer reduced motion
+        if (prefersReducedMotion()) return;
+
         let ticking = false;
 
         function updateParallax() {
@@ -701,18 +716,85 @@ window.PortfolioApp = (function() {
         const mobileMenu = document.getElementById('mobile-menu');
         if (!mobileMenuToggle || !mobileMenu) return;
 
-        mobileMenuToggle.addEventListener('click', () => {
-            const isHidden = mobileMenu.classList.toggle('hidden');
-            mobileMenuToggle.setAttribute('aria-expanded', !isHidden);
+        function closeMenu() {
+            mobileMenu.classList.add('hidden');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        }
+
+        function openMenu() {
+            mobileMenu.classList.remove('hidden');
+            mobileMenuToggle.setAttribute('aria-expanded', 'true');
+        }
+
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (mobileMenu.classList.contains('hidden')) {
+                openMenu();
+            } else {
+                closeMenu();
+            }
         });
 
         // Close mobile menu on link click
         mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                mobileMenuToggle.setAttribute('aria-expanded', 'false');
-            });
+            link.addEventListener('click', closeMenu);
         });
+
+        // Close mobile menu when clicking outside of it
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.classList.contains('hidden') &&
+                !mobileMenu.contains(e.target) &&
+                !mobileMenuToggle.contains(e.target)) {
+                closeMenu();
+            }
+        });
+
+        // Close mobile menu on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+                closeMenu();
+                mobileMenuToggle.focus();
+            }
+        });
+
+        // Close mobile menu on resize to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768 && !mobileMenu.classList.contains('hidden')) {
+                closeMenu();
+            }
+        }, { passive: true });
+    }
+
+    // Sticky Navbar Show/Hide on Scroll (works on all pages)
+    function initStickyNav() {
+        const navbar = document.getElementById('navbar');
+        if (!navbar) return;
+
+        let ticking = false;
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.scrollY;
+                    if (scrolled <= 0) {
+                        navbar.style.transform = "translateY(0)";
+                    } else if (scrolled > lastScroll && scrolled > 80) {
+                        navbar.style.transform = "translateY(-100%)";
+                    } else {
+                        navbar.style.transform = "translateY(0)";
+                    }
+                    lastScroll = scrolled;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+    }
+
+    // Check if user prefers reduced motion
+    function prefersReducedMotion() {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
 
     // Centralized Scroll Reveal Observer
@@ -736,6 +818,7 @@ window.PortfolioApp = (function() {
     function init() {
         initTheme();
         initActiveNav();
+        initStickyNav();
         initMobileMenu();
         initScrollReveal();
         initWorkFilter();

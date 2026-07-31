@@ -391,4 +391,37 @@ html.dark .toast-msg {
     pointer-events: auto;
 }
 
+/* Active navigation link styling via aria-current */
+nav a[aria-current="page"] {
+    color: var(--accent-gold) !important;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .fade-in-up {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .image-mask-reveal {
+        clip-path: none !important;
+    }
+    .parallax-bg {
+        transform: none !important;
+    }
+    #navbar {
+        transform: none !important;
+    }
+    .animate-float {
+        animation: none !important;
+    }
+}
+
 
