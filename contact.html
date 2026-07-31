@@ -5,6 +5,9 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Contact — Elizaveta Vakalova</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <!-- Meta SEO & OpenGraph -->
     <meta name="description" content="Get in touch with Elizaveta Vakalova for project inquiries, brand design, and product design collaborations based in Prague.">
     <meta property="og:title" content="Contact — Elizaveta Vakalova">
@@ -119,24 +122,37 @@
     <div class="paper-grain"></div>
 
     <!-- TopNavBar -->
-    <nav class="fixed top-0 w-full z-50 bg-background/80 dark:bg-background/80 backdrop-blur-md border-b border-outline/10">
+    <nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline/10" id="navbar">
         <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-6 w-full max-w-container-max mx-auto">
-            <a class="font-headline-lg text-body-lg font-bold tracking-tight text-primary" href="index.html">Elizaveta Vakalova</a>
+            <a class="font-headline-lg text-body-lg font-bold tracking-tight text-primary hover:text-secondary transition-colors" href="index.html">Elizaveta Vakalova</a>
             <div class="hidden md:flex items-center gap-8">
-                <a class="text-on-surface-variant hover:text-secondary transition-all duration-300 font-label-caps text-label-caps" href="work.html">Work</a>
-                <a class="text-on-surface-variant hover:text-secondary transition-all duration-300 font-label-caps text-label-caps" href="process.html">About</a>
-                <a class="text-primary border-b-2 border-secondary pb-1 font-label-caps text-label-caps" href="contact.html">Contact</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="work.html">Work</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="process.html">About</a>
+                <a class="font-label-caps text-label-caps text-primary border-b-2 border-secondary pb-1" href="contact.html">Contact</a>
             </div>
-            <div class="hidden md:block text-on-surface-variant font-label-caps text-label-caps">
-                Prague / Available
+            <div class="flex items-center gap-6">
+                <span class="hidden sm:inline-block font-label-caps text-label-caps text-on-surface-variant">Prague / Available</span>
+                <button aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle Mobile Navigation Menu" class="md:hidden text-primary" id="mobile-menu-toggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Dropdown Menu -->
+        <div class="hidden md:hidden bg-surface-container/95 backdrop-blur-xl border-b border-outline/10 px-6 py-6" id="mobile-menu">
+            <div class="flex flex-col space-y-4">
+                <a class="font-label-caps text-label-caps text-on-surface-variant py-2 border-b border-outline/5" href="work.html">Work</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant py-2 border-b border-outline/5" href="process.html">About</a>
+                <a class="font-label-caps text-label-caps text-primary py-2" href="contact.html">Contact</a>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-[120px] pb-section-gap px-margin-mobile md:px-margin-desktop w-full max-w-container-max mx-auto">
+    <main class="flex-grow pt-32 md:pt-40 pb-section-gap px-margin-mobile md:px-margin-desktop w-full max-w-container-max mx-auto">
         <!-- Header Section -->
-        <div class="mb-gutter md:mb-section-gap mt-12 md:mt-24 max-w-4xl">
+        <div class="mb-16 md:mb-24 max-w-4xl">
+
             <h1 class="font-headline-lg-mobile text-4xl sm:text-[64px] md:text-display-xl text-primary mb-6">
                 Let's create something meaningful.
             </h1>
@@ -238,6 +254,17 @@
             e.target.reset();
             window.scrollTo({ top: e.target.offsetTop - 150, behavior: 'smooth' });
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
     </script>
+
 </body>
 </html>

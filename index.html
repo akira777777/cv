@@ -5,6 +5,9 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Elizaveta Vakalova — Multidisciplinary Designer</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <!-- Meta SEO & OpenGraph -->
     <meta name="description" content="Portfolio of Elizaveta Vakalova, a multidisciplinary designer based in Prague specializing in product design, brand identity, editorial, and campaigns.">
     <meta property="og:title" content="Elizaveta Vakalova — Design Portfolio">
@@ -207,37 +210,32 @@
     </div>
 
     <!-- Top Navigation -->
-    <nav class="bg-surface/60 backdrop-blur-xl fixed top-0 w-full z-50 transition-transform duration-500 border-b border-outline/5" id="navbar">
+    <nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline/10" id="navbar">
         <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-6 w-full max-w-container-max mx-auto">
-            <a class="font-headline-lg text-body-lg font-bold tracking-tighter text-primary" href="index.html">ELIZAVETA VAKALOVA</a>
-            <div class="hidden md:flex space-x-8 items-center bg-surface-container/50 px-6 py-2 rounded-full backdrop-blur-md">
-                <a class="font-label-caps text-label-caps text-primary hover:text-secondary transition-all duration-300 ease-in-out" href="work.html">WORK</a>
-                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300 ease-in-out" href="process.html">ABOUT</a>
-                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300 ease-in-out" href="contact.html">CONTACT</a>
+            <a class="font-headline-lg text-body-lg font-bold tracking-tight text-primary hover:text-secondary transition-colors" href="index.html">Elizaveta Vakalova</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="work.html">Work</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="process.html">About</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="contact.html">Contact</a>
             </div>
-            <div class="flex items-center space-x-6">
-                <div class="hidden md:flex font-label-caps text-label-caps text-on-surface-variant">
-                    PRAGUE — AVAILABLE
-                </div>
-                <button aria-controls="settings-panel" aria-expanded="false" aria-label="Open Canvas Settings Panel" class="flex items-center justify-center w-10 h-10 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all duration-300" id="settings-toggle">
-                    <span class="material-symbols-outlined text-[20px]">settings</span>
+            <div class="flex items-center gap-6">
+                <span class="hidden sm:inline-block font-label-caps text-label-caps text-on-surface-variant">Prague / Available</span>
+                <button aria-controls="settings-panel" aria-expanded="false" aria-label="Open Canvas Settings Panel" class="flex items-center justify-center w-7 h-7 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all duration-300" id="settings-toggle">
+                    <span class="material-symbols-outlined text-[18px]">settings</span>
+                </button>
+                <button aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle Mobile Navigation Menu" class="md:hidden text-primary" id="mobile-menu-toggle">
+                    <span class="material-symbols-outlined">menu</span>
                 </button>
             </div>
-            <!-- Mobile Menu Button -->
-            <button aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle Mobile Navigation Menu" class="md:hidden text-primary" id="mobile-menu-toggle">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
+
         </div>
         
         <!-- Mobile Dropdown Menu -->
         <div class="hidden md:hidden bg-surface-container/95 backdrop-blur-xl border-b border-outline/10 px-6 py-6" id="mobile-menu">
             <div class="flex flex-col space-y-4">
-                <a class="font-label-caps text-label-caps text-primary py-2 border-b border-outline/5" href="work.html">WORK</a>
-                <a class="font-label-caps text-label-caps text-on-surface-variant py-2 border-b border-outline/5" href="process.html">ABOUT</a>
-                <a class="font-label-caps text-label-caps text-on-surface-variant py-2" href="contact.html">CONTACT</a>
-                <div class="pt-4 font-label-caps text-xs text-secondary tracking-widest border-t border-outline/10">
-                    PRAGUE — AVAILABLE
-                </div>
+                <a class="font-label-caps text-label-caps text-on-surface-variant py-2 border-b border-outline/5" href="work.html">Work</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant py-2 border-b border-outline/5" href="process.html">About</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant py-2" href="contact.html">Contact</a>
             </div>
         </div>
     </nav>
@@ -335,7 +333,8 @@
                 <!-- Hero Image -->
                 <div class="col-span-4 md:col-span-6 mt-12 md:mt-0 relative md:-ml-24 md:-mt-24 h-[350px] sm:h-[530px] md:h-[795px] z-0">
                     <div class="w-full h-full relative overflow-hidden bg-surface-container-low shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] image-mask-reveal parallax-wrapper rounded-lg">
-                        <img alt="Portrait of Elizaveta Vakalova" decoding="async" fetchpriority="high" loading="eager" class="w-full h-full object-cover object-center absolute inset-0 parallax-bg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXzt9E4xrFQVNxDxY7kRf504_E8Vn0prOVJEzUJoGC7wHoWYlIN37iTBf5GHjIK0C3mk6roKBZJaRTVzNeNqIOMVmONidzdobb6qQIxpnE1Azaf6GExrbl0-b5DMuBhpvP1zewEbkRieeo2gjeQl5him7xImqttoYGDPXX6zgdXRHFGrgJV2U_46Dr5SEcVrANAjkWeQn7PujrNlospGqgVLLg5XTCY69s6rCVk9Z7zUIgz4AneMxPJHR9YqMf-GcOww">
+                        <img alt="Portrait of Elizaveta Vakalova" decoding="async" fetchpriority="high" loading="eager" class="w-full h-full object-cover object-center absolute inset-0 parallax-bg" src="assets/images/hero_portrait.webp">
+
                     </div>
                     <!-- Decorative Line -->
                     <div class="hidden md:block absolute -right-12 -top-12 w-[1px] h-[120%] bg-secondary transform rotate-[15deg] opacity-40"></div>
@@ -368,7 +367,7 @@
                 </div>
                 <a href="work.html#astro" class="col-span-4 md:col-span-9 md:-ml-24 order-1 md:order-2 group relative z-10 cursor-pointer">
                     <div class="w-full aspect-[4/3] md:aspect-[16/9] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-lg parallax-wrapper">
-                        <img alt="Astro Analytics Dashboard on a laptop" decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYkb4TVeQi1IC7gJWc3AcYslALg_Ds1PP4nf9H3sg9vMnGqksmNqd1kinwM0vGoKghl6uIgZ0KweR05WG1OXm91QIdTuNITthawhwb_XcJi7WFLjlI3eWsBOxRIoSo7baiNdscqCS01sJ4St9-BbwoPEgev9oJR0VvnxICV6gL41jjwkf7_TANeOlKFAohsbbPmgrkwuqYAVRFhrbS36Hzdetn4uiB6q8NjGwUpB6Oj7AnDNGMCpx83GtZfCFlhF_b6w">
+                        <img alt="Astro Analytics Dashboard Interface" decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" src="assets/images/project_astro.webp">
                         <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"></div>
                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out transform translate-y-4 group-hover:translate-y-0">
                             <span class="font-label-caps text-on-primary bg-primary/50 backdrop-blur-md px-6 py-3 rounded-full uppercase tracking-widest">View Project</span>
@@ -381,7 +380,7 @@
             <div class="grid grid-cols-4 md:grid-cols-12 gap-gutter mb-32 md:mb-56 fade-in-up items-center relative">
                 <a href="work.html#aura" class="col-span-4 md:col-span-8 group relative z-10 cursor-pointer">
                     <div class="w-full aspect-square md:aspect-[4/5] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-lg parallax-wrapper">
-                        <img decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" alt="A minimalist and timeless brand identity presentation for a wellness brand called AURA." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXdCXUFrtg_it4vRshi_nKCYJ89U05s4pJ62xCEe0Zi5yjgKQ6-MB01l2Ia0RPeNSNVxM3odS5UDiSSfmS4MHngptKs8D1s58F_zl2LKB2ivbFkkdMl2JnwezTe-eW5qk3Z-r1Sxvm2yOJOwL6udVcBZFLLSQa4g8wBbxHUdRL33Pey0I-bu5RU-kv29GI73HxQvtnXm0YM0rd_aUf9f2MuJ_fup-DPpDfeyfsA49ps2qNWZh4wmiG">
+                        <img decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" alt="AURA Identity Branding" src="assets/images/project_aura.webp">
                         <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"></div>
                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out transform translate-y-4 group-hover:translate-y-0">
                             <span class="font-label-caps text-on-primary bg-primary/50 backdrop-blur-md px-6 py-3 rounded-full uppercase tracking-widest">View Project</span>
@@ -432,13 +431,15 @@
                 </div>
                 <a href="work.html#alpine" class="col-span-4 md:col-span-9 md:-ml-12 order-1 md:order-2 group relative z-10 cursor-pointer">
                     <div class="w-full aspect-[16/10] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-lg parallax-wrapper">
-                        <img decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" alt="An open architectural magazine spread." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Z4k6j4c8zt8q3EG4Klvm-uigOTqUNoJSROT2PskkGRCyVLKPJTYcnnvTZNKNiOtnifhKClmZuxBYTt6ESodfOsmHJGGQnhLqVJLh6dxFqwENebh3Eo6U17sOaSRUowdr51cMgH-BZJJIZCDewIKWuppID1f215EK7zXMdR586Fk8XmjfMFF3QH9r9XGowl17NV4OazwLKtN44QljR1ICOSeiJfOU7Hss131PXGDNSurIOzQI8TDE">
+                        <img decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" alt="Alpine Retreat Editorial Spread" src="assets/images/project_alpine.webp">
+
                         <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"></div>
                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out transform translate-y-4 group-hover:translate-y-0">
                             <span class="font-label-caps text-on-primary bg-primary/50 backdrop-blur-md px-6 py-3 rounded-full uppercase tracking-widest">View Project</span>
                         </div>
                     </div>
                 </a>
+
             </div>
         </section>
 

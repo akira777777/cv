@@ -5,6 +5,9 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Design Process — Elizaveta Vakalova</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <!-- Meta SEO & OpenGraph -->
     <meta name="description" content="Detailed 6-phase design process of Elizaveta Vakalova: Discovery, Conceptualization, Design System, Visual Design, Prototyping, and Delivery.">
     <meta property="og:title" content="Design Process — Elizaveta Vakalova">
@@ -119,20 +122,35 @@
     <div class="paper-grain"></div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-background/80 dark:bg-background/80 backdrop-blur-md border-b border-outline/10">
+    <nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline/10" id="navbar">
         <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-6 w-full max-w-container-max mx-auto">
-            <a class="font-headline-lg text-body-lg font-bold tracking-tight text-primary" href="index.html">Elizaveta Vakalova</a>
-            <div class="hidden md:flex gap-10">
-                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300 ease-in-out" href="work.html">Work</a>
-                <a class="font-label-caps text-label-caps text-primary border-b-2 border-secondary pb-1 transition-all duration-300 ease-in-out" href="process.html">About</a>
-                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300 ease-in-out" href="contact.html">Contact</a>
+            <a class="font-headline-lg text-body-lg font-bold tracking-tight text-primary hover:text-secondary transition-colors" href="index.html">Elizaveta Vakalova</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="work.html">Work</a>
+                <a class="font-label-caps text-label-caps text-primary border-b-2 border-secondary pb-1" href="process.html">About</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="contact.html">Contact</a>
             </div>
-            <span class="font-label-caps text-label-caps text-on-surface-variant">Prague / Available</span>
+            <div class="flex items-center gap-6">
+                <span class="hidden sm:inline-block font-label-caps text-label-caps text-on-surface-variant">Prague / Available</span>
+                <button aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle Mobile Navigation Menu" class="md:hidden text-primary" id="mobile-menu-toggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Dropdown Menu -->
+        <div class="hidden md:hidden bg-surface-container/95 backdrop-blur-xl border-b border-outline/10 px-6 py-6" id="mobile-menu">
+            <div class="flex flex-col space-y-4">
+                <a class="font-label-caps text-label-caps text-on-surface-variant py-2 border-b border-outline/5" href="work.html">Work</a>
+                <a class="font-label-caps text-label-caps text-primary py-2 border-b border-outline/5" href="process.html">About</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant py-2" href="contact.html">Contact</a>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="pt-48 pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+    <header class="pt-32 md:pt-40 pb-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+
         <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
             <div class="md:col-span-8">
                 <p class="font-label-caps text-label-caps text-secondary mb-4">METHODOLOGY</p>
@@ -186,7 +204,7 @@
                                         </ul>
                                     </div>
                                     <div class="aspect-square relative overflow-hidden rounded">
-                                        <img decoding="async" loading="lazy" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" alt="Work space elements showcasing discovery research context" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX_JLiEby-z-aBA9Dwg5dTbtQu5_1ckTvW_X-ZyEHRMXxDKX5ufHFWOOhzv6wgu0EBWRpgj0fzK6ta4Ne-qhWJ91mbBWNvKy2qYtvMxasBEAOl3Kk1iwfb6IgqU9OM16iahxz0fjAALwXziN-5XcTEjwM2AKhbdbKdyiMeHgJT1i1thft8KHtnOyW4NCcgEuXeSxbwhAD7TXNbF7KBzw9Az2j5ZBJrezCWkpjIfEJBUOcj7qBOmQBW">
+                                        <img decoding="async" loading="lazy" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" alt="Design research and discovery workspace elements" src="assets/images/process_discovery.webp">
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +239,7 @@
                                 </p>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="aspect-video relative overflow-hidden col-span-2 rounded">
-                                        <img decoding="async" loading="lazy" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" alt="Creative walls of wireframe and flow outlines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEfj-lPuVwKKN8gQoUO7pAiQm6liUN6FCE1z07ikfgpNQbrVUOJvYQrRhaxq5GTmRpUVIKqDwkwMj27r2adMs5uvc8GnovTox0xSSiGXPr5lcvS3yzCS-Dup-AIrtqj-ZSJJGaRRJVCvkPfedzaX3auBCCTHaoZriCQGdCgH2_0Nb4DPc8Enl_UqgRHVInfpxo2-DNTX4-XjcaJOitT_Q3fg5OPLCKxSiqnbpsHCb5goGdGc63PlRl">
+                                        <img decoding="async" loading="lazy" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" alt="Wireframe sketches and user flow diagrams" src="assets/images/process_concept.webp">
                                     </div>
                                     <div class="p-6 bg-surface-container-low border border-outline/5 col-span-2 rounded">
                                         <p class="font-label-caps text-label-caps text-secondary mb-2">OUTPUTS</p>
@@ -297,9 +315,10 @@
                                 Bringing the brand to life through high-fidelity interfaces. I focus on typography, color theory, and imagery to create an emotionally resonant and functional user experience.
                             </p>
                             <div class="relative h-64 overflow-hidden rounded">
-                                <img decoding="async" loading="lazy" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-1000" alt="Refined visual interface screens on display" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnZVw5rytZ2xg-jM-cp-SVKImcfq3sVvQMhtkhtrWbwu7BlOXN7Akqz93AbthdHVR2nFduqmx3O9FnjjDlz5PvhK5LQPExyvWA7obQuDTGniebTxz2ykFaaRz-3DT33NZPd2T78UWZO3HYNYhcTrwg_xEO1_7dhFLXmLEBny4lLksfDj-pn5YWYGlTUVxXqO7GWUKubdLUOKth9gANy06GwplaUVI8vpR__wzx2udwmgvpSo7ypfib">
+                                <img decoding="async" loading="lazy" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-1000" alt="Refined visual interface screens on workstation display" src="assets/images/process_visual.webp">
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -428,6 +447,17 @@
                 if (icon) icon.style.transform = 'rotate(180deg)';
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
     </script>
+
 </body>
 </html>
