@@ -19,7 +19,7 @@ const fs = require('fs');
         page.on('pageerror', err => errors.push('PAGEERR: ' + err.message));
         page.on('requestfailed', req => errors.push(`REQFAIL: ${req.url()} - ${req.failure().errorText}`));
 
-        await page.goto(`http://localhost:9090/${pageName}`, { waitUntil: 'networkidle', timeout: 15000 });
+        await page.goto(`http://localhost:9123/${pageName}`, { waitUntil: 'networkidle', timeout: 15000 });
         await page.waitForTimeout(2000);
 
         const diagnostics = await page.evaluate(() => {
