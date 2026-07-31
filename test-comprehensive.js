@@ -40,7 +40,7 @@ const fs = require('fs');
             page.on('pageerror', err => pageErrors.push(err.message));
 
             try {
-                await page.goto(`http://localhost:8080/${pageName}`, { waitUntil: 'networkidle', timeout: 15000 });
+                await page.goto(`http://localhost:8090/${pageName}`, { waitUntil: 'networkidle', timeout: 15000 });
                 await page.waitForTimeout(2000);
 
                 const screenshotPath = `/tmp/screenshots/${pageName.replace('.html','')}-${vp.name}.png`;

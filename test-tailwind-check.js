@@ -13,7 +13,7 @@ const { chromium } = require('playwright');
     page.on('pageerror', err => errors.push('PAGEERR: ' + err.message));
     page.on('console', msg => { if (msg.type() === 'error') errors.push('CONSOLE: ' + msg.text()); });
 
-    await page.goto('http://localhost:8080/index.html', { waitUntil: 'domcontentloaded', timeout: 10000 });
+    await page.goto('http://localhost:8090/index.html', { waitUntil: 'domcontentloaded', timeout: 10000 });
     await page.waitForTimeout(3000);
 
     const data = await page.evaluate(() => {

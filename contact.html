@@ -26,7 +26,9 @@
         })();
     </script>
 
-    <!-- Tailwind Config (MUST BE BEFORE CDN SCRIPT) -->
+    <!-- Tailwind CSS (via CDN — must load before config) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Config (must be set AFTER CDN script loads) -->
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -117,7 +119,6 @@
             }
         };
     </script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
     <!-- Google Fonts & Material Symbols -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -129,7 +130,7 @@
     <link href="styles.css" rel="stylesheet">
     <script src="assets/js/app.js" defer></script>
 </head>
-<body class="text-on-background font-body-md min-h-[884px] flex flex-col antialiased overflow-x-hidden">
+<body class="text-on-background font-body-md min-h-screen flex flex-col antialiased overflow-x-hidden">
     <!-- Paper Texture Overlay -->
     <div class="paper-grain"></div>
 
