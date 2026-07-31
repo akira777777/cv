@@ -597,9 +597,10 @@ window.PortfolioApp = (function() {
                 // Process only when element is in or close to viewport
                 if (rect.bottom >= -100 && rect.top <= windowHeight + 100) {
                     const centerOffset = (rect.top + rect.height / 2) - (windowHeight / 2);
-                    // Smooth subtle shift bounded strictly within safety margins
-                    const yPos = centerOffset * -0.05;
-                    el.style.transform = `translateY(${yPos}px) scale(1.12)`;
+                    // Bounded subtle shift strictly within safety margins (-18px to +18px)
+                    const rawY = centerOffset * -0.03;
+                    const yPos = Math.max(-18, Math.min(18, rawY));
+                    el.style.transform = `translateY(${yPos}px) scale(1.10)`;
                 }
             });
 
