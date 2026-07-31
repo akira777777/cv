@@ -125,11 +125,14 @@ html, body {
 
 /* Parallax backgrounds */
 .parallax-wrapper {
+    position: relative;
     overflow: hidden;
 }
 .parallax-bg {
-    transform: scale(1.15);
-    transition: transform 0.1s linear;
+    object-fit: cover !important;
+    object-position: top center !important;
+    transform: scale(1.12);
+    transition: transform 0.15s ease-out;
 }
 
 /* Control Panel Transition */
