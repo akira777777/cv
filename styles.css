@@ -1,0 +1,151 @@
+/* Global Stylesheet for Elizaveta Vakalova Portfolio */
+
+/* Custom Typography & Base overrides */
+body {
+    background-color: #fdf8f8;
+    color: #1c1b1b;
+}
+
+/* Hide scrollbars on ALL elements (Webkit) */
+*::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbars on ALL elements (Firefox) */
+* {
+    scrollbar-width: none;
+}
+
+/* Page-level overrides */
+html, body {
+    overflow-x: hidden !important;
+    -ms-overflow-style: none;
+}
+
+/* Paper grain texture */
+.paper-grain {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+}
+
+/* Fade in up entry animation */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Image reveal clip-path */
+.image-mask-reveal {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.image-mask-reveal.visible {
+    clip-path: inset(0 0 0 0);
+}
+
+/* Parallax backgrounds */
+.parallax-wrapper {
+    overflow: hidden;
+}
+
+.parallax-bg {
+    transform: scale(1.15);
+    transition: transform 0.1s linear;
+}
+
+/* Control Panel Transition */
+#settings-panel {
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#settings-panel.open {
+    transform: translateX(0);
+}
+
+/* Toggle Switch Styling */
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #000000;
+}
+.toggle-checkbox:checked + .toggle-label .toggle-dot {
+    transform: translateX(100%);
+}
+
+/* Material Icons custom overrides */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+/* custom timeline styles */
+.timeline-line {
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, #747878 10%, #747878 90%, transparent);
+}
+
+/* accordion animation classes */
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    opacity: 0;
+}
+.accordion-item.active .accordion-content {
+    max-height: 1000px;
+    opacity: 1;
+}
+
+.node-marker {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease, border-color 0.4s ease;
+}
+
+.reveal-node {
+    transform: scale(0);
+}
+.reveal-node.visible {
+    transform: scale(1);
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Global text selection highlight — warm secondary */
+::selection {
+    background-color: rgba(120, 89, 41, 0.2) !important;
+    color: inherit !important;
+}
+::-moz-selection {
+    background-color: rgba(120, 89, 41, 0.2) !important;
+    color: inherit !important;
+}
+
+/* Custom Minimal Input Styles */
+.input-minimal {
+    border: none !important;
+    border-bottom: 1px solid #1c1b1b !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    padding: 12px 0 !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.input-minimal:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-bottom-color: #785929 !important; /* accent gold */
+}
+

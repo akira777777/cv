@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Selected Works — Elizaveta Vakalova</title>
+    
+    <!-- Meta SEO & OpenGraph -->
+    <meta name="description" content="A curated portfolio of multidisciplinary design works by Elizaveta Vakalova spanning UI/UX dashboards, brand identity, editorial design, and product design.">
+    <meta property="og:title" content="Selected Works — Elizaveta Vakalova">
+    <meta property="og:description" content="Portfolio of selected works in Dashboard UI/UX, Brand Identity, Editorial, and Product Design.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#fdf8f8">
+
+    <!-- Tailwind CSS (via CDN) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-container": "#ffd398",
+                        "secondary": "#785929",
+                        "surface-tint": "#5f5e5e",
+                        "on-secondary-container": "#795929",
+                        "surface-container-low": "#f7f3f2",
+                        "on-tertiary-fixed": "#1c1b1a",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#291800",
+                        "tertiary-container": "#1c1b1a",
+                        "primary": "#000000",
+                        "surface-container": "#f1edec",
+                        "on-tertiary-container": "#868382",
+                        "on-surface-variant": "#444748",
+                        "on-surface": "#1c1b1b",
+                        "secondary-fixed-dim": "#eabf86",
+                        "primary-container": "#1c1b1b",
+                        "tertiary-fixed-dim": "#cac6c4",
+                        "outline": "#747878",
+                        "background": "#fdf8f8",
+                        "secondary-fixed": "#ffddb2",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e5e2e1",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c4c7c7",
+                        "on-primary-container": "#858383",
+                        "on-primary-fixed-variant": "#474746",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#5e4113",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-fixed-variant": "#484645",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#c8c6c5",
+                        "primary-fixed": "#e5e2e1",
+                        "error": "#ba1a1a",
+                        "on-background": "#1c1b1b",
+                        "tertiary-fixed": "#e6e2df",
+                        "tertiary": "#000000",
+                        "surface": "#fdf8f8",
+                        "surface-dim": "#ddd9d8",
+                        "surface-bright": "#fdf8f8",
+                        "inverse-on-surface": "#f4f0ef",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#ebe7e6",
+                        "inverse-surface": "#313030"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "unit": "8px",
+                        "section-gap": "160px",
+                        "container-max": "1440px",
+                        "gutter": "32px",
+                        "margin-mobile": "24px",
+                        "margin-desktop": "64px"
+                    },
+                    fontFamily: {
+                        "headline-lg-mobile": ["Libre Caslon Text"],
+                        "stat-number": ["Hanken Grotesk"],
+                        "display-xl": ["Libre Caslon Text"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Libre Caslon Text"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "headline-lg-mobile": ["36px", { "lineHeight": "42px", "fontWeight": "400" }],
+                        "stat-number": ["40px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "300" }],
+                        "display-xl": ["84px", { "lineHeight": "92px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "body-lg": ["20px", { "lineHeight": "30px", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "56px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Google Fonts & Material Symbols -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;600&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <!-- Shared Stylesheet -->
+    <link href="styles.css" rel="stylesheet">
+    
+    <style>
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 32px;
+        }
+        @media (min-width: 768px) {
+            .masonry-grid {
+                grid-template-columns: repeat(12, 1fr);
+                grid-auto-rows: 10px;
+            }
+        }
+        .project-card {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+        }
+        .project-image-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .project-overlay {
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+    <!-- Paper Texture Overlay -->
+    <div class="paper-grain"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline/10">
+        <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-6 w-full max-w-container-max mx-auto">
+            <a class="font-headline-lg text-body-lg font-bold tracking-tight text-primary" href="index.html">Elizaveta Vakalova</a>
+            <div class="hidden md:flex gap-8">
+                <a class="font-label-caps text-label-caps text-primary border-b-2 border-secondary pb-1" href="work.html">Work</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="process.html">About</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="contact.html">Contact</a>
+            </div>
+            <span class="font-label-caps text-label-caps text-on-surface-variant">Prague / Available</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-40 pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+        <!-- Header -->
+        <header class="mb-24 max-w-4xl">
+            <h1 class="font-display-xl text-4xl sm:text-[64px] md:text-display-xl mb-8 leading-[1.1]">Selected Works <br><span class="italic font-normal text-secondary">2024—2026</span></h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                A curation of multidisciplinary projects exploring the intersection of digital precision and editorial soul.
+            </p>
+        </header>
+
+        <!-- High-Density Masonry Grid -->
+        <div class="masonry-grid">
+            <!-- Project 1: Astro Analytics (Tall) -->
+            <div id="astro" class="project-card md:col-span-7 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 60;">
+                <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-[4/5] md:h-[600px] rounded-lg">
+                    <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="A sophisticated dark-mode dashboard interface for Astro Analytics, featuring glowing data visualizations." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz7iLUGDDa9TwyMvCN9YwwH7qBXbzt-KvZ1TrpDKabzYmcnms41QxoCIoiGJfUrgbqupFfes5o4rir-Lef_PKSpCeL7TRK2anil4lmq2I9T8nDXBbkgxKKm4TNlRoUT9ij7DV5oZR31Frmqwxw23zDIQGjl6lzxND356YoXuDyf9SX7UPycSxXVmb02R7-oMHX1do71thXri3IcjlHUjX9-eC9USJOj0HZ4IDsh1dCt6G0xjT6u_Yo">
+                    <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
+                        <span class="font-label-caps text-label-caps mb-2 opacity-80 uppercase tracking-widest">Dashboard UI/UX</span>
+                        <h3 class="font-headline-lg text-headline-lg leading-none">Astro Analytics</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2: AURA Identity (Small) -->
+            <div id="aura" class="project-card md:col-span-5 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 45;">
+                <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-[4/3] md:h-[450px] rounded-lg">
+                    <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="A minimalist brand identity mockup for AURA, showcasing stationary on textured paper." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpwsV5CmYf-dneNrz0K9s05zIhfK_QD59LhG1gs3YKZl_SHicB1cMhZle6v0wYayrXurgJJ3OUN4qk9MjFBFUZpm804XF8Zs3rM4y4t00LnICMF5-vU_2pN1-HwSJJ6ZQH7hk1aGYRAHVxNJTEgjVZv1n-NbBaIPtwDm5Lk69syjSIx6WcrBIMeMDQulF8Xfq9wxl5t4IxVs4hOaUs6w7pg1wsYFVes6y5N_Gw5xUi-jbtk0mYC-r1">
+                    <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
+                        <span class="font-label-caps text-label-caps mb-2 opacity-80 uppercase tracking-widest">Brand Identity</span>
+                        <h3 class="font-headline-lg text-headline-lg leading-none">AURA Identity</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: Alpine Retreat (Editorial) -->
+            <div id="alpine" class="project-card md:col-span-5 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 55;">
+                <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-[3/4] md:h-[550px] rounded-lg">
+                    <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="An editorial magazine spread for Alpine Retreat." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCztjOhHsdrKlF4Nfj6ZhZlYW-R2nMbnpPlTkTgEzGaV2V0DWYu0fIw4TbVrEYl740rn8YolK1EU208hKA6M7PHXVPM8Vk4EX-9qSwsRy4kjhxcfYBMAOhl3eRRBW4XjSZ-mx8ASbnY2_HkE-Rd1Pnk_Dvg0kaGTX2WHWBiz8lR4mpnHdcoZF5tK1tqlh5_iRwo2E052879SmcxS37lDq3_rIUpBB1522C2sYold7hwE9-G1nGF3V-B">
+                    <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
+                        <span class="font-label-caps text-label-caps mb-2 opacity-80 uppercase tracking-widest">Editorial Design</span>
+                        <h3 class="font-headline-lg text-headline-lg leading-none">Alpine Retreat</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4: Veloce UI (Product) -->
+            <div id="veloce" class="project-card md:col-span-7 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 40;">
+                <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-[16/9] md:h-[400px] rounded-lg">
+                    <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="A high-fidelity mobile app prototype for Veloce UI sports application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSUnmc-XCWY8JAhGDUv4P_RFPVLKfNiMJjY-uq9XndzN_jMVxzpcfGzw374scD5mVuxgdIAwWB0fa-FBwvhqZNH51cheKJ3BrckNI8F16HOf3G2dU8-IhPpQP8tktCh6Px1uk_qqEndMbgG4-trJWmEIwxJukiJAlA5oIJ1rF3QaJoBZJjCGBB4bxJEt-yNTNEFZytgwb3GbDQ_8I4nGrJV6qfZoJmaHkFfY7Uo64638ikNbtLXSZg">
+                    <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
+                        <span class="font-label-caps text-label-caps mb-2 opacity-80 uppercase tracking-widest">Product Design</span>
+                        <h3 class="font-headline-lg text-headline-lg leading-none">Veloce UI</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5: OmniMarket (Campaign) -->
+            <div id="omnimarket" class="project-card md:col-span-6 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 50;">
+                <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-square md:h-[500px] rounded-lg">
+                    <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="Vibrant and modern advertising campaign for OmniMarket." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYo605FWPvYRdvdyubs2t7Krc1GZrYH_KWcFOXYvepAe0kfGPUdNDRVkinVuasetLIYA6M1u7L0uHBlF7lQv_RwrI2x3Y3qwNfMf6n-QseHaXOUHWqPTthiHzrVdzjCaYE_p54If3lehRlgrtHTMb5dRqXYYbHCJqxqdGCy2NI5J1PfV2I4vJBXk2yFus-y4MwNia6WT8K5WVQxJ40NsgCM0IX1MyN8jKkeYfAwl_XyRV0tFKA3tR6">
+                    <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
+                        <span class="font-label-caps text-label-caps mb-2 opacity-80 uppercase tracking-widest">Campaign Design</span>
+                        <h3 class="font-headline-lg text-headline-lg leading-none">OmniMarket</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6: Forma (Editorial) -->
+            <div id="forma" class="project-card md:col-span-6 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 65;">
+                <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-[3/5] md:h-[650px] rounded-lg">
+                    <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="A high-end art book design titled Forma." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAShwr2u7UB7REextf9LYrp8UluM909W3CC43bntzG0K-PsBiheHZjLMfm1PN4hhSL_OlRcrZ5k_ENmiHet0qr9L0JKGNNU67ycuqdFXYZ1pjsQUDocQwBBpM7pJkWsp8g5h5Iw3Fop5tTK2nTAf91BbY3upcF6_Sc-kjK-wowGi838ef0zrmjvxbbKC29YaqlU_Xq2pBUfLe_JXRPBqPH1S6tgUEeVhiYIG9YW1oIM1vGn4HTWryYo">
+                    <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
+                        <span class="font-label-caps text-label-caps mb-2 opacity-80 uppercase tracking-widest">Editorial Design</span>
+                        <h3 class="font-headline-lg text-headline-lg leading-none">Forma</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-outline/10 py-section-gap">
+        <div class="flex flex-col md:flex-row justify-between items-end px-margin-mobile md:px-margin-desktop w-full max-w-container-max mx-auto">
+            <div class="mb-12 md:mb-0">
+                <span class="font-headline-lg text-2xl font-bold tracking-tight text-primary block mb-4">Elizaveta Vakalova</span>
+                <p class="font-body-md text-on-surface-variant max-w-xs">Multidisciplinary designer based in Prague, focused on digital products and brand experiences.</p>
+            </div>
+            <div class="flex flex-col items-end gap-6 w-full md:w-auto">
+                <div class="flex space-x-8 flex-wrap justify-start md:justify-end gap-y-2">
+                    <a class="font-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="mailto:hello@vakalova.design">Email</a>
+                    <a class="font-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="redirect.html">LinkedIn</a>
+                    <a class="font-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Instagram</a>
+                    <a class="font-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Twitter</a>
+                </div>
+                <p class="font-body-md text-on-surface-variant opacity-50">© 2026 Elizaveta Vakalova</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.project-card');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-12');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            cards.forEach(card => {
+                card.classList.add('opacity-0', 'translate-y-12');
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

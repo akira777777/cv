@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Elizaveta Vakalova — Multidisciplinary Designer</title>
+    
+    <!-- Meta SEO & OpenGraph -->
+    <meta name="description" content="Portfolio of Elizaveta Vakalova, a multidisciplinary designer based in Prague specializing in product design, brand identity, editorial, and campaigns.">
+    <meta property="og:title" content="Elizaveta Vakalova — Design Portfolio">
+    <meta property="og:description" content="Multidisciplinary design portfolio featuring Product, Brand Identity, Editorial, and Campaign visual systems. Based in Prague.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#fdf8f8">
+    
+    <!-- Tailwind CSS (via CDN) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#f4f0ef",
+                        "primary-fixed": "#e5e2e1",
+                        "primary-container": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#5e4113",
+                        "surface": "#fdf8f8",
+                        "background": "#fdf8f8",
+                        "surface-container": "#f1edec",
+                        "on-tertiary-fixed-variant": "#484645",
+                        "primary": "#000000",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#ebe7e6",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c4c7c7",
+                        "inverse-surface": "#313030",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#1c1b1a",
+                        "tertiary": "#000000",
+                        "on-secondary-container": "#795929",
+                        "secondary-container": "#ffd398",
+                        "on-surface": "#1c1b1b",
+                        "on-tertiary-fixed": "#1c1b1a",
+                        "surface-dim": "#ddd9d8",
+                        "surface-variant": "#e5e2e1",
+                        "on-background": "#1c1b1b",
+                        "tertiary-fixed": "#e6e2df",
+                        "surface-bright": "#fdf8f8",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#747878",
+                        "on-primary-fixed-variant": "#474746",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#444748",
+                        "on-primary-container": "#858383",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#291800",
+                        "surface-tint": "#5f5e5e",
+                        "secondary": "#785929",
+                        "surface-container-low": "#f7f3f2",
+                        "secondary-fixed-dim": "#eabf86",
+                        "secondary-fixed": "#ffddb2",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-container": "#868382",
+                        "inverse-primary": "#c8c6c5",
+                        "tertiary-fixed-dim": "#cac6c4",
+                        "surface-container-highest": "#e5e2e1"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "section-gap": "160px",
+                        "margin-mobile": "24px",
+                        "container-max": "1440px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "gutter": "32px"
+                    },
+                    fontFamily: {
+                        "display-xl": ["Libre Caslon Text"],
+                        "label-caps": ["Hanken Grotesk"],
+                        "stat-number": ["Hanken Grotesk"],
+                        "headline-lg": ["Libre Caslon Text"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Libre Caslon Text"],
+                        "body-lg": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "display-xl": ["84px", { "lineHeight": "92px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "stat-number": ["40px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "300" }],
+                        "headline-lg": ["48px", { "lineHeight": "56px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["36px", { "lineHeight": "42px", "fontWeight": "400" }],
+                        "body-lg": ["20px", { "lineHeight": "30px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Google Fonts & Material Symbols -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;600&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <!-- Shared Stylesheet -->
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body class="text-on-background antialiased overflow-x-hidden selection:bg-secondary selection:text-on-secondary min-h-[884px] flex flex-col">
+    <!-- Paper Texture Overlay -->
+    <div class="paper-grain"></div>
+
+    <!-- Background 3D Animation -->
+    <div class="fixed inset-0 w-full h-full -z-10 bg-transparent pointer-events-none opacity-40">
+        <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+        <div class="w-full h-full" id="threejs-container"></div>
+        <script>
+            (function() {
+                window.animationSettings = window.animationSettings || {
+                    motion: true,
+                    nodes: true,
+                    grid: true,
+                    primaryColor: 0x1a1a1a,
+                    accentColor: 0x785929
+                };
+
+                if (typeof THREE === 'undefined') return;
+
+                const container = document.getElementById('threejs-container');
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+                camera.position.z = 5;
+
+                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                renderer.setSize(width, height);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                container.appendChild(renderer.domElement);
+
+                // Grid helper
+                const gridHelper = new THREE.GridHelper(10, 20, 0x1a1a1a, 0x1a1a1a);
+                gridHelper.rotation.x = Math.PI / 2;
+                gridHelper.material.transparent = true;
+                gridHelper.material.opacity = 0.05;
+                scene.add(gridHelper);
+
+                // Simple vertical line geometry
+                const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(0, 5, 0),
+                    new THREE.Vector3(0, -5, 0)
+                ]);
+                const lineMaterial = new THREE.LineBasicMaterial({ color: window.animationSettings.primaryColor, transparent: true, opacity: 0.15 });
+                const timelineLine = new THREE.Line(lineGeometry, lineMaterial);
+                scene.add(timelineLine);
+
+                // Adding floating nodes
+                const points = [];
+                const nodeGroup = new THREE.Group();
+                for (let i = 0; i < 8; i++) {
+                    const geometry = new THREE.CircleGeometry(0.06, 32);
+                    const material = new THREE.MeshBasicMaterial({ color: window.animationSettings.primaryColor });
+                    const point = new THREE.Mesh(geometry, material);
+                    point.position.y = 3 - (i * 0.9);
+                    nodeGroup.add(point);
+                    points.push(point);
+                }
+                scene.add(nodeGroup);
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    const time = Date.now() * 0.001;
+                    
+                    if (window.animationSettings.motion) {
+                        points.forEach((point, i) => {
+                            point.position.x = Math.sin(time + i) * 0.2;
+                            point.scale.setScalar(1 + Math.sin(time * 2 + i) * 0.3);
+                        });
+                    }
+
+                    nodeGroup.visible = window.animationSettings.nodes;
+                    gridHelper.visible = window.animationSettings.grid;
+                    lineMaterial.color.setHex(window.animationSettings.primaryColor);
+                    points.forEach(p => p.material.color.setHex(window.animationSettings.accentColor));
+
+                    renderer.render(scene, camera);
+                }
+
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                }, { passive: true });
+
+                animate();
+            })();
+        </script>
+    </div>
+
+    <!-- Top Navigation -->
+    <nav class="bg-surface/60 backdrop-blur-xl fixed top-0 w-full z-50 transition-transform duration-500 border-b border-outline/5" id="navbar">
+        <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-6 w-full max-w-container-max mx-auto">
+            <a class="font-headline-lg text-body-lg font-bold tracking-tighter text-primary" href="index.html">ELIZAVETA VAKALOVA</a>
+            <div class="hidden md:flex space-x-8 items-center bg-surface-container/50 px-6 py-2 rounded-full backdrop-blur-md">
+                <a class="font-label-caps text-label-caps text-primary hover:text-secondary transition-all duration-300 ease-in-out" href="work.html">WORK</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300 ease-in-out" href="process.html">ABOUT</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300 ease-in-out" href="contact.html">CONTACT</a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex font-label-caps text-label-caps text-on-surface-variant">
+                    PRAGUE — AVAILABLE
+                </div>
+                <button aria-controls="settings-panel" aria-expanded="false" aria-label="Open Canvas Settings Panel" class="flex items-center justify-center w-10 h-10 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all duration-300" id="settings-toggle">
+                    <span class="material-symbols-outlined text-[20px]">settings</span>
+                </button>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle Mobile Navigation Menu" class="md:hidden text-primary" id="mobile-menu-toggle">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+        
+        <!-- Mobile Dropdown Menu -->
+        <div class="hidden md:hidden bg-surface-container/95 backdrop-blur-xl border-b border-outline/10 px-6 py-6" id="mobile-menu">
+            <div class="flex flex-col space-y-4">
+                <a class="font-label-caps text-label-caps text-primary py-2 border-b border-outline/5" href="work.html">WORK</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant py-2 border-b border-outline/5" href="process.html">ABOUT</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant py-2" href="contact.html">CONTACT</a>
+                <div class="pt-4 font-label-caps text-xs text-secondary tracking-widest border-t border-outline/10">
+                    PRAGUE — AVAILABLE
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Right Sidebar Settings Panel -->
+    <div class="fixed top-0 right-0 h-full w-[320px] bg-white/10 backdrop-blur-xl border-l border-outline/10 z-[60] shadow-2xl p-8 flex flex-col" id="settings-panel">
+        <div class="flex justify-between items-center mb-12">
+            <h4 class="font-label-caps text-label-caps tracking-[0.2em] text-primary uppercase">Canvas Controls</h4>
+            <button aria-label="Close Canvas Settings Panel" class="text-primary hover:rotate-90 transition-transform duration-300" id="settings-close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="space-y-10">
+            <!-- Toggles -->
+            <div class="space-y-6">
+                <div class="flex items-center justify-between">
+                    <span class="font-body-md text-sm text-on-surface-variant uppercase tracking-widest">Motion</span>
+                    <div class="relative inline-block w-10 align-middle select-none">
+                        <input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer outline-none transition-all duration-300" id="toggle-motion" type="checkbox">
+                        <label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-high cursor-pointer transition-colors duration-300" for="toggle-motion"></label>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="font-body-md text-sm text-on-surface-variant uppercase tracking-widest">Nodes</span>
+                    <div class="relative inline-block w-10 align-middle select-none">
+                        <input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer outline-none transition-all duration-300" id="toggle-nodes" type="checkbox">
+                        <label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-high cursor-pointer transition-colors duration-300" for="toggle-nodes"></label>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="font-body-md text-sm text-on-surface-variant uppercase tracking-widest">Grid</span>
+                    <div class="relative inline-block w-10 align-middle select-none">
+                        <input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer outline-none transition-all duration-300" id="toggle-grid" type="checkbox">
+                        <label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-high cursor-pointer transition-colors duration-300" for="toggle-grid"></label>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-outline/10">
+            <!-- Color Pickers -->
+            <div class="space-y-6">
+                <div class="flex flex-col gap-2">
+                    <label class="font-body-md text-sm text-on-surface-variant uppercase tracking-widest" for="color-primary">Primary Color</label>
+                    <div class="flex items-center gap-4">
+                        <input class="w-full h-10 bg-transparent border-0 cursor-pointer rounded overflow-hidden" id="color-primary" type="color" value="#1a1a1a">
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-body-md text-sm text-on-surface-variant uppercase tracking-widest" for="color-accent">Accent Color</label>
+                    <div class="flex items-center gap-4">
+                        <input class="w-full h-10 bg-transparent border-0 cursor-pointer rounded overflow-hidden" id="color-accent" type="color" value="#785929">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-auto">
+            <p class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest opacity-50">Interactive Environment v1.0</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24 md:pt-32">
+        <!-- Hero Section -->
+        <section class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop min-h-[795px] flex items-center mb-section-gap relative">
+            <div class="grid grid-cols-4 md:grid-cols-12 gap-gutter w-full relative z-10">
+                <!-- Vertical Scroll Indicator -->
+                <div class="hidden md:flex col-span-1 flex-col justify-center items-start h-full fade-in-up" id="scroll-indicator" style="transition-delay: 0.4s;">
+                    <div class="flex items-center space-x-4 rotate-[-90deg] transform origin-left whitespace-nowrap opacity-60">
+                        <span class="w-12 h-[1px] bg-primary"></span>
+                        <span class="font-label-caps text-label-caps text-primary uppercase">Scroll to explore</span>
+                        <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                    </div>
+                </div>
+                <!-- Text Content -->
+                <div class="col-span-4 md:col-span-7 flex flex-col justify-center z-20 pt-12 md:pt-0 fade-in-up" style="transition-delay: 0.1s;">
+                    <h1 class="font-display-xl text-[72px] sm:text-[100px] md:text-[140px] leading-[0.85] tracking-tighter text-primary mb-6 mix-blend-difference">
+                        Elizaveta<br>Vakalova
+                    </h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant mb-4 md:hidden">
+                        Product · Brand · Campaign
+                    </p>
+                    <div class="flex items-center space-x-2 mb-12 md:hidden">
+                        <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                        <span class="font-body-md text-body-md text-on-surface-variant">Prague / Available</span>
+                    </div>
+                    <p class="font-headline-lg-mobile md:font-headline-lg text-[32px] sm:text-[40px] md:text-[56px] leading-tight tracking-tight text-primary max-w-2xl mb-12 mt-8 md:mt-16 fade-in-up" style="transition-delay: 0.2s;">
+                        I craft experiences and visual systems that move people to act.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-6 items-start sm:items-center fade-in-up" style="transition-delay: 0.3s;">
+                        <a class="group flex items-center space-x-4 border-b border-primary pb-2 hover:border-secondary transition-colors" href="work.html">
+                            <span class="font-label-caps text-label-caps text-primary uppercase group-hover:text-secondary transition-colors">View selected work</span>
+                            <span class="material-symbols-outlined text-primary group-hover:text-secondary transition-colors transform group-hover:translate-x-1 duration-300">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Hero Image -->
+                <div class="col-span-4 md:col-span-6 mt-12 md:mt-0 relative md:-ml-24 md:-mt-24 h-[350px] sm:h-[530px] md:h-[795px] z-0">
+                    <div class="w-full h-full relative overflow-hidden bg-surface-container-low shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] image-mask-reveal parallax-wrapper rounded-lg">
+                        <img alt="Portrait of Elizaveta Vakalova" decoding="async" fetchpriority="high" loading="eager" class="w-full h-full object-cover object-center absolute inset-0 parallax-bg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXzt9E4xrFQVNxDxY7kRf504_E8Vn0prOVJEzUJoGC7wHoWYlIN37iTBf5GHjIK0C3mk6roKBZJaRTVzNeNqIOMVmONidzdobb6qQIxpnE1Azaf6GExrbl0-b5DMuBhpvP1zewEbkRieeo2gjeQl5him7xImqttoYGDPXX6zgdXRHFGrgJV2U_46Dr5SEcVrANAjkWeQn7PujrNlospGqgVLLg5XTCY69s6rCVk9Z7zUIgz4AneMxPJHR9YqMf-GcOww">
+                    </div>
+                    <!-- Decorative Line -->
+                    <div class="hidden md:block absolute -right-12 -top-12 w-[1px] h-[120%] bg-secondary transform rotate-[15deg] opacity-40"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Selected Work Section -->
+        <section class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap relative" id="work">
+            <!-- Project 01 -->
+            <div class="grid grid-cols-4 md:grid-cols-12 gap-gutter mb-32 md:mb-56 fade-in-up items-center relative">
+                <div class="col-span-4 md:col-span-5 flex flex-col justify-center order-2 md:order-1 mt-8 md:mt-0 pr-0 md:pr-12 relative z-20">
+                    <div class="flex items-end mb-6">
+                        <span class="font-display-xl text-[80px] sm:text-[120px] md:text-[160px] text-primary/10 leading-none absolute -top-16 md:-top-24 -left-8 md:-left-12 -z-10 font-bold tracking-tighter">01</span>
+                        <span class="font-display-xl text-display-xl text-primary leading-none tracking-tighter">01</span>
+                        <div class="w-12 h-[2px] bg-secondary ml-4 mb-4"></div>
+                    </div>
+                    <h2 class="font-headline-lg-mobile md:text-[72px] leading-none tracking-tighter text-primary mb-4 mix-blend-difference">Astro Analytics</h2>
+                    <p class="font-label-caps text-label-caps text-primary uppercase mb-6 tracking-[0.2em]">Dashboard UX/UI</p>
+                    <p class="font-body-md text-body-lg text-on-surface-variant mb-12 max-w-sm">
+                        Analytics platform that turns complex data into clear decisions for growing teams.
+                    </p>
+                    <div class="flex flex-col">
+                        <div class="flex items-center text-secondary mb-2">
+                            <span class="material-symbols-outlined mr-2 text-3xl">arrow_outward</span>
+                            <span class="font-stat-number text-5xl md:text-6xl tracking-tighter">+35%</span>
+                        </div>
+                        <span class="font-body-md text-body-md text-on-surface-variant uppercase tracking-widest text-xs">increase in active users</span>
+                    </div>
+                </div>
+                <a href="work.html#astro" class="col-span-4 md:col-span-9 md:-ml-24 order-1 md:order-2 group relative z-10 cursor-pointer">
+                    <div class="w-full aspect-[4/3] md:aspect-[16/9] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-lg parallax-wrapper">
+                        <img alt="Astro Analytics Dashboard on a laptop" decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYkb4TVeQi1IC7gJWc3AcYslALg_Ds1PP4nf9H3sg9vMnGqksmNqd1kinwM0vGoKghl6uIgZ0KweR05WG1OXm91QIdTuNITthawhwb_XcJi7WFLjlI3eWsBOxRIoSo7baiNdscqCS01sJ4St9-BbwoPEgev9oJR0VvnxICV6gL41jjwkf7_TANeOlKFAohsbbPmgrkwuqYAVRFhrbS36Hzdetn4uiB6q8NjGwUpB6Oj7AnDNGMCpx83GtZfCFlhF_b6w">
+                        <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"></div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out transform translate-y-4 group-hover:translate-y-0">
+                            <span class="font-label-caps text-on-primary bg-primary/50 backdrop-blur-md px-6 py-3 rounded-full uppercase tracking-widest">View Project</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Project 02 (Asymmetrical Reverse) -->
+            <div class="grid grid-cols-4 md:grid-cols-12 gap-gutter mb-32 md:mb-56 fade-in-up items-center relative">
+                <a href="work.html#aura" class="col-span-4 md:col-span-8 group relative z-10 cursor-pointer">
+                    <div class="w-full aspect-square md:aspect-[4/5] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-lg parallax-wrapper">
+                        <img decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" alt="A minimalist and timeless brand identity presentation for a wellness brand called AURA." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXdCXUFrtg_it4vRshi_nKCYJ89U05s4pJ62xCEe0Zi5yjgKQ6-MB01l2Ia0RPeNSNVxM3odS5UDiSSfmS4MHngptKs8D1s58F_zl2LKB2ivbFkkdMl2JnwezTe-eW5qk3Z-r1Sxvm2yOJOwL6udVcBZFLLSQa4g8wBbxHUdRL33Pey0I-bu5RU-kv29GI73HxQvtnXm0YM0rd_aUf9f2MuJ_fup-DPpDfeyfsA49ps2qNWZh4wmiG">
+                        <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"></div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out transform translate-y-4 group-hover:translate-y-0">
+                            <span class="font-label-caps text-on-primary bg-primary/50 backdrop-blur-md px-6 py-3 rounded-full uppercase tracking-widest">View Project</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="col-span-4 md:col-span-5 md:-ml-12 flex flex-col justify-center mt-12 md:mt-0 pl-0 md:pl-12 relative z-20">
+                    <div class="flex items-end mb-6">
+                        <span class="font-display-xl text-[80px] sm:text-[120px] md:text-[160px] text-primary/10 leading-none absolute -top-16 md:-top-24 -left-8 md:-left-12 -z-10 font-bold tracking-tighter">02</span>
+                        <span class="font-display-xl text-display-xl text-primary leading-none tracking-tighter">02</span>
+                        <div class="w-12 h-[2px] bg-secondary ml-4 mb-4"></div>
+                    </div>
+                    <h2 class="font-headline-lg-mobile md:text-[72px] leading-none tracking-tighter text-primary mb-4 mix-blend-difference">AURA Identity</h2>
+                    <p class="font-label-caps text-label-caps text-primary uppercase mb-6 tracking-[0.2em]">Brand Identity</p>
+                    <p class="font-body-md text-body-lg text-on-surface-variant mb-12 max-w-sm">
+                        Minimal, timeless identity for a wellness brand rooted in clarity and calm.
+                    </p>
+                    <div class="flex flex-col">
+                        <div class="flex items-center text-secondary mb-2">
+                            <span class="material-symbols-outlined mr-2 text-3xl">arrow_outward</span>
+                            <span class="font-stat-number text-5xl md:text-6xl tracking-tighter">+27%</span>
+                        </div>
+                        <span class="font-body-md text-body-md text-on-surface-variant uppercase tracking-widest text-xs">lift in brand recognition</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 03 -->
+            <div class="grid grid-cols-4 md:grid-cols-12 gap-gutter fade-in-up items-start relative mb-24">
+                <div class="col-span-4 md:col-span-4 flex flex-col mt-8 md:mt-24 order-2 md:order-1 pr-0 md:pr-8 relative z-20">
+                    <div class="flex items-end mb-6">
+                        <span class="font-display-xl text-[80px] sm:text-[120px] md:text-[160px] text-primary/10 leading-none absolute -top-16 md:-top-24 -left-8 md:-left-12 -z-10 font-bold tracking-tighter">03</span>
+                        <span class="font-display-xl text-display-xl text-primary leading-none tracking-tighter">03</span>
+                        <div class="w-12 h-[2px] bg-secondary ml-4 mb-4"></div>
+                    </div>
+                    <h2 class="font-headline-lg-mobile md:text-[72px] leading-none tracking-tighter text-primary mb-4 mix-blend-difference">Alpine Retreat Editorial</h2>
+                    <p class="font-label-caps text-label-caps text-primary uppercase mb-6 tracking-[0.2em]">Editorial Design</p>
+                    <p class="font-body-md text-body-lg text-on-surface-variant mb-12 max-w-xs">
+                        Architecture editorial exploring space, light, and the quiet power of place.
+                    </p>
+                    <div class="flex flex-col">
+                        <div class="flex items-center text-secondary mb-2">
+                            <span class="material-symbols-outlined mr-2 text-3xl">arrow_outward</span>
+                            <span class="font-stat-number text-5xl md:text-6xl tracking-tighter">2.4×</span>
+                        </div>
+                        <span class="font-body-md text-body-md text-on-surface-variant uppercase tracking-widest text-xs">longer average read time</span>
+                    </div>
+                </div>
+                <a href="work.html#alpine" class="col-span-4 md:col-span-9 md:-ml-12 order-1 md:order-2 group relative z-10 cursor-pointer">
+                    <div class="w-full aspect-[16/10] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-lg parallax-wrapper">
+                        <img decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" alt="An open architectural magazine spread." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Z4k6j4c8zt8q3EG4Klvm-uigOTqUNoJSROT2PskkGRCyVLKPJTYcnnvTZNKNiOtnifhKClmZuxBYTt6ESodfOsmHJGGQnhLqVJLh6dxFqwENebh3Eo6U17sOaSRUowdr51cMgH-BZJJIZCDewIKWuppID1f215EK7zXMdR586Fk8XmjfMFF3QH9r9XGowl17NV4OazwLKtN44QljR1ICOSeiJfOU7Hss131PXGDNSurIOzQI8TDE">
+                        <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"></div>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out transform translate-y-4 group-hover:translate-y-0">
+                            <span class="font-label-caps text-on-primary bg-primary/50 backdrop-blur-md px-6 py-3 rounded-full uppercase tracking-widest">View Project</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- About / Contact CTA Section -->
+        <section class="w-full px-margin-mobile md:px-margin-desktop py-40 mb-0 fade-in-up bg-surface-container-low" id="about">
+            <div class="max-w-container-max mx-auto grid grid-cols-4 md:grid-cols-12 gap-gutter">
+                <div class="col-span-4 md:col-span-8 md:col-start-3 text-center flex flex-col items-center">
+                    <p class="font-headline-lg-mobile md:text-[56px] leading-[1.1] tracking-tight text-primary mb-16">
+                        I work across product, brand, editorial, and campaigns—bringing strategy, craft, and a user-centered mindset to every detail.
+                    </p>
+                    <a class="group flex items-center space-x-4 border-b-2 border-primary pb-2 hover:border-secondary transition-colors inline-flex" href="process.html">
+                        <span class="font-label-caps text-label-caps text-primary uppercase group-hover:text-secondary transition-colors tracking-widest">About my process</span>
+                        <span class="material-symbols-outlined text-primary group-hover:text-secondary transition-colors transform group-hover:translate-x-2 duration-300">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface w-full py-section-gap border-t border-outline/10">
+        <div class="flex flex-col md:flex-row justify-between items-end px-margin-mobile md:px-margin-desktop w-full max-w-container-max mx-auto fade-in-up">
+            <div class="mb-12 md:mb-0 w-full md:w-auto">
+                <h3 class="font-headline-lg text-[36px] sm:text-[48px] md:text-[72px] leading-tight tracking-tighter text-primary mb-12 max-w-2xl">Have a project in mind? Let's create something meaningful.</h3>
+                <a class="font-label-caps text-label-caps text-on-primary bg-primary px-10 py-5 uppercase tracking-[0.2em] hover:bg-secondary transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] inline-block rounded-full" href="contact.html">
+                    Start a project
+                </a>
+            </div>
+            <div class="flex flex-col md:items-end w-full md:w-auto">
+                <div class="flex space-x-8 mb-8 flex-wrap justify-start md:justify-end gap-y-2">
+                    <a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="mailto:hello@vakalova.design">Email</a>
+                    <a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="redirect.html">LinkedIn</a>
+                    <a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">Instagram</a>
+                    <a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">Twitter</a>
+                </div>
+                <p class="font-body-md text-sm text-on-surface-variant uppercase tracking-widest">© 2026 Elizaveta Vakalova</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -100px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-up, .image-mask-reveal').forEach((el) => {
+                observer.observe(el);
+            });
+
+            // Smooth Parallax for images with requestAnimationFrame throttling
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrolled = window.pageYOffset;
+                        document.querySelectorAll('.parallax-bg').forEach(el => {
+                            const speed = 0.12;
+                            const yPos = -(scrolled * speed);
+                            el.style.transform = `translateY(${yPos}px) scale(1.15)`;
+                        });
+                        
+                        // Sticky nav logic
+                        if (scrolled <= 0) {
+                            navbar.style.transform = "translateY(0)";
+                        } else if (scrolled > lastScroll && scrolled > 80) {
+                            navbar.style.transform = "translateY(-100%)";
+                        } else {
+                            navbar.style.transform = "translateY(0)";
+                        }
+                        lastScroll = scrolled;
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            let lastScroll = 0;
+            const navbar = document.getElementById('navbar');
+
+            // Controls panel sidebar logic
+            const settingsToggle = document.getElementById('settings-toggle');
+            const settingsClose = document.getElementById('settings-close');
+            const settingsPanel = document.getElementById('settings-panel');
+
+            settingsToggle.addEventListener('click', () => {
+                const isOpen = settingsPanel.classList.toggle('open');
+                settingsToggle.setAttribute('aria-expanded', isOpen);
+            });
+
+            settingsClose.addEventListener('click', () => {
+                settingsPanel.classList.remove('open');
+                settingsToggle.setAttribute('aria-expanded', 'false');
+            });
+
+            // Mobile menu toggle logic
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuToggle.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.toggle('hidden');
+                mobileMenuToggle.setAttribute('aria-expanded', !isHidden);
+            });
+
+            // Close mobile menu on link click
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Animation Settings Controls listeners
+            const toggleMotion = document.getElementById('toggle-motion');
+            const toggleNodes = document.getElementById('toggle-nodes');
+            const toggleGrid = document.getElementById('toggle-grid');
+            const colorPrimary = document.getElementById('color-primary');
+            const colorAccent = document.getElementById('color-accent');
+
+            if (toggleMotion) {
+                toggleMotion.addEventListener('change', (e) => {
+                    if (window.animationSettings) window.animationSettings.motion = e.target.checked;
+                });
+            }
+            if (toggleNodes) {
+                toggleNodes.addEventListener('change', (e) => {
+                    if (window.animationSettings) window.animationSettings.nodes = e.target.checked;
+                });
+            }
+            if (toggleGrid) {
+                toggleGrid.addEventListener('change', (e) => {
+                    if (window.animationSettings) window.animationSettings.grid = e.target.checked;
+                });
+            }
+            if (colorPrimary) {
+                colorPrimary.addEventListener('input', (e) => {
+                    if (window.animationSettings) window.animationSettings.primaryColor = parseInt(e.target.value.replace('#', '0x'), 16);
+                });
+            }
+            if (colorAccent) {
+                colorAccent.addEventListener('input', (e) => {
+                    if (window.animationSettings) window.animationSettings.accentColor = parseInt(e.target.value.replace('#', '0x'), 16);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Design Process — Elizaveta Vakalova</title>
+    
+    <!-- Meta SEO & OpenGraph -->
+    <meta name="description" content="Detailed 6-phase design process of Elizaveta Vakalova: Discovery, Conceptualization, Design System, Visual Design, Prototyping, and Delivery.">
+    <meta property="og:title" content="Design Process — Elizaveta Vakalova">
+    <meta property="og:description" content="A structured yet fluid approach to solving complex problems through research, empathy, and meticulous visual execution.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#fdf8f8">
+
+    <!-- Tailwind CSS (via CDN) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-container": "#ffd398",
+                        "secondary": "#785929",
+                        "surface-tint": "#5f5e5e",
+                        "on-secondary-container": "#795929",
+                        "surface-container-low": "#f7f3f2",
+                        "on-tertiary-fixed": "#1c1b1a",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#291800",
+                        "tertiary-container": "#1c1b1a",
+                        "primary": "#000000",
+                        "surface-container": "#f1edec",
+                        "on-tertiary-container": "#868382",
+                        "on-surface-variant": "#444748",
+                        "on-surface": "#1c1b1b",
+                        "secondary-fixed-dim": "#eabf86",
+                        "primary-container": "#1c1b1b",
+                        "tertiary-fixed-dim": "#cac6c4",
+                        "outline": "#747878",
+                        "background": "#fdf8f8",
+                        "secondary-fixed": "#ffddb2",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e5e2e1",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c4c7c7",
+                        "on-primary-container": "#858383",
+                        "on-primary-fixed-variant": "#474746",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#5e4113",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-tertiary-fixed-variant": "#484645",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#c8c6c5",
+                        "primary-fixed": "#e5e2e1",
+                        "error": "#ba1a1a",
+                        "on-background": "#1c1b1b",
+                        "tertiary-fixed": "#e6e2df",
+                        "tertiary": "#000000",
+                        "surface": "#fdf8f8",
+                        "surface-dim": "#ddd9d8",
+                        "surface-bright": "#fdf8f8",
+                        "inverse-on-surface": "#f4f0ef",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#ebe7e6",
+                        "inverse-surface": "#313030"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "unit": "8px",
+                        "section-gap": "160px",
+                        "container-max": "1440px",
+                        "gutter": "32px",
+                        "margin-mobile": "24px",
+                        "margin-desktop": "64px"
+                    },
+                    fontFamily: {
+                        "headline-lg-mobile": ["Libre Caslon Text"],
+                        "stat-number": ["Hanken Grotesk"],
+                        "display-xl": ["Libre Caslon Text"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Libre Caslon Text"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "headline-lg-mobile": ["36px", { "lineHeight": "42px", "fontWeight": "400" }],
+                        "stat-number": ["40px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "300" }],
+                        "display-xl": ["84px", { "lineHeight": "92px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "body-lg": ["20px", { "lineHeight": "30px", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "56px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Google Fonts & Material Symbols -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;600&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <!-- Shared Stylesheet -->
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden paper-texture">
+    <!-- Paper Texture Overlay -->
+    <div class="paper-grain"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-background/80 dark:bg-background/80 backdrop-blur-md border-b border-outline/10">
+        <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-6 w-full max-w-container-max mx-auto">
+            <a class="font-headline-lg text-body-lg font-bold tracking-tight text-primary" href="index.html">Elizaveta Vakalova</a>
+            <div class="hidden md:flex gap-10">
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300 ease-in-out" href="work.html">Work</a>
+                <a class="font-label-caps text-label-caps text-primary border-b-2 border-secondary pb-1 transition-all duration-300 ease-in-out" href="process.html">About</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300 ease-in-out" href="contact.html">Contact</a>
+            </div>
+            <span class="font-label-caps text-label-caps text-on-surface-variant">Prague / Available</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-48 pb-32 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
+            <div class="md:col-span-8">
+                <p class="font-label-caps text-label-caps text-secondary mb-4">METHODOLOGY</p>
+                <h1 class="font-display-xl text-4xl sm:text-[64px] md:text-display-xl leading-none">Design Process</h1>
+            </div>
+            <div class="md:col-span-4 pb-4">
+                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-sm">
+                    A structured yet fluid approach to solving complex problems through research, empathy, and meticulous visual execution.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Timeline Section -->
+    <section class="relative pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+        <!-- Vertical Line -->
+        <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 timeline-line opacity-20"></div>
+        
+        <div class="space-y-32 relative">
+            <!-- Phase 01: Discovery -->
+            <div class="relative grid grid-cols-1 md:grid-cols-2 gap-gutter accordion-item" data-id="01">
+                <div class="md:hidden absolute left-1/2 -translate-x-1/2 -top-12 z-10">
+                    <div class="w-4 h-4 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="text-right pr-12 hidden md:block self-center">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant">PHASE 01</span>
+                    <h2 class="font-headline-lg text-headline-lg mt-2">Discovery</h2>
+                </div>
+                <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 h-full items-center justify-center z-10">
+                    <div class="w-5 h-5 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="md:pl-12 self-center">
+                    <div class="cursor-pointer group" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleAccordion(this); event.preventDefault(); }">
+                        <div class="flex items-center justify-between border-b border-outline/10 pb-4">
+                            <h3 class="font-headline-lg text-body-lg md:text-headline-lg md:hidden">Discovery</h3>
+                            <p class="font-body-md text-on-surface-variant italic">Research and strategy</p>
+                            <span class="material-symbols-outlined group-hover:text-secondary transition-transform duration-300" style="font-size: 24px;">expand_more</span>
+                        </div>
+                        <div class="accordion-content pt-6">
+                            <div class="grid grid-cols-1 gap-6">
+                                <p class="font-body-lg text-body-lg">
+                                    Before pushing pixels, I immerse myself in the problem space. This stage is about asking the right questions, auditing existing systems, and defining success metrics through stakeholder interviews and user research.
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="p-6 bg-surface-container-low border border-outline/5 rounded">
+                                        <p class="font-label-caps text-label-caps text-secondary mb-2">OUTPUTS</p>
+                                        <ul class="font-body-md text-on-surface-variant space-y-1">
+                                            <li>User Personas</li>
+                                            <li>Competitive Analysis</li>
+                                            <li>Strategic Roadmap</li>
+                                        </ul>
+                                    </div>
+                                    <div class="aspect-square relative overflow-hidden rounded">
+                                        <img decoding="async" loading="lazy" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" alt="Work space elements showcasing discovery research context" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX_JLiEby-z-aBA9Dwg5dTbtQu5_1ckTvW_X-ZyEHRMXxDKX5ufHFWOOhzv6wgu0EBWRpgj0fzK6ta4Ne-qhWJ91mbBWNvKy2qYtvMxasBEAOl3Kk1iwfb6IgqU9OM16iahxz0fjAALwXziN-5XcTEjwM2AKhbdbKdyiMeHgJT1i1thft8KHtnOyW4NCcgEuXeSxbwhAD7TXNbF7KBzw9Az2j5ZBJrezCWkpjIfEJBUOcj7qBOmQBW">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 02: Conceptualization -->
+            <div class="relative grid grid-cols-1 md:grid-cols-2 gap-gutter accordion-item" data-id="02">
+                <div class="md:hidden absolute left-1/2 -translate-x-1/2 -top-12 z-10">
+                    <div class="w-4 h-4 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="md:order-2 md:pl-12 hidden md:block self-center">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant">PHASE 02</span>
+                    <h2 class="font-headline-lg text-headline-lg mt-2">Conceptualization</h2>
+                </div>
+                <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 h-full items-center justify-center z-10">
+                    <div class="w-5 h-5 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="md:pr-12 self-center md:text-right">
+                    <div class="cursor-pointer group" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleAccordion(this); event.preventDefault(); }">
+                        <div class="flex md:flex-row-reverse items-center justify-between border-b border-outline/10 pb-4">
+                            <h3 class="font-headline-lg text-body-lg md:text-headline-lg md:hidden">Conceptualization</h3>
+                            <p class="font-body-md text-on-surface-variant italic">Ideation and wireframing</p>
+                            <span class="material-symbols-outlined group-hover:text-secondary transition-transform duration-300" style="font-size: 24px;">expand_more</span>
+                        </div>
+                        <div class="accordion-content pt-6 text-left">
+                            <div class="grid grid-cols-1 gap-6">
+                                <p class="font-body-lg text-body-lg">
+                                    Turning insights into tangible flows. I explore multiple directions through rapid sketching and low-fidelity wireframing to map out the information architecture and core user journeys.
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="aspect-video relative overflow-hidden col-span-2 rounded">
+                                        <img decoding="async" loading="lazy" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700" alt="Creative walls of wireframe and flow outlines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEfj-lPuVwKKN8gQoUO7pAiQm6liUN6FCE1z07ikfgpNQbrVUOJvYQrRhaxq5GTmRpUVIKqDwkwMj27r2adMs5uvc8GnovTox0xSSiGXPr5lcvS3yzCS-Dup-AIrtqj-ZSJJGaRRJVCvkPfedzaX3auBCCTHaoZriCQGdCgH2_0Nb4DPc8Enl_UqgRHVInfpxo2-DNTX4-XjcaJOitT_Q3fg5OPLCKxSiqnbpsHCb5goGdGc63PlRl">
+                                    </div>
+                                    <div class="p-6 bg-surface-container-low border border-outline/5 col-span-2 rounded">
+                                        <p class="font-label-caps text-label-caps text-secondary mb-2">OUTPUTS</p>
+                                        <ul class="font-body-md text-on-surface-variant space-y-1">
+                                            <li>User Flows</li>
+                                            <li>Sitemaps</li>
+                                            <li>Lo-Fi Prototypes</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 03: Design System -->
+            <div class="relative grid grid-cols-1 md:grid-cols-2 gap-gutter accordion-item" data-id="03">
+                <div class="md:hidden absolute left-1/2 -translate-x-1/2 -top-12 z-10">
+                    <div class="w-4 h-4 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="text-right pr-12 hidden md:block self-center">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant">PHASE 03</span>
+                    <h2 class="font-headline-lg text-headline-lg mt-2">Design System</h2>
+                </div>
+                <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 h-full items-center justify-center z-10">
+                    <div class="w-5 h-5 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="md:pl-12 self-center">
+                    <div class="cursor-pointer group" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleAccordion(this); event.preventDefault(); }">
+                        <div class="flex items-center justify-between border-b border-outline/10 pb-4">
+                            <h3 class="font-headline-lg text-body-lg md:text-headline-lg md:hidden">Design System</h3>
+                            <p class="font-body-md text-on-surface-variant italic">Tokens and components</p>
+                            <span class="material-symbols-outlined group-hover:text-secondary transition-transform duration-300" style="font-size: 24px;">expand_more</span>
+                        </div>
+                        <div class="accordion-content pt-6">
+                            <p class="font-body-lg text-body-lg mb-6">
+                                Creating the visual language and building a scalable library of reusable components. This ensures consistency and efficiency throughout the design and development lifecycle.
+                            </p>
+                            <div class="p-8 bg-surface-container-highest flex items-center justify-center rounded">
+                                <div class="grid grid-cols-3 gap-8">
+                                    <div class="w-12 h-12 bg-primary rounded-full shadow-lg"></div>
+                                    <div class="w-12 h-12 bg-secondary rounded-full shadow-lg"></div>
+                                    <div class="w-12 h-12 bg-outline rounded-full shadow-lg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 04: Visual Design -->
+            <div class="relative grid grid-cols-1 md:grid-cols-2 gap-gutter accordion-item" data-id="04">
+                <div class="md:hidden absolute left-1/2 -translate-x-1/2 -top-12 z-10">
+                    <div class="w-4 h-4 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="md:order-2 md:pl-12 hidden md:block self-center">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant">PHASE 04</span>
+                    <h2 class="font-headline-lg text-headline-lg mt-2">Visual Design</h2>
+                </div>
+                <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 h-full items-center justify-center z-10">
+                    <div class="w-5 h-5 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="md:pr-12 self-center md:text-right">
+                    <div class="cursor-pointer group" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleAccordion(this); event.preventDefault(); }">
+                        <div class="flex md:flex-row-reverse items-center justify-between border-b border-outline/10 pb-4">
+                            <h3 class="font-headline-lg text-body-lg md:text-headline-lg md:hidden">Visual Design</h3>
+                            <p class="font-body-md text-on-surface-variant italic">Visual execution</p>
+                            <span class="material-symbols-outlined group-hover:text-secondary transition-transform duration-300" style="font-size: 24px;">expand_more</span>
+                        </div>
+                        <div class="accordion-content pt-6 text-left">
+                            <p class="font-body-lg text-body-lg mb-6">
+                                Bringing the brand to life through high-fidelity interfaces. I focus on typography, color theory, and imagery to create an emotionally resonant and functional user experience.
+                            </p>
+                            <div class="relative h-64 overflow-hidden rounded">
+                                <img decoding="async" loading="lazy" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-1000" alt="Refined visual interface screens on display" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnZVw5rytZ2xg-jM-cp-SVKImcfq3sVvQMhtkhtrWbwu7BlOXN7Akqz93AbthdHVR2nFduqmx3O9FnjjDlz5PvhK5LQPExyvWA7obQuDTGniebTxz2ykFaaRz-3DT33NZPd2T78UWZO3HYNYhcTrwg_xEO1_7dhFLXmLEBny4lLksfDj-pn5YWYGlTUVxXqO7GWUKubdLUOKth9gANy06GwplaUVI8vpR__wzx2udwmgvpSo7ypfib">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 05: Prototyping -->
+            <div class="relative grid grid-cols-1 md:grid-cols-2 gap-gutter accordion-item" data-id="05">
+                <div class="md:hidden absolute left-1/2 -translate-x-1/2 -top-12 z-10">
+                    <div class="w-4 h-4 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="text-right pr-12 hidden md:block self-center">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant">PHASE 05</span>
+                    <h2 class="font-headline-lg text-headline-lg mt-2">Prototyping</h2>
+                </div>
+                <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 h-full items-center justify-center z-10">
+                    <div class="w-5 h-5 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="md:pl-12 self-center">
+                    <div class="cursor-pointer group" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleAccordion(this); event.preventDefault(); }">
+                        <div class="flex items-center justify-between border-b border-outline/10 pb-4">
+                            <h3 class="font-headline-lg text-body-lg md:text-headline-lg md:hidden">Prototyping</h3>
+                            <p class="font-body-md text-on-surface-variant italic">Interaction and motion</p>
+                            <span class="material-symbols-outlined group-hover:text-secondary transition-transform duration-300" style="font-size: 24px;">expand_more</span>
+                        </div>
+                        <div class="accordion-content pt-6">
+                            <p class="font-body-lg text-body-lg mb-6">
+                                Defining the choreography of movement. High-fidelity prototypes allow stakeholders to feel the experience and developers to understand complex transitions.
+                            </p>
+                            <div class="bg-primary p-12 text-on-primary flex items-center justify-center rounded">
+                                <div class="animate-float w-16 h-16 border-2 border-secondary flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-4xl">gesture</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 06: Delivery -->
+            <div class="relative grid grid-cols-1 md:grid-cols-2 gap-gutter accordion-item" data-id="06">
+                <div class="md:hidden absolute left-1/2 -translate-x-1/2 -top-12 z-10">
+                    <div class="w-4 h-4 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="md:order-2 md:pl-12 hidden md:block self-center">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant">PHASE 06</span>
+                    <h2 class="font-headline-lg text-headline-lg mt-2">Delivery</h2>
+                </div>
+                <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 h-full items-center justify-center z-10">
+                    <div class="w-5 h-5 bg-primary border border-outline/30 rounded-full node-marker reveal-node visible"></div>
+                </div>
+                <div class="md:pr-12 self-center md:text-right">
+                    <div class="cursor-pointer group" role="button" tabindex="0" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleAccordion(this); event.preventDefault(); }">
+                        <div class="flex md:flex-row-reverse items-center justify-between border-b border-outline/10 pb-4">
+                            <h3 class="font-headline-lg text-body-lg md:text-headline-lg md:hidden">Delivery</h3>
+                            <p class="font-body-md text-on-surface-variant italic">Handoff and support</p>
+                            <span class="material-symbols-outlined group-hover:text-secondary transition-transform duration-300" style="font-size: 24px;">expand_more</span>
+                        </div>
+                        <div class="accordion-content pt-6 text-left">
+                            <p class="font-body-lg text-body-lg">
+                                Ensuring a smooth transition to engineering. I provide comprehensive documentation, asset exports, and ongoing support during the implementation phase.
+                            </p>
+                            <div class="mt-8 flex md:justify-end gap-4">
+                                <a href="contact.html" class="bg-primary text-on-primary px-8 py-3 font-label-caps text-label-caps hover:bg-secondary transition-colors uppercase tracking-widest rounded-full inline-block">Inquire</a>
+                                <a href="contact.html" class="border border-primary text-primary px-8 py-3 font-label-caps text-label-caps hover:border-secondary hover:text-secondary transition-colors uppercase tracking-widest rounded-full inline-block">Handoff Guide</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-surface dark:bg-surface-container border-t border-outline/10">
+        <div class="flex flex-col md:flex-row justify-between items-end px-margin-mobile md:px-margin-desktop py-section-gap w-full max-w-container-max mx-auto">
+            <div class="w-full md:w-1/2 mb-12 md:mb-0">
+                <h2 class="font-headline-lg text-headline-lg text-primary leading-tight mb-8">
+                    Let's discuss your next project.
+                </h2>
+                <div class="flex gap-6">
+                    <a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="mailto:hello@vakalova.design">Email</a>
+                    <a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="redirect.html">LinkedIn</a>
+                    <a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Instagram</a>
+                    <a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Twitter</a>
+                </div>
+            </div>
+            <div class="text-right">
+                <p class="font-body-md text-body-md text-on-surface-variant">© 2026 Elizaveta Vakalova</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleAccordion(element) {
+            const item = element.closest('.accordion-item');
+            const icon = element.querySelector('.material-symbols-outlined');
+            const node = item.querySelector('.node-marker');
+            const isActive = item.classList.contains('active');
+
+            // Close all other accordions
+            document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                    const otherNode = otherItem.querySelector('.node-marker');
+                    if (otherNode) {
+                        otherNode.classList.remove('bg-secondary', 'border-secondary', 'scale-125');
+                        otherNode.classList.add('bg-primary', 'border-outline/30');
+                    }
+                    const otherIcon = otherItem.querySelector('.material-symbols-outlined');
+                    if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            if (isActive) {
+                item.classList.remove('active');
+                if (node) {
+                    node.classList.remove('bg-secondary', 'border-secondary', 'scale-125');
+                    node.classList.add('bg-primary', 'border-outline/30');
+                }
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            } else {
+                item.classList.add('active');
+                if (node) {
+                    node.classList.add('bg-secondary', 'border-secondary', 'scale-125');
+                    node.classList.remove('bg-primary', 'border-outline/30');
+                }
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+</body>
+</html>
