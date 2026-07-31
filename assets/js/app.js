@@ -132,6 +132,28 @@ window.PortfolioApp = (function() {
                 'Interactive portfolio growth projections with real-time market feeds',
                 'Contextual smart alert feeds with personalized actionable insights'
             ]
+        },
+        chrome: {
+            id: 'chrome',
+            title: 'Mist & Chrome',
+            subtitle: '3D Motion & Visual Art Campaign',
+            category: 'Campaign',
+            year: '2026',
+            video: 'video_2026-07-30_22-17-26.mp4',
+            image: 'assets/images/project_forma.webp',
+            metrics: [
+                { val: '4.5M', label: 'Campaign Impressions' },
+                { val: '+42%', label: 'Engagement Rate' },
+                { val: 'Golden Nica', label: 'Ars Electronica Award' }
+            ],
+            overview: 'An immersive 3D motion exploration blending organic foggy forest environments with fluid liquid-chrome typography. Created as a hero visual campaign for a speculative environmental design summit.',
+            role: '3D Motion Designer & Art Director',
+            deliverables: '3D Simulation, Liquid Physics, Environment Lighting, Typography Motion, Audio Reactive Visuals',
+            highlights: [
+                'Real-time fluid simulation and raytraced chrome reflection mapping',
+                'Volumetric fog and atmospheric god-ray lighting in Octane Render',
+                'Seamless 60fps loop optimized for spatial web and high-res digital billboards'
+            ]
         }
     };
 
@@ -328,8 +350,22 @@ window.PortfolioApp = (function() {
         modal.querySelector('#modal-year').textContent = p.year;
         modal.querySelector('#modal-title').textContent = p.title;
         modal.querySelector('#modal-subtitle').textContent = p.subtitle;
-        modal.querySelector('#modal-image').src = p.image;
-        modal.querySelector('#modal-image').alt = p.title;
+
+        // Render video or image in modal header
+        const imageElement = modal.querySelector('#modal-image');
+        const mediaWrapper = imageElement.parentElement;
+        if (p.video) {
+            mediaWrapper.innerHTML = `
+                <video id="modal-image" class="w-full h-full object-cover rounded-lg shadow-inner" autoplay loop muted playsinline controls>
+                    <source src="${p.video}" type="video/mp4">
+                </video>
+            `;
+        } else {
+            mediaWrapper.innerHTML = `
+                <img id="modal-image" class="w-full h-full object-cover rounded-lg shadow-inner" src="${p.image}" alt="${p.title}">
+            `;
+        }
+
         modal.querySelector('#modal-overview').textContent = p.overview;
         modal.querySelector('#modal-role').textContent = p.role;
         modal.querySelector('#modal-deliverables').textContent = p.deliverables;
