@@ -162,7 +162,7 @@
         }
     </style>
 </head>
-<body class="font-body-md text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<body class="font-body-md text-on-surface selection:bg-secondary-container selection:text-on-secondary-container overflow-x-hidden">
     <!-- Paper Texture Overlay -->
     <div class="paper-grain"></div>
 
@@ -299,9 +299,10 @@
             <!-- Project 7: Mist & Chrome (3D Motion Campaign Video) -->
             <div id="chrome" data-case-study="chrome" data-category="Campaign" data-title="Mist & Chrome" data-desc="3D Motion & Visual Art Campaign" class="project-card project-item md:col-span-6 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 55;">
                 <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.1)] aspect-[4/5] md:h-[550px] rounded-lg overflow-hidden relative">
-                    <video class="w-full h-full object-cover object-center foil-effect" autoplay loop muted playsinline poster="assets/images/project_forma.webp">
+                    <video class="w-full h-full object-cover object-center" autoplay loop muted playsinline poster="assets/images/project_forma.webp">
                         <source src="video_2026-07-30_22-17-26.mp4" type="video/mp4">
                     </video>
+                    <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(135deg, rgba(212,175,55,0.4), rgba(255,215,0,0.2)); mix-blend-mode: overlay;"></div>
                     <div class="absolute top-4 left-4 z-20">
                         <span class="font-label-caps text-xs text-on-primary bg-primary/60 backdrop-blur-md px-3 py-1.5 rounded-full uppercase tracking-widest flex items-center gap-1.5">
                             <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> 3D Motion Reel
@@ -318,17 +319,6 @@
 
     </main>
 
-    <!-- Case Study Modal overlay -->
-    <div id="case-study-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-primary/60 backdrop-blur-md p-4 sm:p-8 transition-opacity duration-300">
-        <div class="bg-surface relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl border border-outline/10 p-6 sm:p-12 flex flex-col">
-            <button id="modal-close-btn" aria-label="Close Case Study Modal" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary flex items-center justify-center transition-colors">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-            <div id="modal-content" class="space-y-8">
-                <!-- Content injected dynamically via JavaScript -->
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="bg-surface border-t border-outline/10 py-section-gap">

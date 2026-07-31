@@ -99,13 +99,37 @@ html.dark .paper-grain {
     opacity: 0.03;
     filter: invert(1);
 }
+html.dark .bg-surface-container-lowest {
+    background-color: #1a1918 !important;
+}
+html.dark .text-on-background {
+    color: #f4f0ef !important;
+}
+html.dark .border-primary\/20 {
+    border-color: rgba(244, 240, 239, 0.2) !important;
+}
+html.dark ::placeholder {
+    color: rgba(180, 176, 173, 0.5) !important;
+}
+html.dark .bg-surface-container-highest {
+    background-color: #312f2e !important;
+}
 
-/* Hide scrollbars on ALL elements (Webkit & Firefox) */
-*::-webkit-scrollbar {
+/* Hide scrollbars on body and main layout (Webkit & Firefox) */
+body::-webkit-scrollbar,
+.paper-grain::-webkit-scrollbar {
     display: none;
 }
-* {
+body,
+.paper-grain {
     scrollbar-width: none;
+}
+/* Restore scrollbar in modals for accessibility */
+#case-study-modal *::-webkit-scrollbar {
+    display: initial;
+}
+#case-study-modal * {
+    scrollbar-width: thin;
 }
 
 /* Page-level overrides */
@@ -119,7 +143,7 @@ html, body {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 90;
     opacity: 0.04;
     background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
     transition: opacity 0.4s ease, filter 0.4s ease;
@@ -173,16 +197,35 @@ html, body {
 }
 
 
+/* Navbar smooth show/hide */
+#navbar {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Control Panel Transition */
 #settings-panel {
     transform: translateX(100%);
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 100vw;
 }
 #settings-panel.open {
     transform: translateX(0);
 }
+@media (max-width: 400px) {
+    #settings-panel {
+        width: 100vw;
+    }
+}
 
 /* Toggle Switch Styling */
+.toggle-checkbox {
+    left: 0;
+    top: 0;
+    transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toggle-checkbox:checked {
+    left: calc(100% - 1.5rem);
+}
 .toggle-checkbox:checked + .toggle-label {
     background-color: var(--accent-gold);
 }
@@ -319,6 +362,13 @@ html.dark .toast-msg {
 .filter-chip.active {
     background-color: var(--text-primary) !important;
     color: var(--bg-color) !important;
+}
+
+/* Scope chips in contact form — dark mode safe */
+.scope-chip.selected {
+    background-color: var(--text-primary) !important;
+    color: var(--bg-color) !important;
+    border-color: var(--text-primary) !important;
 }
 
 /* Back to Top Button */

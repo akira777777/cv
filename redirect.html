@@ -252,14 +252,18 @@
             }, 100);
 
             // Micro-interaction with requestAnimationFrame throttling
+            // Only activate after entrance animation completes
             let ticking = false;
+            let tiltEnabled = false;
+            setTimeout(() => { tiltEnabled = true; }, 1400);
+
             document.addEventListener('mousemove', (e) => {
-                if (!card.classList.contains('is-visible')) return;
+                if (!tiltEnabled) return;
                 if (!ticking) {
                     window.requestAnimationFrame(() => {
                         const xAxis = (window.innerWidth / 2 - e.pageX) / 90;
                         const yAxis = (window.innerHeight / 2 - e.pageY) / 90;
-                        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+                        card.style.transform = `translateY(0) scale(1) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
                         ticking = false;
                     });
                     ticking = true;
@@ -267,17 +271,9 @@
             }, { passive: true });
 
             document.addEventListener('mouseleave', () => {
-                card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                if (!tiltEnabled) return;
+                card.style.transform = `translateY(0) scale(1) rotateY(0deg) rotateX(0deg)`;
             });
-
-            // Mobile menu toggle
-            const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
         });
     </script>
 

@@ -526,7 +526,7 @@ window.PortfolioApp = (function() {
         }
 
         window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 400) {
+            if (window.scrollY > 400) {
                 btn.classList.add('visible');
             } else {
                 btn.classList.remove('visible');
@@ -559,12 +559,10 @@ window.PortfolioApp = (function() {
         if (chips.length) {
             chips.forEach(chip => {
                 chip.addEventListener('click', () => {
-                    chip.classList.toggle('bg-primary');
-                    chip.classList.toggle('text-on-primary');
-                    chip.classList.toggle('border-primary');
+                    chip.classList.toggle('selected');
 
                     const selected = Array.from(chips)
-                        .filter(c => c.classList.contains('bg-primary'))
+                        .filter(c => c.classList.contains('selected'))
                         .map(c => c.textContent.trim());
 
                     if (scopeInput) scopeInput.value = selected.join(', ');
@@ -586,7 +584,7 @@ window.PortfolioApp = (function() {
                     form.reset();
                     if (chips.length) {
                         chips.forEach(c => {
-                            c.classList.remove('bg-primary', 'text-on-primary');
+                            c.classList.remove('selected');
                         });
                     }
                     if (submitBtn) {
@@ -654,10 +652,31 @@ window.PortfolioApp = (function() {
         updateParallax();
     }
 
+    // Centralized Mobile Menu Toggle (works on all pages)
+    function initMobileMenu() {
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (!mobileMenuToggle || !mobileMenu) return;
+
+        mobileMenuToggle.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            mobileMenuToggle.setAttribute('aria-expanded', !isHidden);
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
+
     // Initialize all modules on DOM ready
     function init() {
         initTheme();
         initActiveNav();
+        initMobileMenu();
         initWorkFilter();
         initClipboardEmail();
         initAnimatedCounters();

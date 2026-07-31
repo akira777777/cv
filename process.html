@@ -183,7 +183,7 @@
     <!-- Timeline Section -->
     <section class="relative pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
         <!-- Vertical Line -->
-        <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 timeline-line opacity-20"></div>
+        <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 timeline-line opacity-20 hidden md:block"></div>
         
         <div class="space-y-32 relative">
             <!-- Phase 01: Discovery -->
@@ -463,16 +463,6 @@
                 if (icon) icon.style.transform = 'rotate(180deg)';
             }
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
-        });
     </script>
 
 </body>
