@@ -1,17 +1,87 @@
 /* Global Stylesheet for Elizaveta Vakalova Portfolio */
 
-/* Custom Typography & Base overrides */
-body {
-    background-color: #fdf8f8;
-    color: #1c1b1b;
+:root {
+    --bg-color: #fdf8f8;
+    --text-primary: #1c1b1b;
+    --text-muted: #5e5a59;
+    --surface-card: #f1edec;
+    --surface-low: #f7f3f2;
+    --accent-gold: #785929;
+    --accent-gold-light: #d4af37;
+    --border-color: rgba(28, 27, 27, 0.1);
+    --panel-bg: rgba(255, 255, 255, 0.85);
+    --modal-bg: rgba(253, 248, 248, 0.95);
 }
 
-/* Hide scrollbars on ALL elements (Webkit) */
+html.dark {
+    --bg-color: #121111;
+    --text-primary: #f4f0ef;
+    --text-muted: #a39e9c;
+    --surface-card: #1d1b1a;
+    --surface-low: #171615;
+    --accent-gold: #d4af37;
+    --accent-gold-light: #f3d476;
+    --border-color: rgba(244, 240, 239, 0.12);
+    --panel-bg: rgba(24, 22, 22, 0.9);
+    --modal-bg: rgba(18, 17, 17, 0.96);
+}
+
+/* Custom Typography & Base overrides */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Dark mode specific tailwind overrides */
+html.dark body {
+    background-color: #121111 !important;
+    color: #f4f0ef !important;
+}
+html.dark .bg-surface,
+html.dark .bg-background {
+    background-color: #121111 !important;
+}
+html.dark .bg-surface-container {
+    background-color: #1d1b1a !important;
+}
+html.dark .bg-surface-container-low {
+    background-color: #171615 !important;
+}
+html.dark .bg-surface-container-high {
+    background-color: #272524 !important;
+}
+html.dark .text-primary {
+    color: #f4f0ef !important;
+}
+html.dark .text-on-surface-variant {
+    color: #b5b0ad !important;
+}
+html.dark .border-outline\/10 {
+    border-color: rgba(244, 240, 239, 0.12) !important;
+}
+html.dark .border-primary {
+    border-color: #f4f0ef !important;
+}
+html.dark .bg-primary {
+    background-color: #f4f0ef !important;
+    color: #121111 !important;
+}
+html.dark .bg-primary\/50 {
+    background-color: rgba(244, 240, 239, 0.2) !important;
+}
+html.dark .text-on-primary {
+    color: #121111 !important;
+}
+html.dark .paper-grain {
+    opacity: 0.03;
+    filter: invert(1);
+}
+
+/* Hide scrollbars on ALL elements (Webkit & Firefox) */
 *::-webkit-scrollbar {
     display: none;
 }
-
-/* Hide scrollbars on ALL elements (Firefox) */
 * {
     scrollbar-width: none;
 }
@@ -30,6 +100,7 @@ html, body {
     z-index: 9999;
     opacity: 0.04;
     background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+    transition: opacity 0.4s ease, filter 0.4s ease;
 }
 
 /* Fade in up entry animation */
@@ -38,7 +109,6 @@ html, body {
     transform: translateY(40px);
     transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .fade-in-up.visible {
     opacity: 1;
     transform: translateY(0);
@@ -49,7 +119,6 @@ html, body {
     clip-path: inset(100% 0 0 0);
     transition: clip-path 1.5s cubic-bezier(0.77, 0, 0.175, 1);
 }
-
 .image-mask-reveal.visible {
     clip-path: inset(0 0 0 0);
 }
@@ -58,7 +127,6 @@ html, body {
 .parallax-wrapper {
     overflow: hidden;
 }
-
 .parallax-bg {
     transform: scale(1.15);
     transition: transform 0.1s linear;
@@ -75,7 +143,7 @@ html, body {
 
 /* Toggle Switch Styling */
 .toggle-checkbox:checked + .toggle-label {
-    background-color: #000000;
+    background-color: var(--accent-gold);
 }
 .toggle-checkbox:checked + .toggle-label .toggle-dot {
     transform: translateX(100%);
@@ -89,7 +157,7 @@ html, body {
 /* custom timeline styles */
 .timeline-line {
     width: 1px;
-    background: linear-gradient(to bottom, transparent, #747878 10%, #747878 90%, transparent);
+    background: linear-gradient(to bottom, transparent, var(--border-color) 10%, var(--border-color) 90%, transparent);
 }
 
 /* accordion animation classes */
@@ -100,7 +168,7 @@ html, body {
     opacity: 0;
 }
 .accordion-item.active .accordion-content {
-    max-height: 1000px;
+    max-height: 1200px;
     opacity: 1;
 }
 
@@ -124,28 +192,105 @@ html, body {
     animation: float 6s ease-in-out infinite;
 }
 
-/* Global text selection highlight — warm secondary */
+/* Global text selection highlight */
 ::selection {
-    background-color: rgba(120, 89, 41, 0.2) !important;
+    background-color: rgba(120, 89, 41, 0.25) !important;
     color: inherit !important;
 }
 ::-moz-selection {
-    background-color: rgba(120, 89, 41, 0.2) !important;
+    background-color: rgba(120, 89, 41, 0.25) !important;
     color: inherit !important;
 }
 
 /* Custom Minimal Input Styles */
 .input-minimal {
     border: none !important;
-    border-bottom: 1px solid #1c1b1b !important;
+    border-bottom: 1px solid var(--text-primary) !important;
     background: transparent !important;
     border-radius: 0 !important;
     padding: 12px 0 !important;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    color: var(--text-primary) !important;
 }
 .input-minimal:focus {
     outline: none !important;
     box-shadow: none !important;
-    border-bottom-color: #785929 !important; /* accent gold */
+    border-bottom-color: var(--accent-gold) !important;
 }
+
+/* Toast Notifications */
+#toast-container {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 10000;
+    pointer-events: none;
+}
+.toast-msg {
+    background: rgba(28, 27, 27, 0.92);
+    color: #ffffff;
+    padding: 14px 24px;
+    border-radius: 9999px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: auto;
+}
+html.dark .toast-msg {
+    background: rgba(244, 240, 239, 0.94);
+    color: #121111;
+}
+.toast-msg.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Case Study Modal */
+#case-study-modal {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#case-study-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+#case-study-modal .modal-card {
+    transform: translateY(30px) scale(0.98);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#case-study-modal.open .modal-card {
+    transform: translateY(0) scale(1);
+}
+
+/* Filter Tag Chips */
+.filter-chip {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.filter-chip.active {
+    background-color: var(--text-primary) !important;
+    color: var(--bg-color) !important;
+}
+
+/* Back to Top Button */
+#back-to-top {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
 

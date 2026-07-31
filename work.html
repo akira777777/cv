@@ -114,8 +114,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;600&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
-    <!-- Shared Stylesheet -->
+    <!-- Shared Stylesheet & App Logic -->
     <link href="styles.css" rel="stylesheet">
+    <script src="assets/js/app.js" defer></script>
     
     <style>
         .masonry-grid {
@@ -130,7 +131,7 @@
             }
         }
         .project-card {
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
             will-change: transform;
             cursor: pointer;
         }
@@ -163,8 +164,11 @@
                 <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="process.html">About</a>
                 <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="contact.html">Contact</a>
             </div>
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-4">
                 <span class="hidden sm:inline-block font-label-caps text-label-caps text-on-surface-variant">Prague / Available</span>
+                <button aria-label="Switch Theme Mode" class="theme-toggle-btn flex items-center justify-center w-7 h-7 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all duration-300">
+                    <span class="material-symbols-outlined text-[18px]">dark_mode</span>
+                </button>
                 <button aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle Mobile Navigation Menu" class="md:hidden text-primary" id="mobile-menu-toggle">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
@@ -192,14 +196,29 @@
             </p>
         </header>
 
+        <!-- Filter Controls & Search -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-16 border-b border-outline/10 pb-8">
+            <div class="flex flex-wrap gap-3">
+                <button class="filter-chip active px-5 py-2.5 rounded-full border border-outline/20 font-label-caps text-xs uppercase tracking-widest cursor-pointer" data-filter="all">All Projects</button>
+                <button class="filter-chip px-5 py-2.5 rounded-full border border-outline/20 font-label-caps text-xs uppercase tracking-widest cursor-pointer" data-filter="Product Design">Product Design</button>
+                <button class="filter-chip px-5 py-2.5 rounded-full border border-outline/20 font-label-caps text-xs uppercase tracking-widest cursor-pointer" data-filter="Brand Identity">Brand Identity</button>
+                <button class="filter-chip px-5 py-2.5 rounded-full border border-outline/20 font-label-caps text-xs uppercase tracking-widest cursor-pointer" data-filter="Editorial">Editorial</button>
+                <button class="filter-chip px-5 py-2.5 rounded-full border border-outline/20 font-label-caps text-xs uppercase tracking-widest cursor-pointer" data-filter="Campaign">Campaign</button>
+            </div>
+            <div class="relative w-full md:w-72">
+                <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+                <input id="work-search-input" type="text" placeholder="Search projects..." class="w-full pl-10 pr-4 py-2.5 bg-surface-container rounded-full text-xs font-body-md border-0 focus:ring-1 focus:ring-secondary outline-none text-primary">
+            </div>
+        </div>
+
         <!-- High-Density Masonry Grid -->
         <div class="masonry-grid">
             <!-- Project 1: Astro Analytics -->
-            <div id="astro" data-project="astro" class="project-card md:col-span-7 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 60;">
+            <div id="astro" data-case-study="astro" data-category="Product Design" data-title="Astro Analytics" data-desc="Dashboard UX/UI & System Architecture" class="project-card project-item md:col-span-7 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 60;">
                 <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-[4/5] md:h-[600px] rounded-lg">
                     <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="Astro Analytics Dashboard Interface" src="assets/images/project_astro.webp">
                     <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
-                        <span class="font-label-caps text-label-caps mb-2 opacity-80 uppercase tracking-widest">Dashboard UI/UX</span>
+                        <span class="font-label-caps text-label-caps mb-2 opacity-80 uppercase tracking-widest">Product Design</span>
                         <h3 class="font-headline-lg text-headline-lg leading-none mb-4">Astro Analytics</h3>
                         <span class="font-label-caps text-xs text-on-primary bg-primary/60 backdrop-blur-md px-4 py-2 rounded-full uppercase tracking-widest w-max">Open Case Study</span>
                     </div>
@@ -207,7 +226,7 @@
             </div>
 
             <!-- Project 2: AURA Identity -->
-            <div id="aura" data-project="aura" class="project-card md:col-span-5 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 45;">
+            <div id="aura" data-case-study="aura" data-category="Brand Identity" data-title="AURA Identity" data-desc="Brand Identity & Visual System" class="project-card project-item md:col-span-5 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 45;">
                 <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-[4/3] md:h-[450px] rounded-lg">
                     <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="AURA Identity Branding" src="assets/images/project_aura.webp">
                     <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
@@ -219,7 +238,7 @@
             </div>
 
             <!-- Project 3: Alpine Retreat -->
-            <div id="alpine" data-project="alpine" class="project-card md:col-span-5 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 55;">
+            <div id="alpine" data-case-study="alpine" data-category="Editorial" data-title="Alpine Retreat Editorial" data-desc="Editorial Design & Architectural Publication" class="project-card project-item md:col-span-5 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 55;">
                 <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-[3/4] md:h-[550px] rounded-lg">
                     <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="Alpine Retreat Editorial Spread" src="assets/images/project_alpine.webp">
                     <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
@@ -231,7 +250,7 @@
             </div>
 
             <!-- Project 4: Veloce UI -->
-            <div id="veloce" data-project="veloce" class="project-card md:col-span-7 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 40;">
+            <div id="veloce" data-case-study="veloce" data-category="Product Design" data-title="Veloce Mobile App" data-desc="Fintech & Smart Investment Experience" class="project-card project-item md:col-span-7 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 40;">
                 <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-[16/9] md:h-[400px] rounded-lg">
                     <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="Veloce UI Mobile Application" src="assets/images/project_veloce.webp">
                     <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
@@ -243,7 +262,7 @@
             </div>
 
             <!-- Project 5: OmniMarket -->
-            <div id="omnimarket" data-project="omnimarket" class="project-card md:col-span-6 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 50;">
+            <div id="omnimarket" data-case-study="omnimarket" data-category="Campaign" data-title="OmniMarket Platform" data-desc="E-Commerce System & Mobile Commerce" class="project-card project-item md:col-span-6 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 50;">
                 <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-square md:h-[500px] rounded-lg">
                     <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="OmniMarket Campaign Art Direction" src="assets/images/project_omnimarket.webp">
                     <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
@@ -255,12 +274,12 @@
             </div>
 
             <!-- Project 6: Forma -->
-            <div id="forma" data-project="forma" class="project-card md:col-span-6 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 65;">
+            <div id="forma" data-case-study="forma" data-category="Product Design" data-title="Forma Studio Showcase" data-desc="Spatial Experience & Interactive Web Design" class="project-card project-item md:col-span-6 mb-8 group opacity-0 translate-y-12 transition-all duration-1000 ease-out" style="grid-row-end: span 65;">
                 <div class="project-image-container bg-surface-container shadow-[0_20px_50px_rgba(0,0,0,0.05)] aspect-[3/5] md:h-[650px] rounded-lg">
                     <img class="w-full h-full object-cover" decoding="async" loading="lazy" alt="Forma Architectural Book Design" src="assets/images/project_forma.webp">
                     <div class="project-overlay absolute inset-0 bg-primary/40 backdrop-blur-[2px] flex flex-col justify-end p-8 text-on-primary">
-                        <span class="font-label-caps text-label-caps mb-2 opacity-80 uppercase tracking-widest">Editorial Design</span>
-                        <h3 class="font-headline-lg text-headline-lg leading-none mb-4">Forma</h3>
+                        <span class="font-label-caps text-label-caps mb-2 opacity-80 uppercase tracking-widest">Product Design</span>
+                        <h3 class="font-headline-lg text-headline-lg leading-none mb-4">Forma Studio</h3>
                         <span class="font-label-caps text-xs text-on-primary bg-primary/60 backdrop-blur-md px-4 py-2 rounded-full uppercase tracking-widest w-max">Open Case Study</span>
                     </div>
                 </div>
@@ -290,7 +309,7 @@
             </div>
             <div class="flex flex-col items-end gap-6 w-full md:w-auto">
                 <div class="flex space-x-8 flex-wrap justify-start md:justify-end gap-y-2">
-                    <a class="font-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="mailto:hello@vakalova.design">Email</a>
+                    <a class="copy-email-btn font-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300 cursor-pointer" data-email="hello@vakalova.design" href="mailto:hello@vakalova.design">Email</a>
                     <a class="font-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="redirect.html">LinkedIn</a>
                     <a class="font-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Instagram</a>
                     <a class="font-body-md text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Twitter</a>
@@ -301,88 +320,8 @@
     </footer>
 
     <script>
-        const caseStudies = {
-            astro: {
-                title: "Astro Analytics",
-                category: "Dashboard UI/UX · Product Design",
-                year: "2025",
-                client: "Astro Technologies",
-                role: "Lead Product Designer",
-                impact: "+35% Active User Retention",
-                overview: "Astro Analytics is a real-time telemetry and data visualization platform. Designed for high-velocity engineering teams, the interface distills complex telemetry metrics into intuitive visual cards.",
-                challenge: "Synthesizing high-frequency data streams into a calm, readable dashboard without overwhelming engineers.",
-                solution: "Implemented a modular glassmorphism card grid, dark mode contrast tokens, and customizable widget views.",
-                image: "assets/images/project_astro.webp"
-            },
-            aura: {
-                title: "AURA Identity",
-                category: "Brand Identity · Graphic Systems",
-                year: "2025",
-                client: "AURA Wellness",
-                role: "Brand Strategist & Art Director",
-                impact: "+27% Brand Recognition Lift",
-                overview: "A holistic visual identity for a premium Scandinavian wellness house. The design emphasizes natural textures, tactile paper substrates, and timeless serif typography.",
-                challenge: "Creating a luxury identity that feels minimal and peaceful without feeling cold or sterile.",
-                solution: "Combined warm sand palettes, custom embossed foil finishes, and generous whitespace.",
-                image: "assets/images/project_aura.webp"
-            },
-            alpine: {
-                title: "Alpine Retreat",
-                category: "Editorial Design · Publication",
-                year: "2024",
-                client: "Sanctuary Press",
-                role: "Editorial Designer",
-                impact: "2.4× Average Reading Session Duration",
-                overview: "An architectural journal exploring high-altitude residential design in the Swiss Alps. Focuses on the interplay between raw concrete, timber, and alpine landscapes.",
-                challenge: "Structuring multi-lingual editorial articles alongside large-format architectural photography.",
-                solution: "Created an asymmetrical baseline grid with elegant Libre Caslon drop-caps and wide margins.",
-                image: "assets/images/project_alpine.webp"
-            },
-            veloce: {
-                title: "Veloce UI",
-                category: "Product Design · Mobile Design System",
-                year: "2026",
-                client: "Veloce Sport Tech",
-                role: "Design System Architect",
-                impact: "40% Faster Handoff Time",
-                overview: "A high-performance mobile tracking experience for competitive endurance athletes. Features high-visibility contrast ratios, instant biometrics, and subtle haptic cues.",
-                challenge: "Ensuring legibility in bright outdoor sunlight while maintaining a sleek, modern visual aesthetic.",
-                solution: "Designed a dark-mode first UI with high-contrast electric blue status indicators and custom SVG icon kits.",
-                image: "assets/images/project_veloce.webp"
-            },
-            omnimarket: {
-                title: "OmniMarket",
-                category: "Campaign Design · Art Direction",
-                year: "2024",
-                client: "Omni Global Retail",
-                role: "Creative Director",
-                impact: "3.2M Campaign Impressions",
-                overview: "A multi-channel global campaign for a sustainable retail brand. Combines vibrant geometric art direction with punchy editorial typography.",
-                challenge: "Unifying multi-platform assets across social, billboard, and web ads.",
-                solution: "Established a modular design token engine allowing rapid adaptation across 14 aspect ratios.",
-                image: "assets/images/project_omnimarket.webp"
-            },
-            forma: {
-                title: "Forma Art Book",
-                category: "Editorial Design · Monograph",
-                year: "2025",
-                client: "Forma Press Prague",
-                role: "Book Designer",
-                impact: "Winner: Prague Design Excellence Award",
-                overview: "A limited-edition hardbound monograph documenting brutalist architecture across Central Europe.",
-                challenge: "Balancing tactile physical print aesthetic with a modern digital archive.",
-                solution: "Embossed linen cloth cover, duo-tone black & white printing, and a matching digital exhibition landing page.",
-                image: "assets/images/project_forma.webp"
-            }
-        };
-
-
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.project-card');
-            const modal = document.getElementById('case-study-modal');
-            const modalContent = document.getElementById('modal-content');
-            const closeBtn = document.getElementById('modal-close-btn');
-
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -396,84 +335,8 @@
             cards.forEach(card => {
                 card.classList.add('opacity-0', 'translate-y-12');
                 observer.observe(card);
-
-                card.addEventListener('click', () => {
-                    const key = card.getAttribute('data-project');
-                    const data = caseStudies[key];
-                    if (!data) return;
-
-                    modalContent.innerHTML = `
-                        <div class="border-b border-outline/10 pb-6">
-                            <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest block mb-2">${data.category}</span>
-                            <h2 class="font-headline-lg text-3xl sm:text-5xl text-primary font-normal leading-tight">${data.title}</h2>
-                        </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 border-b border-outline/10 text-sm font-body-md">
-                            <div>
-                                <span class="text-on-surface-variant block uppercase text-xs tracking-wider">Year</span>
-                                <span class="font-semibold text-primary">${data.year}</span>
-                            </div>
-                            <div>
-                                <span class="text-on-surface-variant block uppercase text-xs tracking-wider">Client</span>
-                                <span class="font-semibold text-primary">${data.client}</span>
-                            </div>
-                            <div>
-                                <span class="text-on-surface-variant block uppercase text-xs tracking-wider">Role</span>
-                                <span class="font-semibold text-primary">${data.role}</span>
-                            </div>
-                            <div>
-                                <span class="text-on-surface-variant block uppercase text-xs tracking-wider">Impact</span>
-                                <span class="font-semibold text-secondary">${data.impact}</span>
-                            </div>
-                        </div>
-                        <div class="aspect-video w-full overflow-hidden rounded-lg bg-surface-container">
-                            <img src="${data.image}" alt="${data.title}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-body-md font-body-md text-on-surface-variant">
-                            <div>
-                                <h4 class="font-label-caps text-label-caps text-primary uppercase mb-2">Overview</h4>
-                                <p class="leading-relaxed">${data.overview}</p>
-                            </div>
-                            <div>
-                                <h4 class="font-label-caps text-label-caps text-primary uppercase mb-2">The Challenge &amp; Solution</h4>
-                                <p class="leading-relaxed mb-4"><strong>Challenge:</strong> ${data.challenge}</p>
-                                <p class="leading-relaxed"><strong>Solution:</strong> ${data.solution}</p>
-                            </div>
-                        </div>
-                        <div class="pt-6 flex justify-end gap-4">
-                            <a href="contact.html" class="bg-primary text-on-primary px-8 py-3 rounded-full font-label-caps text-label-caps hover:bg-secondary transition-colors uppercase tracking-widest">Inquire About Similar Project</a>
-                        </div>
-                    `;
-
-                    modal.classList.remove('hidden');
-                    modal.classList.add('flex');
-                    document.body.style.overflow = 'hidden';
-                });
             });
-
-            function closeModal() {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                document.body.style.overflow = '';
-            }
-
-            closeBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
-            });
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
-            });
-
-            // Mobile menu toggle
-            const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
         });
     </script>
-
 </body>
 </html>

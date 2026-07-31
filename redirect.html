@@ -114,8 +114,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;600&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
-    <!-- Shared Stylesheet -->
+    <!-- Shared Stylesheet & App Logic -->
     <link href="styles.css" rel="stylesheet">
+    <script src="assets/js/app.js" defer></script>
     
     <style>
         .exit-card {
@@ -144,8 +145,11 @@
                 <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="process.html">About</a>
                 <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="contact.html">Contact</a>
             </div>
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-4">
                 <span class="hidden sm:inline-block font-label-caps text-label-caps text-on-surface-variant">Prague / Available</span>
+                <button aria-label="Switch Theme Mode" class="theme-toggle-btn flex items-center justify-center w-7 h-7 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all duration-300">
+                    <span class="material-symbols-outlined text-[18px]">dark_mode</span>
+                </button>
                 <button aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle Mobile Navigation Menu" class="md:hidden text-primary" id="mobile-menu-toggle">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
