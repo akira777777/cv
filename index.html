@@ -254,6 +254,9 @@
         </div>
     </nav>
 
+    <!-- Settings Panel Backdrop Overlay -->
+    <div id="settings-backdrop" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[55] hidden opacity-0 transition-opacity duration-300"></div>
+
     <!-- Right Sidebar Settings Panel -->
     <div class="fixed top-0 right-0 h-full w-[320px] bg-surface-container/90 backdrop-blur-xl border-l border-outline/10 z-[60] shadow-2xl p-8 flex flex-col" id="settings-panel">
         <div class="flex justify-between items-center mb-12">
@@ -328,7 +331,7 @@
                 </div>
                 <!-- Text Content -->
                 <div class="col-span-4 md:col-span-7 flex flex-col justify-center z-20 pt-12 md:pt-0 fade-in-up" style="transition-delay: 0.1s;">
-                    <h1 class="font-display-xl text-[72px] sm:text-[100px] md:text-[100px] lg:text-[140px] leading-[0.85] tracking-tighter text-primary mb-6 mix-blend-difference">
+                    <h1 class="font-display-xl text-[52px] sm:text-[90px] md:text-[100px] lg:text-[140px] leading-[0.85] tracking-tighter text-primary mb-6 mix-blend-difference">
                         Elizaveta<br>Vakalova
                     </h1>
                     <p class="font-body-lg text-body-lg text-on-surface-variant mb-4 md:hidden">
@@ -586,16 +589,31 @@
             const settingsToggle = document.getElementById('settings-toggle');
             const settingsClose = document.getElementById('settings-close');
             const settingsPanel = document.getElementById('settings-panel');
+            const settingsBackdrop = document.getElementById('settings-backdrop');
 
-            settingsToggle.addEventListener('click', () => {
-                const isOpen = settingsPanel.classList.toggle('open');
-                settingsToggle.setAttribute('aria-expanded', isOpen);
-            });
+            function toggleSettings(open) {
+                if (!settingsPanel) return;
+                const isOpen = open !== undefined ? open : !settingsPanel.classList.contains('open');
+                if (isOpen) {
+                    settingsPanel.classList.add('open');
+                    if (settingsToggle) settingsToggle.setAttribute('aria-expanded', 'true');
+                    if (settingsBackdrop) {
+                        settingsBackdrop.classList.remove('hidden');
+                        requestAnimationFrame(() => settingsBackdrop.classList.add('opacity-100'));
+                    }
+                } else {
+                    settingsPanel.classList.remove('open');
+                    if (settingsToggle) settingsToggle.setAttribute('aria-expanded', 'false');
+                    if (settingsBackdrop) {
+                        settingsBackdrop.classList.remove('opacity-100');
+                        setTimeout(() => settingsBackdrop.classList.add('hidden'), 300);
+                    }
+                }
+            }
 
-            settingsClose.addEventListener('click', () => {
-                settingsPanel.classList.remove('open');
-                settingsToggle.setAttribute('aria-expanded', 'false');
-            });
+            if (settingsToggle) settingsToggle.addEventListener('click', () => toggleSettings());
+            if (settingsClose) settingsClose.addEventListener('click', () => toggleSettings(false));
+            if (settingsBackdrop) settingsBackdrop.addEventListener('click', () => toggleSettings(false));
 
             // Animation Settings Controls listeners
             const toggleMotion = document.getElementById('toggle-motion');

@@ -102,11 +102,9 @@ html.dark .paper-grain {
 html.dark .bg-surface-container-lowest {
     background-color: #1a1918 !important;
 }
-html.dark .text-on-background {
+html.dark .text-on-background,
+html.dark .text-on-surface {
     color: #f4f0ef !important;
-}
-html.dark .border-primary\/20 {
-    border-color: rgba(244, 240, 239, 0.2) !important;
 }
 html.dark ::placeholder {
     color: rgba(180, 176, 173, 0.5) !important;
@@ -114,6 +112,15 @@ html.dark ::placeholder {
 html.dark .bg-surface-container-highest {
     background-color: #312f2e !important;
 }
+
+/* Mobile Masonry Grid Reset */
+@media (max-width: 767px) {
+    .project-card {
+        grid-row-end: auto !important;
+        height: auto !important;
+    }
+}
+
 
 /* Hide scrollbars on body and main layout (Webkit & Firefox) */
 body::-webkit-scrollbar,

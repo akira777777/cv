@@ -244,11 +244,18 @@ window.PortfolioApp = (function() {
         populateModalContent(modal, project);
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
+
+        const card = modal.querySelector('.modal-card');
+        if (card) card.scrollTop = 0;
     }
 
     function closeCaseStudy() {
         const modal = document.getElementById('case-study-modal');
         if (modal) {
+            const video = modal.querySelector('video');
+            if (video) {
+                try { video.pause(); video.currentTime = 0; } catch (e) {}
+            }
             modal.classList.remove('open');
             document.body.style.overflow = '';
         }
@@ -415,6 +422,7 @@ window.PortfolioApp = (function() {
 
                 if (matchCategory && matchSearch) {
                     item.style.display = '';
+                    item.classList.add('visible');
                     setTimeout(() => {
                         item.style.opacity = '1';
                         item.style.transform = 'scale(1)';
@@ -504,7 +512,7 @@ window.PortfolioApp = (function() {
     // Active Navigation Link Highlighting
     function initActiveNav() {
         const path = window.location.pathname.split('/').pop() || 'index.html';
-        document.querySelectorAll('nav a').forEach(link => {
+        document.querySelectorAll('nav a.font-label-caps').forEach(link => {
             const href = link.getAttribute('href');
             if (href === path || (path === '' && href === 'index.html')) {
                 link.classList.add('text-secondary', 'font-semibold');
@@ -598,16 +606,51 @@ window.PortfolioApp = (function() {
 
     // Process Accordion Interactions
     function initProcessAccordions() {
-        document.querySelectorAll('.accordion-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const item = header.closest('.accordion-item');
-                if (!item) return;
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        if (!accordionItems.length) return;
+
+        accordionItems.forEach(item => {
+            // Click listener on item (ignoring clicks inside accordion-content)
+            item.addEventListener('click', (e) => {
+                if (e.target.closest('.accordion-content')) return;
+
                 const isActive = item.classList.contains('active');
-                
-                // Toggle active class
-                document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+
+                // Close all other accordions
+                accordionItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelectorAll('.node-marker').forEach(n => {
+                        n.classList.remove('bg-secondary', 'border-secondary', 'scale-125');
+                        n.classList.add('bg-primary', 'border-outline/30');
+                    });
+                    otherItem.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+                        if (icon.textContent.trim() === 'expand_more') {
+                            icon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+                });
+
                 if (!isActive) {
                     item.classList.add('active');
+                    item.querySelectorAll('.node-marker').forEach(n => {
+                        n.classList.add('bg-secondary', 'border-secondary', 'scale-125');
+                        n.classList.remove('bg-primary', 'border-outline/30');
+                    });
+                    item.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+                        if (icon.textContent.trim() === 'expand_more') {
+                            icon.style.transform = 'rotate(180deg)';
+                        }
+                    });
+                }
+            });
+
+            // Keyboard accessibility
+            const header = item.querySelector('.accordion-header') || item;
+            header.addEventListener('keydown', (e) => {
+                if (e.target.closest('.accordion-content')) return;
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    item.click();
                 }
             });
         });
@@ -672,11 +715,29 @@ window.PortfolioApp = (function() {
         });
     }
 
+    // Centralized Scroll Reveal Observer
+    function initScrollReveal() {
+        const elements = document.querySelectorAll('.fade-in-up, .image-mask-reveal');
+        if (!elements.length) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        elements.forEach(el => observer.observe(el));
+    }
+
     // Initialize all modules on DOM ready
     function init() {
         initTheme();
         initActiveNav();
         initMobileMenu();
+        initScrollReveal();
         initWorkFilter();
         initClipboardEmail();
         initAnimatedCounters();
