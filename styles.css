@@ -157,6 +157,22 @@ html, body {
     transition: transform 0.15s ease-out;
 }
 
+/* Foil effect overlay for gold sheen */
+.foil-effect {
+  position: relative;
+  filter: brightness(1.1) contrast(1.2);
+}
+.foil-effect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(212,175,55,0.4), rgba(255,215,0,0.2));
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+
 /* Control Panel Transition */
 #settings-panel {
     transform: translateX(100%);
