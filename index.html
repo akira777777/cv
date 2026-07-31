@@ -507,19 +507,15 @@
                 observer.observe(el);
             });
 
-            // Smooth Parallax for images with requestAnimationFrame throttling
+            // Sticky nav logic
             let ticking = false;
+            let lastScroll = 0;
+            const navbar = document.getElementById('navbar');
+
             window.addEventListener('scroll', () => {
                 if (!ticking) {
                     window.requestAnimationFrame(() => {
                         const scrolled = window.pageYOffset;
-                        document.querySelectorAll('.parallax-bg').forEach(el => {
-                            const speed = 0.12;
-                            const yPos = -(scrolled * speed);
-                            el.style.transform = `translateY(${yPos}px) scale(1.15)`;
-                        });
-                        
-                        // Sticky nav logic
                         if (scrolled <= 0) {
                             navbar.style.transform = "translateY(0)";
                         } else if (scrolled > lastScroll && scrolled > 80) {
@@ -533,9 +529,6 @@
                     ticking = true;
                 }
             }, { passive: true });
-
-            let lastScroll = 0;
-            const navbar = document.getElementById('navbar');
 
             // Controls panel sidebar logic
             const settingsToggle = document.getElementById('settings-toggle');

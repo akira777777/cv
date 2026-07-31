@@ -579,6 +579,44 @@ window.PortfolioApp = (function() {
         });
     }
 
+    // Viewport-Relative Smooth Parallax for Card Images
+    function initParallax() {
+        const parallaxBgElements = document.querySelectorAll('.parallax-bg');
+        if (!parallaxBgElements.length) return;
+
+        let ticking = false;
+
+        function updateParallax() {
+            const windowHeight = window.innerHeight;
+
+            parallaxBgElements.forEach(el => {
+                const wrapper = el.closest('.parallax-wrapper') || el.parentElement;
+                if (!wrapper) return;
+
+                const rect = wrapper.getBoundingClientRect();
+                // Process only when element is in or close to viewport
+                if (rect.bottom >= -100 && rect.top <= windowHeight + 100) {
+                    const centerOffset = (rect.top + rect.height / 2) - (windowHeight / 2);
+                    // Smooth subtle shift bounded strictly within safety margins
+                    const yPos = centerOffset * -0.05;
+                    el.style.transform = `translateY(${yPos}px) scale(1.12)`;
+                }
+            });
+
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }, { passive: true });
+
+        window.addEventListener('resize', updateParallax, { passive: true });
+        updateParallax();
+    }
+
     // Initialize all modules on DOM ready
     function init() {
         initTheme();
@@ -590,6 +628,7 @@ window.PortfolioApp = (function() {
         bindCaseStudyTriggers();
         initContactForm();
         initProcessAccordions();
+        initParallax();
 
         // Bind Theme Toggle Buttons across page
         document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
