@@ -7,52 +7,68 @@
   // ============================================
 
   /**
+   * Apply theme to document and update CSS variables and stored preference.
+   */
+  function applyTheme(theme) {
+    const isDark = theme === 'dark';
+    document.documentElement.classList.toggle('dark', isDark);
+    
+    // Sync localStorage keys used across app.js and main.js
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('cv-theme', theme);
+      localStorage.setItem('theme', theme);
+    }
+
+    // Update buttons matching [data-theme-toggle] or .theme-toggle-btn
+    const themeBtns = document.querySelectorAll('[data-theme-toggle], .theme-toggle-btn');
+    themeBtns.forEach(btn => {
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (icon) {
+        icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+      }
+      btn.setAttribute('aria-label', isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+      
+      if (btn.hasAttribute('data-theme-toggle')) {
+        if (isDark) {
+          btn.classList.remove('bg-white', 'text-slate-900');
+          btn.classList.add('bg-slate-900', 'text-white');
+        } else {
+          btn.classList.remove('bg-slate-900', 'text-white');
+          btn.classList.add('bg-white', 'text-slate-900');
+        }
+      }
+    });
+
+    console.log(`Theme set to: ${theme}`);
+  }
+
+  /**
    * Initialize theme toggle functionality.
    */
   function initThemeToggle() {
-    const themeBtn = document.querySelector('[data-theme-toggle]');
-    if (!themeBtn) return;
+    const themeBtns = document.querySelectorAll('[data-theme-toggle], .theme-toggle-btn');
+    if (!themeBtns.length) return;
 
     // Check saved preference or default to system preference
-    let currentTheme = localStorage.getItem('cv-theme') || 
+    let currentTheme = localStorage.getItem('theme') || localStorage.getItem('cv-theme') || 
       (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
     applyTheme(currentTheme);
 
-    themeBtn.addEventListener('click', () => {
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      applyTheme(newTheme);
-      
-      // Update button state
-      if (themeBtn.classList.contains('bg-white')) {
-        themeBtn.classList.remove('bg-white');
-        themeBtn.classList.add('bg-slate-900', 'text-white');
-      } else {
-        themeBtn.classList.remove('bg-slate-900', 'text-white');
-        themeBtn.classList.add('bg-white');
-      }
+    themeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+        applyTheme(currentTheme);
+      });
     });
 
     // Listen for system preference changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem('cv-theme')) {
-        applyTheme(e.matches ? 'dark' : 'light');
+      if (!localStorage.getItem('theme') && !localStorage.getItem('cv-theme')) {
+        currentTheme = e.matches ? 'dark' : 'light';
+        applyTheme(currentTheme);
       }
     });
-  }
-
-  /**
-   * Apply theme to document and update CSS variables.
-   */
-  function applyTheme(theme) {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    
-    // Update stored preference
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('cv-theme', theme);
-    }
-
-    console.log(`Theme set to: ${theme}`);
   }
 
   // ============================================
@@ -66,10 +82,7 @@
     const nav = document.querySelector('nav');
     if (!nav) return;
 
-    let lastScrollY = window.scrollY;
     const offset = 10;
-    
-    // Add transition class for smooth effect
     nav.classList.add('transition-all', 'duration-300');
 
     window.addEventListener('scroll', () => {
@@ -82,8 +95,6 @@
         nav.classList.add('py-6', 'bg-transparent');
         nav.classList.remove('shadow-md', 'backdrop-blur-sm', 'bg-white/90', 'dark:bg-slate-900/90');
       }
-
-      lastScrollY = currentScrollY;
     }, { passive: true });
   }
 
@@ -102,7 +113,6 @@
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       
-      // Calculate progress percentage
       let progress = 0;
       if (docHeight > 0) {
         progress = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
@@ -126,24 +136,28 @@
       anchor.addEventListener('click', (e) => {
         const targetId = anchor.getAttribute('href');
         
-        // Skip if not a section link or already on target
-        if (!targetId || targetId === '#' || window.location.hash === targetId) return;
+        // Skip if not a valid section selector or just '#'
+        if (!targetId || targetId === '#' || targetId.length <= 1) return;
 
-        e.preventDefault();
+        try {
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            e.preventDefault();
+            const headerOffset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          const headerOffset = 80; // Account for fixed header
-          const elementPosition = targetElement.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
 
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-
-          // Update URL without scroll jump
-          history.pushState(null, '', targetId);
+            if (history.pushState) {
+              history.pushState(null, '', targetId);
+            }
+          }
+        } catch (err) {
+          // Ignore invalid selector syntax for non-id hashes
         }
       });
     });
@@ -177,6 +191,16 @@
   }
 
   // Export for module usage
+  if (typeof window !== 'undefined') {
+    window.MainUI = {
+      applyTheme,
+      initThemeToggle,
+      initStickyNav,
+      initScrollProgress,
+      initSmoothScroll
+    };
+  }
+
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
       applyTheme,

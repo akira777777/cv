@@ -39,6 +39,8 @@
 
     <!-- Shared Stylesheet & App Logic -->
     <link href="styles.css" rel="stylesheet">
+    <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/case-study-modal.js" defer></script>
     <script src="assets/js/app.js" defer></script>
 </head>
 <body class="text-on-background font-body-md min-h-screen flex flex-col antialiased overflow-x-hidden">
@@ -56,7 +58,7 @@
             </div>
             <div class="flex items-center gap-4">
                 <span class="hidden sm:inline-block font-label-caps text-label-caps text-on-surface-variant">Prague / Available</span>
-                <button aria-label="Switch Theme Mode" class="theme-toggle-btn flex items-center justify-center w-7 h-7 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all duration-300">
+                <button data-theme-toggle aria-label="Switch Theme Mode" class="theme-toggle-btn flex items-center justify-center w-7 h-7 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all duration-300">
                     <span class="material-symbols-outlined text-[18px]">dark_mode</span>
                 </button>
                 <button aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle Mobile Navigation Menu" class="md:hidden text-primary" id="mobile-menu-toggle">

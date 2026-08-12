@@ -3,18 +3,28 @@
  * Handles modal open/close, focus management, and toast alerts.
  */
 
-// DOM Elements Cache
-let domCache = null;
-
-function getDomCache() {
-    if (!domCache) {
-        domCache = {
-            modals: document.querySelectorAll('.case-study-modal'),
-            backdrop: document.getElementById('modal-backdrop') || document.body,
-            closeButtons: document.querySelectorAll('[data-close="true"]')
-        };
+// Helper to resolve project data across window object or local data
+function getProjectsList() {
+    if (typeof window.ProjectController !== 'undefined' && Array.isArray(window.ProjectController.projects)) {
+        return window.ProjectController.projects;
     }
-    return domCache;
+    if (typeof window.PortfolioApp !== 'undefined' && window.PortfolioApp.PROJECTS) {
+        return Object.values(window.PortfolioApp.PROJECTS);
+    }
+    if (typeof projectsData !== 'undefined' && Array.isArray(projectsData)) {
+        return projectsData;
+    }
+    return [];
+}
+
+function findProjectById(id) {
+    const projects = getProjectsList();
+    if (!id) return null;
+    const cleanId = String(id).toLowerCase().replace(/^project-/, '');
+    return projects.find(p => {
+        const pId = String(p.id).toLowerCase().replace(/^project-/, '');
+        return pId === cleanId || String(p.id).toLowerCase() === String(id).toLowerCase();
+    }) || null;
 }
 
 // Toast Notification System
@@ -23,7 +33,6 @@ function showToast(message) {
     toast.className = 'toast';
     toast.textContent = message;
     
-    // Add animation styles if not present
     if (!document.getElementById('toast-styles')) {
         const style = document.createElement('style');
         style.id = 'toast-styles';
@@ -43,23 +52,18 @@ function showToast(message) {
                 animation: slideInRight 0.3s ease-out forwards, 
                            fadeOut 0.3s ease-in 2.7s forwards;
             }
-            
             @keyframes slideInRight {
                 from { transform: translateX(100%); opacity: 0; }
                 to { transform: translateX(0); opacity: 1; }
             }
-            
             @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; }
+                from { opacity: 1; opacity: 0; }
             }
         `;
         document.head.appendChild(style);
     }
 
     document.body.appendChild(toast);
-
-    // Auto-remove after 3 seconds
     setTimeout(() => {
         toast.style.animation = 'fadeOut 0.3s ease-in forwards';
         setTimeout(() => toast.remove(), 300);
@@ -78,9 +82,7 @@ function focusFirstVisibleItem(modal) {
     ].join(', ');
 
     const focusableElements = modal.querySelectorAll(focusableSelectors);
-    
     if (focusableElements.length > 0) {
-        // Find first visible element in DOM order
         let firstVisible = null;
         for (let el of focusableElements) {
             if (getComputedStyle(el).display !== 'none' && 
@@ -89,7 +91,6 @@ function focusFirstVisibleItem(modal) {
                 break;
             }
         }
-        
         if (firstVisible) {
             firstVisible.focus();
         } else {
@@ -100,11 +101,9 @@ function focusFirstVisibleItem(modal) {
 
 function restoreFocus(originalElement, modal) {
     if (originalElement && typeof originalElement.focus === 'function') {
-        // Remove focus from modal before restoring
         document.activeElement.blur();
         requestAnimationFrame(() => originalElement.focus());
     } else if (modal) {
-        // Fallback: restore to first button in modal
         const buttons = modal.querySelectorAll('button');
         if (buttons.length > 0) {
             buttons[0].focus();
@@ -112,240 +111,161 @@ function restoreFocus(originalElement, modal) {
     }
 }
 
-// Modal Open/Close Functions
-function openCaseStudy(project, triggerElement) {
-    // Find or create modal for this project
-    let modal = document.querySelector(`.case-study-modal[data-project="${project.id}"]`);
+// Global modal closer function
+function closeModalElement(modalOrId, triggerElement) {
+    let container = null;
+    if (typeof modalOrId === 'string') {
+        const el = document.getElementById(modalOrId);
+        container = el ? (el.closest('.fixed') || el.parentElement) : null;
+    } else if (modalOrId && modalOrId.nodeType) {
+        container = modalOrId.closest('.fixed') || modalOrId.parentElement;
+    }
     
-    if (!modal) {
-        // Create modal dynamically (simplified version from app.js)
-        const container = document.createElement('div');
-        container.className = 'fixed inset-0 z-[100] flex items-center justify-center p-4';
-        container.id = `modal-${project.id}`;
-        
-        modal = document.createElement('div');
-        modal.className = 'case-study-modal w-full max-w-5xl bg-surface dark:bg-surface-container rounded-lg shadow-2xl overflow-hidden relative animate-in fade-in zoom-in duration-300';
-        modal.setAttribute('role', 'dialog');
-        modal.setAttribute('aria-labelledby', `modal-title-${project.id}`);
-        modal.setAttribute('data-project', project.id);
-        
-        // Modal header
-        const header = document.createElement('div');
-        header.className = 'flex justify-between items-center p-6 border-b border-outline/10';
-        
-        const title = document.createElement('h2');
-        title.id = `modal-title-${project.id}`;
-        title.className = 'font-headline-lg text-headline-lg font-semibold';
-        title.textContent = project.title;
-        
-        header.appendChild(title);
-        
-        // Close button
-        const closeBtn = document.createElement('button');
-        closeBtn.setAttribute('data-close', 'true');
-        closeBtn.className = 'flex items-center justify-center w-8 h-8 rounded-full bg-surface-contra hover:bg-surface-hover dark:hover:bg-surface-container-low transition-colors';
-        closeBtn.innerHTML = '<span class="material-symbols-outlined text-sm">close</span>';
-        
-        header.appendChild(closeBtn);
-        modal.appendChild(header);
+    if (!container) {
+        container = document.querySelector('.case-study-modal-container') || document.querySelector('#case-study-modal');
+    }
 
-        // Modal content (placeholder - would contain full project details)
-        const content = document.createElement('div');
-        content.className = 'p-6';
-        content.innerHTML = `
-            <h3 id="modal-subtitle-${project.id}" class="font-body-lg text-on-surface-variant italic mb-4">
-                ${project.subtitle}
-            </h3>
-            <p class="font-body-md text-body-md mb-6">
-                ${project.overview}
-            </p>
+    if (container) {
+        container.classList.remove('opacity-100');
+        container.classList.add('opacity-0');
+        setTimeout(() => {
+            if (container.parentNode) {
+                container.parentNode.removeChild(container);
+            }
+            document.body.style.overflow = '';
+        }, 300);
+    }
+
+    if (triggerElement) {
+        restoreFocus(triggerElement, null);
+    }
+}
+
+// Modal Open Function
+function openCaseStudy(projectOrId, triggerElement) {
+    let project = typeof projectOrId === 'object' ? projectOrId : findProjectById(projectOrId);
+    if (!project) {
+        project = {
+            id: projectOrId || 'case-study',
+            title: typeof projectOrId === 'string' ? projectOrId.toUpperCase() : 'Case Study',
+            subtitle: 'Project Showcase & Systems Overview',
+            overview: 'Detailed exploration of design architecture, interaction patterns, and visual systems.',
+            deliverables: ['Design System', 'UI/UX Guidelines', 'Prototypes'],
+            role: 'Lead Designer'
+        };
+    }
+
+    // Delegate to PortfolioApp if available
+    if (typeof window.PortfolioApp !== 'undefined' && typeof window.PortfolioApp.openCaseStudy === 'function' && typeof projectOrId === 'string') {
+        window.PortfolioApp.openCaseStudy(projectOrId);
+        return;
+    }
+
+    const projectId = project.id || 'case-study';
+    let container = document.getElementById(`modal-container-${projectId}`);
+    
+    if (!container) {
+        container = document.createElement('div');
+        container.id = `modal-container-${projectId}`;
+        container.className = 'case-study-modal-container fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md opacity-0 transition-opacity duration-300';
+        
+        const modal = document.createElement('div');
+        modal.className = 'case-study-modal w-full max-w-5xl bg-surface dark:bg-slate-900 text-on-surface dark:text-white rounded-xl shadow-2xl overflow-hidden relative border border-outline/10 p-6 md:p-8 max-h-[90vh] overflow-y-auto';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-labelledby', `modal-title-${projectId}`);
+        modal.setAttribute('data-project', projectId);
+        
+        modal.innerHTML = `
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-outline/10">
+                <div>
+                    <span class="text-xs uppercase tracking-widest text-secondary font-semibold">${project.category || 'Case Study'}</span>
+                    <h2 id="modal-title-${projectId}" class="text-2xl md:text-4xl font-bold mt-1">${project.title}</h2>
+                </div>
+                <button data-close="true" class="w-10 h-10 rounded-full bg-surface-container dark:bg-slate-800 hover:bg-secondary hover:text-white flex items-center justify-center transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            ${project.image ? `<div class="w-full aspect-video rounded-lg overflow-hidden mb-6 bg-slate-100 dark:bg-slate-800"><img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover"></div>` : ''}
+            <div class="space-y-4">
+                <p class="text-lg italic text-on-surface-variant">${project.subtitle || ''}</p>
+                <p class="text-base leading-relaxed">${project.overview || project.description || ''}</p>
+                ${project.deliverables ? `<div class="mt-4"><h4 class="text-xs uppercase tracking-wider font-bold mb-2">Deliverables</h4><p class="text-sm">${Array.isArray(project.deliverables) ? project.deliverables.join(', ') : project.deliverables}</p></div>` : ''}
+            </div>
         `;
         
-        modal.appendChild(content);
-        
-        // Backdrop click to close
-        const backdrop = document.createElement('div');
-        backdrop.className = 'modal-backdrop absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-300 cursor-pointer';
-        backdrop.setAttribute('data-close', 'true');
-        
         container.appendChild(modal);
-        container.appendChild(backdrop);
         document.body.appendChild(container);
-
-        // Add close button to modal header
-        const newHeader = modal.querySelector('.flex.justify-between') || header;
-        if (newHeader && !modal.querySelector('[data-close="true"]')) {
-            const btnContainer = document.createElement('div');
-            btnContainer.className = 'absolute top-4 right-4';
-            btnContainer.appendChild(closeBtn);
-            modal.prepend(btnContainer);
-        }
     }
 
-    // Show modal with animation
-    const backdrop = modal.parentElement;
-    
-    // Add focus trap listeners (simplified)
-    function handleTabKey(e) {
-        if (e.key !== 'Tab') return;
-        
-        const focusableElements = modal.querySelectorAll(
-            '[tabindex="0"], button:not([disabled]), a[href], input:not([disabled])'
-        );
-        
-        if (focusableElements.length === 0) return;
-        
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-        
-        if (e.shiftKey && document.activeElement === firstElement) {
-            e.preventDefault();
-            lastElement.focus();
-        } else if (!e.shiftKey && document.activeElement === lastElement) {
-            e.preventDefault();
-            firstElement.focus();
-        }
-    }
+    document.body.style.overflow = 'hidden';
 
-    // Event listeners for this modal
-    const closeBtns = modal.querySelectorAll('[data-close="true"]');
-    
-    function closeModal() {
-        backdrop.classList.remove('opacity-100');
-        
-        setTimeout(() => {
-            if (backdrop.parentNode) {
-                backdrop.parentNode.remove();
-            }
-        }, 300);
-
-        // Restore focus to trigger element or first button in modal
-        restoreFocus(triggerElement, modal);
-    }
-
+    const closeBtns = container.querySelectorAll('[data-close="true"]');
     closeBtns.forEach(btn => {
-        btn.addEventListener('click', closeModal);
+        btn.onclick = () => closeModalElement(container, triggerElement);
     });
 
-    backdrop.addEventListener('click', (e) => {
-        if (e.target === backdrop) closeModal();
-    });
+    container.onclick = (e) => {
+        if (e.target === container) closeModalElement(container, triggerElement);
+    };
 
-    // Close on Escape key
-    function handleEscape(e) {
-        if (e.key === 'Escape') closeModal();
-    }
-
-    modal.addEventListener('keydown', handleTabKey);
+    const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+            closeModalElement(container, triggerElement);
+            document.removeEventListener('keydown', handleEscape);
+        }
+    };
     document.addEventListener('keydown', handleEscape);
 
-    // Trigger animation
     requestAnimationFrame(() => {
-        backdrop.classList.remove('opacity-0');
-        backdrop.classList.add('opacity-100');
+        container.classList.remove('opacity-0');
+        container.classList.add('opacity-100');
     });
 
-    // Focus management: focus first element in modal or modal itself
     setTimeout(() => {
-        if (modal.querySelector('[tabindex="0"]')) {
-            modal.querySelector('[tabindex="0"]').focus();
-        } else {
-            modal.focus();
-        }
-    }, 100);
+        focusFirstVisibleItem(container);
+    }, 50);
 
-    // Show toast for accessibility
-    showToast(`Opening case study: ${project.title}`);
+    showToast(`Case Study: ${project.title}`);
 }
 
 function closeCaseStudy(modalId, triggerElement) {
-    const modal = document.getElementById(modalId);
-    
-    if (!modal) return;
-
-    const backdrop = modal.parentElement;
-    const closeBtns = modal.querySelectorAll('[data-close="true"]');
-
-    // Remove event listeners to prevent memory leaks
-    closeBtns.forEach(btn => {
-        btn.removeEventListener('click', () => {});
-    });
-    
-    backdrop.removeEventListener('click', (e) => {
-        if (e.target === backdrop) closeModal(modal, backdrop);
-    });
-
-    modal.removeEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal(modal, backdrop);
-    });
-
-    // Close animation and cleanup
-    backdrop.classList.remove('opacity-100');
-    
-    setTimeout(() => {
-        if (backdrop.parentNode) {
-            backdrop.parentNode.remove();
-        }
-        
-        // Restore focus to trigger element
-        restoreFocus(triggerElement, modal);
-        
-        // Remove Escape key listener from document scope
-        const escHandler = (e) => {
-            if (e.key === 'Escape') closeModal(modal, backdrop);
-        };
-        document.removeEventListener('keydown', escHandler);
-    }, 300);
-
-    showToast(`Closing case study: ${modalId.replace('modal-', '')}`);
+    closeModalElement(modalId, triggerElement);
 }
 
 // Bind Case Study Triggers from project cards
 function bindCaseStudyTriggers() {
-    const triggers = document.querySelectorAll('[data-open-case-study]');
-    
-    triggers.forEach(trigger => {
-        trigger.addEventListener('click', () => {
-            const projectId = trigger.getAttribute('data-open-case-study');
-            const project = projectsData.find(p => p.id === projectId);
-            
-            if (project) {
-                openCaseStudy(project, trigger);
-            } else {
-                console.warn(`Project "${projectId}" not found`);
-            }
-        });
+    document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('[data-open-case-study], [data-case-study]');
+        if (trigger) {
+            e.preventDefault();
+            const projectId = trigger.getAttribute('data-open-case-study') || trigger.getAttribute('data-case-study');
+            openCaseStudy(projectId, trigger);
+        }
+    });
 
-        // Keyboard accessibility: Enter/Space to open
-        trigger.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            const trigger = e.target.closest('[data-open-case-study], [data-case-study]');
+            if (trigger) {
                 e.preventDefault();
-                const projectId = trigger.getAttribute('data-open-case-study');
-                const project = projectsData.find(p => p.id === projectId);
-                
-                if (project) {
-                    openCaseStudy(project, trigger);
-                }
+                const projectId = trigger.getAttribute('data-open-case-study') || trigger.getAttribute('data-case-study');
+                openCaseStudy(projectId, trigger);
             }
-        });
+        }
     });
 }
 
 // Initialize Modal Module
 function initModal() {
     bindCaseStudyTriggers();
-    
-    // Bind close buttons that exist in the DOM
-    const existingCloseButtons = document.querySelectorAll('[data-close="true"]');
-    existingCloseButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Find parent modal and close it
-            const modal = btn.closest('.case-study-modal, .modal-backdrop, [role="dialog"]');
-            if (modal) {
-                closeModal(modal.id, modal);
-            }
-        });
-    });
+}
+
+if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initModal);
+    } else {
+        initModal();
+    }
 }
 
 // Export public API
@@ -358,3 +278,4 @@ window.CaseStudyModalAPI = {
     focusFirstVisibleItem: focusFirstVisibleItem,
     restoreFocus: restoreFocus
 };
+

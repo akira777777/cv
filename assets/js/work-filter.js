@@ -188,16 +188,36 @@
   // ============================================
 
   /**
+   * Helper function to parse timeline string into numeric timestamp.
+   * Handles format like 'Q1 2024', '2024-01', or numeric years.
+   */
+  function parseTimelineDate(timelineStr) {
+    if (!timelineStr) return 0;
+    const qMatch = String(timelineStr).match(/Q([1-4])\s+(\d{4})/i);
+    if (qMatch) {
+      const q = parseInt(qMatch[1], 10);
+      const year = parseInt(qMatch[2], 10);
+      const month = (q - 1) * 3;
+      return new Date(year, month, 1).getTime();
+    }
+    const d = new Date(timelineStr);
+    return isNaN(d.getTime()) ? 0 : d.getTime();
+  }
+
+  /**
    * Filter projects by category.
    */
   function filterByCategory(categoryId) {
-    if (categoryId === 'all') {
+    if (!categoryId || categoryId === 'all') {
       return [...PROJECTS];
     }
 
-    return PROJECTS.filter(project => 
-      project.category === categoryId || project.subcategory.includes(categoryId.replace(' ', ''))
-    );
+    const catLower = categoryId.toLowerCase();
+    return PROJECTS.filter(project => {
+      const categoryMatch = project.category && project.category.toLowerCase() === catLower;
+      const subcategoryMatch = project.subcategory && project.subcategory.toLowerCase().includes(catLower);
+      return categoryMatch || subcategoryMatch;
+    });
   }
 
   /**
@@ -218,22 +238,22 @@
     switch (sortBy) {
       case 'newest':
         return sorted.sort((a, b) => 
-          new Date(b.timeline.start) - new Date(a.timeline.start)
+          parseTimelineDate(b.timeline ? b.timeline.start : '') - parseTimelineDate(a.timeline ? a.timeline.start : '')
         );
       
       case 'oldest':
         return sorted.sort((a, b) => 
-          new Date(a.timeline.start) - new Date(b.timeline.start)
+          parseTimelineDate(a.timeline ? a.timeline.start : '') - parseTimelineDate(b.timeline ? b.timeline.start : '')
         );
       
       case 'name-asc':
         return sorted.sort((a, b) => 
-          a.title.localeCompare(b.title)
+          (a.title || '').localeCompare(b.title || '')
         );
       
       case 'name-desc':
         return sorted.sort((a, b) => 
-          b.title.localeCompare(a.title)
+          (b.title || '').localeCompare(a.title || '')
         );
       
       default:
@@ -287,9 +307,7 @@
 
     // Sorting
     sortBy(sortByOption) {
-      return this.getAllProjects().sort((a, b) => 
-        new Date(b.timeline.start) - new Date(a.timeline.start)
-      );
+      return sortProjects(this.getAllProjects(), sortByOption);
     },
 
     // Search (bonus feature)
@@ -301,10 +319,10 @@
       const lowerQuery = query.toLowerCase().trim();
 
       return this.getAllProjects().filter(project => 
-        project.title.toLowerCase().includes(lowerQuery) ||
-        project.client.toLowerCase().includes(lowerQuery) ||
-        project.description.toLowerCase().includes(lowerQuery) ||
-        project.techStack.some(tech => tech.toLowerCase().includes(lowerQuery))
+        (project.title && project.title.toLowerCase().includes(lowerQuery)) ||
+        (project.client && project.client.toLowerCase().includes(lowerQuery)) ||
+        (project.description && project.description.toLowerCase().includes(lowerQuery)) ||
+        (Array.isArray(project.techStack) && project.techStack.some(tech => tech.toLowerCase().includes(lowerQuery)))
       );
     }
   };

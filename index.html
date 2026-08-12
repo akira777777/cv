@@ -42,7 +42,8 @@
     <!-- Shared Stylesheet & Critical Inline Script -->
     <link href="styles.css" rel="stylesheet">
     
-    <!-- Three.js Background Animation (loaded before canvas module) -->
+    <!-- Core UI & Modules -->
+    <script src="assets/js/main.js" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <script src="assets/js/canvas-animations.js" defer></script>
     
@@ -85,7 +86,6 @@
     </div>
 
     <!-- Three.js Background Animation -->
-    <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <script>
         (function() {
             window.animationSettings = window.animationSettings || {
@@ -201,7 +201,7 @@
             </div>
             <div class="flex items-center gap-4">
                 <span class="hidden sm:inline-block font-label-caps text-label-caps text-on-surface-variant">Prague / Available</span>
-                <button aria-label="Switch Theme Mode" class="theme-toggle-btn flex items-center justify-center w-7 h-7 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all duration-300">
+                <button data-theme-toggle aria-label="Switch Theme Mode" class="theme-toggle-btn flex items-center justify-center w-7 h-7 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all duration-300">
                     <span class="material-symbols-outlined text-[18px]">dark_mode</span>
                 </button>
                 <button aria-controls="settings-panel" aria-expanded="false" aria-label="Open Canvas Settings Panel" class="flex items-center justify-center w-7 h-7 rounded-full bg-surface-container hover:bg-primary hover:text-on-primary transition-all duration-300" id="settings-toggle">
@@ -240,7 +240,7 @@
             <div class="space-y-6">
                 <div class="flex items-center justify-between">
                     <span class="font-body-md text-sm text-on-surface-variant uppercase tracking-widest">Dark Mode</span>
-                    <button class="theme-toggle-btn px-3 py-1 text-xs rounded-full bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary transition-all duration-300 uppercase font-label-caps">Toggle</button>
+                    <button data-theme-toggle class="theme-toggle-btn px-3 py-1 text-xs rounded-full bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary transition-all duration-300 uppercase font-label-caps">Toggle</button>
                 </div>
                 <div class="flex items-center justify-between">
                     <span class="font-body-md text-sm text-on-surface-variant uppercase tracking-widest">Motion</span>
@@ -355,7 +355,7 @@
                         <span class="font-body-md text-body-md text-on-surface-variant uppercase tracking-widest text-xs">increase in active users</span>
                     </div>
                 </div>
-                <a href="#" data-case-study="astro" class="col-span-4 md:col-span-8 md:-ml-12 order-1 md:order-2 group relative z-10 cursor-pointer">
+                <a href="javascript:void(0)" data-case-study="astro" class="col-span-4 md:col-span-8 md:-ml-12 order-1 md:order-2 group relative z-10 cursor-pointer">
                     <div class="w-full aspect-[4/3] md:aspect-[16/9] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-lg parallax-wrapper">
                         <img alt="Astro Analytics Dashboard Interface" decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" src="assets/images/project_astro.webp">
                         <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"></div>
@@ -368,7 +368,7 @@
 
             <!-- Project 02 (Asymmetrical Reverse) -->
             <div class="grid grid-cols-4 md:grid-cols-12 gap-gutter mb-32 md:mb-56 fade-in-up items-center relative">
-                <a href="#" data-case-study="aura" class="col-span-4 md:col-span-8 group relative z-10 cursor-pointer">
+                <a href="javascript:void(0)" data-case-study="aura" class="col-span-4 md:col-span-8 group relative z-10 cursor-pointer">
                     <div class="w-full aspect-square md:aspect-[4/5] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-lg parallax-wrapper">
                         <img decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" alt="AURA Identity Branding" src="assets/images/project_aura.webp">
                         <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"></div>
@@ -419,7 +419,7 @@
                         <span class="font-body-md text-body-md text-on-surface-variant uppercase tracking-widest text-xs">longer average read time</span>
                     </div>
                 </div>
-                <a href="#" data-case-study="alpine" class="col-span-4 md:col-span-8 md:-ml-12 order-1 md:order-2 group relative z-10 cursor-pointer">
+                <a href="javascript:void(0)" data-case-study="alpine" class="col-span-4 md:col-span-8 md:-ml-12 order-1 md:order-2 group relative z-10 cursor-pointer">
                     <div class="w-full aspect-[16/10] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] rounded-lg parallax-wrapper">
                         <img decoding="async" loading="lazy" class="w-full h-full object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 parallax-bg" alt="Alpine Retreat Editorial Spread" src="assets/images/project_alpine.webp">
                         <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"></div>
@@ -432,7 +432,7 @@
 
             <!-- Project 04 (3D Motion Campaign Video Showcase) -->
             <div class="grid grid-cols-4 md:grid-cols-12 gap-gutter mb-32 md:mb-56 fade-in-up items-center relative">
-                <a href="#" data-case-study="chrome" class="col-span-4 md:col-span-8 group relative z-10 cursor-pointer">
+                <a href="javascript:void(0)" data-case-study="chrome" class="col-span-4 md:col-span-8 group relative z-10 cursor-pointer">
                     <div class="w-full aspect-square md:aspect-[4/5] bg-surface-container overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] rounded-lg parallax-wrapper relative">
                         <video class="w-full h-full object-cover object-center" autoplay loop muted playsinline poster="assets/images/project_forma.webp">
                             <source src="video_2026-07-30_22-17-26.mp4" type="video/mp4">

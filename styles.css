@@ -262,6 +262,7 @@ html, body {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
+    overflow: hidden;
     transform: translateX(32px);
     transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                 visibility 0s linear 0.4s,
@@ -272,6 +273,7 @@ html, body {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+    overflow: visible;
     transform: translateX(0);
     transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                 visibility 0s linear 0s,

@@ -17,7 +17,7 @@
     // Particle system settings
     particleCount: 3000,              // Total particles to render
     baseSize: 0.5,                    // Base particle size
-    color: [255, 255, 255],          // White color for particles
+    color: 0xffffff,                  // White color for particles
     
     // Animation behavior
     rotationSpeedX: 0.001,            // Slow rotation on X axis
@@ -47,6 +47,7 @@
   let animationId = null;
   let lastFrameTime = 0;
   let frameSkippedCount = 0;
+  let activeContainer = null;
   
   // State flags
   let isInitialized = false;
@@ -56,14 +57,16 @@
    * Initialize the Three.js scene.
    */
   function initThreeJS(container) {
-    if (!container || !document.body) return;
+    if (!container || !document.body || typeof THREE === 'undefined') return;
+
+    activeContainer = container;
 
     // Create scene
     scene = new THREE.Scene();
     scene.background = new THREE.Color(CONFIG.backgroundColor);
     
     // Create camera (orthographic for particle system)
-    const aspect = container.clientWidth / container.clientHeight;
+    const aspect = (container.clientWidth || window.innerWidth) / (container.clientHeight || window.innerHeight);
     const frustumSize = 300;
     
     camera = new THREE.OrthographicCamera(
@@ -81,15 +84,16 @@
 
     // Create renderer (use WebGLRenderer with performance optimizations)
     renderer = new THREE.WebGLRenderer({ 
-      container: container,
       alpha: true,           // Allow transparent background
       antialias: false       // Disable for better performance on particles
     });
     
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    const w = container.clientWidth || window.innerWidth;
+    const h = container.clientHeight || window.innerHeight;
+    renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Cap at 2x
     
-    scene.add(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
     isInitialized = true;
   }
@@ -98,12 +102,12 @@
    * Create and configure the particle system.
    */
   function createParticleSystem() {
-    if (!scene || !camera) return;
+    if (!scene || !camera || typeof THREE === 'undefined') return;
 
     const count = getOptimalParticleCount();
     const colorObj = new THREE.Color(CONFIG.color);
     
-    // Generate random positions in a sphere-like distribution
+    // Generate random positions in a sphere-like distribution (flat 1D arrays)
     const positions = [];
     const colors = [];
     
@@ -113,15 +117,16 @@
       const phi = Math.acos(2 * Math.random() - 1);
       const radius = 50 + Math.random() * 80; // Spread between 50-130
       
-      positions.push([
+      positions.push(
         radius * Math.sin(phi) * Math.cos(theta),
         radius * Math.sin(phi) * Math.sin(theta),
         radius * Math.cos(phi)
-      ]);
+      );
 
       // Add slight color variation for depth perception
       const brightness = 0.5 + Math.random() * 0.5;
-      colors.push(colorObj.clone().multiplyScalar(brightness));
+      const c = colorObj.clone().multiplyScalar(brightness);
+      colors.push(c.r, c.g, c.b);
     }
 
     // Create geometry with optimized buffer attributes
@@ -154,7 +159,6 @@
     // Calculate area-based scaling
     const area = width * height;
     const minArea = 1920 * 1080;      // Full HD as reference
-    const maxArea = 3840 * 2160;      // 4K
     
     let scale = area / minArea;
     
@@ -173,21 +177,16 @@
   function animate(currentTime) {
     if (!isInitialized || !particleSystem) return;
 
-    // Calculate time delta for smooth animation regardless of FPS
-    const deltaTime = currentTime - lastFrameTime;
+    const now = typeof currentTime === 'number' ? currentTime : performance.now();
+    const deltaTime = now - lastFrameTime;
     
-    // Frame throttling logic
     if (shouldThrottle && frameSkippedCount >= CONFIG.skipFrames) {
       shouldThrottle = false;
       frameSkippedCount = 0;
-      
       render();
     } else if (!shouldThrottle) {
-      lastFrameTime = currentTime;
-      
-      // Update particle positions for animation effect
-      updateParticles(deltaTime);
-      
+      lastFrameTime = now;
+      updateParticles(deltaTime, now);
       render();
     }
 
@@ -197,20 +196,17 @@
   /**
    * Update particle system state (rotation, pulsing).
    */
-  function updateParticles(deltaTime) {
+  function updateParticles(deltaTime, currentTime) {
     if (!particleSystem) return;
 
-    // Smooth rotation
-    const time = currentTime || Date.now();
+    const time = typeof currentTime === 'number' ? currentTime : Date.now();
     
-    // Apply slow rotation over time
     const rotX = (time / CONFIG.maxFrameTime) * CONFIG.rotationSpeedX;
     const rotY = (time / CONFIG.maxFrameTime) * CONFIG.rotationSpeedY;
     
     particleSystem.rotation.x = rotX % (Math.PI * 2);
     particleSystem.rotation.y = rotY % (Math.PI * 2);
 
-    // Optional: Add pulsing effect
     if (CONFIG.pulseEnabled) {
       const pulse = 1 + Math.sin(time / CONFIG.maxFrameTime * CONFIG.pulseSpeed) * 0.1;
       particleSystem.scale.set(pulse, pulse, pulse);
@@ -220,11 +216,10 @@
   }
 
   /**
-   * Single render call (separate from animation loop for flexibility).
+   * Single render call.
    */
   function render() {
-    if (!renderer) return;
-    
+    if (!renderer || !scene || !camera) return;
     renderer.render(scene, camera);
   }
 
@@ -234,31 +229,28 @@
   let lastViewportSize = 0;
   
   function handleResize() {
-    if (!containerElement || !camera || !renderer) return;
+    if (!activeContainer || !camera || !renderer) return;
 
-    const newWidth = containerElement.clientWidth;
-    const newHeight = containerElement.clientHeight;
+    const newWidth = activeContainer.clientWidth || window.innerWidth;
+    const newHeight = activeContainer.clientHeight || window.innerHeight;
     
-    // Calculate viewport size change
-    const oldSize = Math.sqrt(lastViewportSize);
+    const oldSize = Math.sqrt(lastViewportSize || (newWidth * newHeight));
     const newSize = Math.sqrt(newWidth * newHeight);
     const changeRatio = Math.abs(1 - (newSize / oldSize));
 
     lastViewportSize = newWidth * newHeight;
 
-    // Only resize if change is significant (> 80%)
-    if (changeRatio > CONFIG.resizeThreshold) {
-      // Update camera aspect ratio
+    if (changeRatio > 0.1 || !lastViewportSize) {
       const aspect = newWidth / newHeight;
+      const frustumSize = 300;
       camera.left = -frustumSize * aspect;
       camera.right = frustumSize * aspect;
+      camera.updateProjectionMatrix();
 
       renderer.setSize(newWidth, newHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-      // Adjust particle count for very small/large screens
       const newCount = getOptimalParticleCount();
-      
       if (newCount !== CONFIG.particleCount) {
         updateParticleCount(newCount);
       }
@@ -269,30 +261,28 @@
    * Smoothly transition between particle counts.
    */
   function updateParticleCount(targetCount) {
-    const currentCount = CONFIG.particleCount;
-    
-    if (Math.abs(currentCount - targetCount) < 100) return; // Small enough to skip
+    if (!particleSystem || typeof THREE === 'undefined') return;
 
-    // Create new geometry with adjusted count
     const positions = [];
     const colors = [];
+    const colorObj = new THREE.Color(CONFIG.color);
     
     for (let i = 0; i < targetCount; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
       const radius = 50 + Math.random() * 80;
       
-      positions.push([
+      positions.push(
         radius * Math.sin(phi) * Math.cos(theta),
         radius * Math.sin(phi) * Math.sin(theta),
         radius * Math.cos(phi)
-      ]);
+      );
 
       const brightness = 0.5 + Math.random() * 0.5;
-      colors.push(new THREE.Color(CONFIG.color).multiplyScalar(brightness));
+      const c = colorObj.clone().multiplyScalar(brightness);
+      colors.push(c.r, c.g, c.b);
     }
 
-    // Update geometry attributes
     particleSystem.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     particleSystem.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     
@@ -313,40 +303,32 @@
   // PUBLIC API
   // ============================================
 
-  /**
-   * Main controller for the particle animation system.
-   */
   const ParticleController = {
     
-    // Initialize (must be called after container and Three.js are ready)
     init(containerSelector) {
+      if (typeof THREE === 'undefined') {
+        console.warn('ParticleController: THREE is not defined');
+        return null;
+      }
+
       const containerElement = typeof containerSelector === 'string' 
         ? document.querySelector(containerSelector) 
         : containerSelector;
 
       if (!containerElement) {
-        console.warn('ParticleController: Container not found');
+        console.warn('ParticleController: Container not found for selector:', containerSelector);
         return null;
       }
 
-      // Initialize Three.js scene
       initThreeJS(containerElement);
-      
-      // Create particle system
       createParticleSystem();
-      
-      // Set up event listeners
       window.addEventListener('resize', handleResize, { passive: true });
-      
-      // Start animation
       startAnimation();
       
       console.log('ParticleController: Animation started');
-
       return this;
     },
 
-    // Get current state
     getState() {
       return {
         isInitialized,
@@ -356,26 +338,21 @@
       };
     },
 
-    // Toggle frame throttling (for manual FPS control)
     setThrottled(enabled) {
       shouldThrottle = enabled;
-      
       if (enabled && !isInitialized) {
         lastFrameTime = 0;
         frameSkippedCount = 0;
       }
     },
 
-    // Manually update particle count
     setParticleCount(count) {
       const clamped = Math.max(CONFIG.minParticles, Math.min(count || CONFIG.particleCount, CONFIG.maxParticles));
-      
       if (clamped !== CONFIG.particleCount) {
-        createParticleSystem();
+        updateParticleCount(clamped);
       }
     },
 
-    // Pause/resume animation
     pause() {
       if (animationId) cancelAnimationFrame(animationId);
       isInitialized = false;
@@ -386,20 +363,19 @@
       isInitialized = true;
     },
 
-    // Clean up resources
     destroy() {
       if (animationId) cancelAnimationFrame(animationId);
-      
       if (renderer) {
+        if (renderer.domElement && renderer.domElement.parentNode) {
+          renderer.domElement.parentNode.removeChild(renderer.domElement);
+        }
         renderer.dispose();
-        
-        // Remove event listeners
         window.removeEventListener('resize', handleResize, { passive: true });
       }
 
       isInitialized = false;
       animationId = null;
-      
+      activeContainer = null;
       console.log('ParticleController: Destroyed');
     }
   };
@@ -408,31 +384,26 @@
   // MODULE EXPORTS (UMD pattern for compatibility)
   // ============================================
 
-  /**
-   * Initialize the module in browser environment.
-   */
   if (typeof window !== 'undefined') {
     window.ParticleController = ParticleController;
     
-    // Auto-initialize if container exists and Three.js is loaded
     const checkContainer = () => {
       if (!isInitialized && typeof THREE !== 'undefined' && document.body) {
-        const mainCanvas = document.querySelector('#main-canvas');
-        
-        if (mainCanvas) {
+        const target = document.querySelector('#main-canvas') || document.querySelector('#particle-canvas');
+        if (target) {
           console.log('canvas-animations.js: Auto-initializing...');
-          ParticleController.init('#main-canvas');
+          ParticleController.init(target);
         }
       }
     };
 
-    // Check after a short delay to ensure DOM is ready
-    setTimeout(checkContainer, 100);
-    
-    console.log('canvas-animations.js: Module loaded. Use ParticleController.init() or auto-initialize.');
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkContainer);
+    } else {
+      setTimeout(checkContainer, 100);
+    }
   }
 
-  // Export for Node/CommonJS environments
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
       CONFIG,
