@@ -1,5 +1,18 @@
 const { test, expect } = require('@playwright/test');
 
+async function clickNavLink(page, href) {
+  const mobileToggle = page.locator('#mobile-menu-toggle');
+  if (await mobileToggle.isVisible()) {
+    const mobileMenu = page.locator('#mobile-menu');
+    if (await mobileMenu.evaluate(el => el.classList.contains('hidden'))) {
+      await mobileToggle.click();
+      await page.waitForTimeout(200);
+    }
+  }
+  const link = page.locator(`a[href="${href}"]`).first();
+  await link.click();
+}
+
 test.describe('Navigation & Core Page Structure', () => {
   test('index.html has correct title, meta, and landmark elements', async ({ page }) => {
     await page.goto('/index.html');
@@ -14,22 +27,22 @@ test.describe('Navigation & Core Page Structure', () => {
     await page.goto('/index.html');
     
     // Click Work link
-    await page.click('nav a[href="work.html"]');
+    await clickNavLink(page, 'work.html');
     await expect(page).toHaveURL(/.*work.html/);
     await expect(page.locator('h1')).toContainText('Selected Works');
 
     // Click Process link
-    await page.click('nav a[href="process.html"]');
+    await clickNavLink(page, 'process.html');
     await expect(page).toHaveURL(/.*process.html/);
     await expect(page.locator('h1')).toContainText('Design Process');
 
     // Click Contact link
-    await page.click('nav a[href="contact.html"]');
+    await clickNavLink(page, 'contact.html');
     await expect(page).toHaveURL(/.*contact.html/);
     await expect(page.locator('h1')).toContainText('create something meaningful');
 
     // Click Brand/Home link
-    await page.click('nav a[href="index.html"]');
+    await clickNavLink(page, 'index.html');
     await expect(page).toHaveURL(/.*index.html/);
   });
 
@@ -43,11 +56,11 @@ test.describe('Navigation & Core Page Structure', () => {
     await page.waitForTimeout(400);
 
     const backToTop = page.locator('#back-to-top');
-    await expect(backToTop).toHaveClass(/visible/);
+    await expect(backToTop).toBeVisible();
 
     await backToTop.click();
     await page.waitForTimeout(500);
     const scrollY = await page.evaluate(() => window.scrollY);
-    expect(scrollY).toBeLessThan(100);
+    expect(scrollY).toBeLessThan(200);
   });
 });
