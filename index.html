@@ -39,9 +39,18 @@
     <!-- Preload LCP Hero Image -->
     <link rel="preload" as="image" href="assets/images/hero_portrait.webp" fetchpriority="high">
 
-    <!-- Shared Stylesheet & App Logic -->
+    <!-- Shared Stylesheet & Critical Inline Script -->
     <link href="styles.css" rel="stylesheet">
-    <script src="assets/js/app.js" defer></script>
+    
+    <!-- Three.js Background Animation (loaded before canvas module) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+    <script src="assets/js/canvas-animations.js" defer></script>
+    
+    <!-- Work Filtering Module -->
+    <script src="assets/js/work-filter.js" defer></script>
+    
+    <!-- Case Study Modal & Toasts -->
+    <script src="assets/js/case-study-modal.js" defer></script>
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
