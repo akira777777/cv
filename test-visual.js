@@ -1,12 +1,20 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 
+const PORT = process.env.PORT || 3000;
+const BASE_URL = `http://127.0.0.1:${PORT}`;
+
 (async () => {
-    const browser = await chromium.launch({
-        executablePath: '/home/akira/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome',
+    const customChromium = '/home/akira/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome';
+    const executablePath = process.env.PLAYWRIGHT_CHROMIUM_PATH || (fs.existsSync(customChromium) ? customChromium : undefined);
+
+    const launchOpts = {
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
-    });
+    };
+    if (executablePath) launchOpts.executablePath = executablePath;
+
+    const browser = await chromium.launch(launchOpts);
 
     const tests = [
         { page: 'index.html', vp: { width: 1920, height: 1080 }, dark: false, name: 'index-desktop-light' },
@@ -45,8 +53,27 @@ const fs = require('fs');
         }
 
         try {
-            await page.goto(`http://localhost:8080/${test.page}`, { waitUntil: 'domcontentloaded', timeout: 10000 });
-            await page.waitForTimeout(2000);
+            await page.goto(`${BASE_URL}/${test.page}`, { waitUntil: 'domcontentloaded', timeout: 10000 });
+            await page.waitForTimeout(500);
+
+            // Scroll to trigger lazy loading
+            await page.evaluate(async () => {
+                await new Promise(resolve => {
+                    let y = 0;
+                    const step = 400;
+                    const timer = setInterval(() => {
+                        window.scrollTo(0, y);
+                        y += step;
+                        if (y >= document.body.scrollHeight) {
+                            clearInterval(timer);
+                            window.scrollTo(0, 0);
+                            resolve();
+                        }
+                    }, 30);
+                });
+            });
+            await page.waitForTimeout(500);
+
             await page.screenshot({ path: `/tmp/screenshots/${test.name}.png`, fullPage: true });
             console.log(`OK: ${test.name}`);
         } catch (e) {

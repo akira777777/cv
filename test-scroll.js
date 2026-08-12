@@ -1,13 +1,22 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 
+const PORT = process.env.PORT || 3000;
+const BASE_URL = `http://127.0.0.1:${PORT}`;
+
 (async () => {
-    const browser = await chromium.launch({
-        executablePath: '/home/akira/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome',
+    const customChromium = '/home/akira/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome';
+    const executablePath = process.env.PLAYWRIGHT_CHROMIUM_PATH || (fs.existsSync(customChromium) ? customChromium : undefined);
+
+    const launchOpts = {
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
-    });
-    const pages = process.argv.slice(2);
+    };
+    if (executablePath) launchOpts.executablePath = executablePath;
+
+    const browser = await chromium.launch(launchOpts);
+    const cliPages = process.argv.slice(2);
+    const pages = cliPages.length ? cliPages : ['index.html', 'work.html', 'process.html', 'contact.html', 'redirect.html'];
     if (!fs.existsSync('/tmp/screenshots')) fs.mkdirSync('/tmp/screenshots', { recursive: true });
 
     for (const pn of pages) {
@@ -18,7 +27,7 @@ const fs = require('fs');
             page.on('pageerror', e => errs.push(e.message));
             page.on('console', m => { if (m.type()==='error') errs.push(m.text()); });
 
-            await page.goto(`http://127.0.0.1:9123/${pn}`, { waitUntil: 'domcontentloaded', timeout: 8000 });
+            await page.goto(`${BASE_URL}/${pn}`, { waitUntil: 'domcontentloaded', timeout: 8000 });
             await page.waitForTimeout(1000);
             // Scroll through page to trigger lazy loading
             await page.evaluate(async () => {

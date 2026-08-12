@@ -7,7 +7,9 @@
     "start": "node serve.js",
     "serve": "node serve.js",
     "dev": "node serve.js",
-    "py-serve": "python3 server.py"
+    "py-serve": "python3 server.py",
+    "test": "node test-all.js",
+    "test:e2e": "npx playwright test"
   },
   "keywords": [
     "portfolio",
@@ -20,6 +22,7 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "playwright": "^1.62.1"
   }
 }

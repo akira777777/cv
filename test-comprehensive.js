@@ -1,12 +1,20 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 
+const PORT = process.env.PORT || 3000;
+const BASE_URL = `http://127.0.0.1:${PORT}`;
+
 (async () => {
-    const browser = await chromium.launch({
-        executablePath: '/home/akira/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome',
+    const customChromium = '/home/akira/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome';
+    const executablePath = process.env.PLAYWRIGHT_CHROMIUM_PATH || (fs.existsSync(customChromium) ? customChromium : undefined);
+
+    const launchOpts = {
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
-    });
+    };
+    if (executablePath) launchOpts.executablePath = executablePath;
+
+    const browser = await chromium.launch(launchOpts);
 
     const viewports = [
         { name: 'desktop-1920', width: 1920, height: 1080 },
@@ -33,8 +41,20 @@ const fs = require('fs');
             page.on('pageerror', err => errors.push('PAGEERR: ' + err.message));
 
             try {
-                await page.goto(`http://127.0.0.1:9123/${pageName}`, { waitUntil: 'networkidle', timeout: 20000 });
-                await page.waitForTimeout(2000);
+                // Force reveal fade-in-up elements and scroll page to trigger lazy loading of images
+                await page.evaluate(() => {
+                    document.querySelectorAll('.fade-in-up, .image-mask-reveal').forEach(el => el.classList.add('visible'));
+                    window.scrollTo(0, document.body.scrollHeight);
+                });
+
+                // Wait for all images to complete loading
+                await page.waitForFunction(() => {
+                    const imgs = Array.from(document.querySelectorAll('img'));
+                    return imgs.every(img => img.complete && img.naturalWidth > 0);
+                }, { timeout: 4000 }).catch(() => {});
+
+                await page.evaluate(() => window.scrollTo(0, 0));
+                await page.waitForTimeout(200);
 
                 const diag = await page.evaluate(() => {
                     const d = {};

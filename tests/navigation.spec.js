@@ -1,0 +1,53 @@
+const { test, expect } = require('@playwright/test');
+
+test.describe('Navigation & Core Page Structure', () => {
+  test('index.html has correct title, meta, and landmark elements', async ({ page }) => {
+    await page.goto('/index.html');
+    await expect(page).toHaveTitle(/Elizaveta Vakalova/);
+    const nav = page.locator('nav');
+    await expect(nav).toBeVisible();
+    const h1 = page.locator('h1');
+    await expect(h1).toBeVisible();
+  });
+
+  test('navigation bar links route correctly between pages', async ({ page }) => {
+    await page.goto('/index.html');
+    
+    // Click Work link
+    await page.click('nav a[href="work.html"]');
+    await expect(page).toHaveURL(/.*work.html/);
+    await expect(page.locator('h1')).toContainText('Selected Works');
+
+    // Click Process link
+    await page.click('nav a[href="process.html"]');
+    await expect(page).toHaveURL(/.*process.html/);
+    await expect(page.locator('h1')).toContainText('Design Process');
+
+    // Click Contact link
+    await page.click('nav a[href="contact.html"]');
+    await expect(page).toHaveURL(/.*contact.html/);
+    await expect(page.locator('h1')).toContainText('create something meaningful');
+
+    // Click Brand/Home link
+    await page.click('nav a[href="index.html"]');
+    await expect(page).toHaveURL(/.*index.html/);
+  });
+
+  test('back to top button becomes visible on scroll and scrolls to top', async ({ page }) => {
+    await page.goto('/index.html');
+    
+    await page.evaluate(() => {
+      window.scrollTo(0, 1500);
+      window.dispatchEvent(new Event('scroll'));
+    });
+    await page.waitForTimeout(400);
+
+    const backToTop = page.locator('#back-to-top');
+    await expect(backToTop).toHaveClass(/visible/);
+
+    await backToTop.click();
+    await page.waitForTimeout(500);
+    const scrollY = await page.evaluate(() => window.scrollY);
+    expect(scrollY).toBeLessThan(100);
+  });
+});

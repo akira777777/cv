@@ -1,12 +1,20 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 
+const PORT = process.env.PORT || 3000;
+const BASE_URL = `http://127.0.0.1:${PORT}`;
+
 (async () => {
-    const browser = await chromium.launch({
-        executablePath: '/home/akira/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome',
+    const customChromium = '/home/akira/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome';
+    const executablePath = process.env.PLAYWRIGHT_CHROMIUM_PATH || (fs.existsSync(customChromium) ? customChromium : undefined);
+
+    const launchOpts = {
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
-    });
+    };
+    if (executablePath) launchOpts.executablePath = executablePath;
+
+    const browser = await chromium.launch(launchOpts);
 
     const pages = ['index.html', 'work.html', 'process.html', 'contact.html', 'redirect.html'];
     const results = {};
@@ -19,8 +27,26 @@ const fs = require('fs');
         page.on('pageerror', err => errors.push('PAGEERR: ' + err.message));
         page.on('requestfailed', req => errors.push(`REQFAIL: ${req.url()} - ${req.failure().errorText}`));
 
-        await page.goto(`http://localhost:9123/${pageName}`, { waitUntil: 'networkidle', timeout: 15000 });
-        await page.waitForTimeout(2000);
+        await page.goto(`${BASE_URL}/${pageName}`, { waitUntil: 'domcontentloaded', timeout: 15000 });
+        await page.waitForTimeout(500);
+
+        // Scroll page to load lazy images
+        await page.evaluate(async () => {
+            await new Promise(resolve => {
+                let y = 0;
+                const step = 400;
+                const timer = setInterval(() => {
+                    window.scrollTo(0, y);
+                    y += step;
+                    if (y >= document.body.scrollHeight) {
+                        clearInterval(timer);
+                        window.scrollTo(0, 0);
+                        resolve();
+                    }
+                }, 30);
+            });
+        });
+        await page.waitForTimeout(500);
 
         const diagnostics = await page.evaluate(() => {
             const d = {};

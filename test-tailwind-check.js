@@ -1,11 +1,20 @@
 const { chromium } = require('playwright');
+const fs = require('fs');
+
+const PORT = process.env.PORT || 3000;
+const BASE_URL = `http://127.0.0.1:${PORT}`;
 
 (async () => {
-    const browser = await chromium.launch({
-        executablePath: '/home/akira/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome',
+    const customChromium = '/home/akira/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome';
+    const executablePath = process.env.PLAYWRIGHT_CHROMIUM_PATH || (fs.existsSync(customChromium) ? customChromium : undefined);
+
+    const launchOpts = {
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
-    });
+    };
+    if (executablePath) launchOpts.executablePath = executablePath;
+
+    const browser = await chromium.launch(launchOpts);
 
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const page = await context.newPage();
@@ -13,7 +22,7 @@ const { chromium } = require('playwright');
     page.on('pageerror', err => errors.push('PAGEERR: ' + err.message));
     page.on('console', msg => { if (msg.type() === 'error') errors.push('CONSOLE: ' + msg.text()); });
 
-    await page.goto('http://localhost:8090/index.html', { waitUntil: 'domcontentloaded', timeout: 10000 });
+    await page.goto(`${BASE_URL}/index.html`, { waitUntil: 'domcontentloaded', timeout: 10000 });
     await page.waitForTimeout(3000);
 
     const data = await page.evaluate(() => {
