@@ -1,1 +1,28 @@
+# Dependencies
+node_modules/
+
+# Vercel build output
 .vercel
+
+# Logs & debug artifacts
+*.log
+console-export-*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.bak

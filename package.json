@@ -1,16 +1,25 @@
 {
   "name": "cv",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Portfolio website for Elizaveta Vakalova — Multidisciplinary Designer based in Prague",
+  "main": "serve.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node serve.js",
+    "serve": "node serve.js",
+    "dev": "node serve.js",
+    "py-serve": "python3 server.py"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "portfolio",
+    "design",
+    "prague",
+    "brand-identity",
+    "product-design"
+  ],
+  "author": "Elizaveta Vakalova",
   "license": "ISC",
   "type": "commonjs",
-  "dependencies": {
+  "devDependencies": {
     "playwright": "^1.62.1"
   }
 }
