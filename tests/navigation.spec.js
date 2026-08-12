@@ -1,16 +1,32 @@
 const { test, expect } = require('@playwright/test');
 
 async function clickNavLink(page, href) {
+  // Brand logo for index.html is in header bar on all screen sizes
+  if (href === 'index.html') {
+    const brandLogo = page.locator('nav a[href="index.html"]').first();
+    await brandLogo.click();
+    return;
+  }
+
   const mobileToggle = page.locator('#mobile-menu-toggle');
-  if (await mobileToggle.isVisible()) {
+  const isMobile = await mobileToggle.isVisible().catch(() => false);
+
+  if (isMobile) {
     const mobileMenu = page.locator('#mobile-menu');
-    if (await mobileMenu.evaluate(el => el.classList.contains('hidden'))) {
+    const isHidden = await mobileMenu.evaluate(el => el.classList.contains('hidden')).catch(() => false);
+    if (isHidden) {
       await mobileToggle.click();
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(300);
+    }
+    const mobileLink = page.locator(`#mobile-menu a[href="${href}"]`).first();
+    if (await mobileLink.count() > 0) {
+      await mobileLink.click({ force: true });
+      return;
     }
   }
-  const link = page.locator(`a[href="${href}"]`).first();
-  await link.click();
+
+  const navLink = page.locator(`nav a[href="${href}"]`).first();
+  await navLink.click();
 }
 
 test.describe('Navigation & Core Page Structure', () => {

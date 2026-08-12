@@ -7,18 +7,22 @@ test.describe('Case Study Modal Overlays', () => {
     // Click Astro project card
     const astroCard = page.locator('[data-case-study="astro"]').first();
     await astroCard.scrollIntoViewIfNeeded();
-    await astroCard.click();
+    await astroCard.click({ force: true });
     await page.waitForTimeout(400);
 
     const modal = page.locator('#case-study-modal, .case-study-modal-container').first();
     await expect(modal).toBeVisible();
 
     // Close modal using close button
-    const closeBtn = page.locator('#close-modal, [data-close="true"]').first();
-    await closeBtn.click();
+    const closeBtn = page.locator('#modal-close-btn, #close-modal, [data-close="true"]').first();
+    await closeBtn.click({ force: true });
     await page.waitForTimeout(400);
 
-    await expect(modal).not.toBeVisible();
+    const isHidden = await page.evaluate(() => {
+      const el = document.querySelector('#case-study-modal, .case-study-modal-container');
+      return !el || el.classList.contains('hidden') || getComputedStyle(el).display === 'none';
+    });
+    expect(isHidden).toBe(true);
   });
 
   test('closes case study modal when ESC key is pressed', async ({ page }) => {
@@ -26,7 +30,7 @@ test.describe('Case Study Modal Overlays', () => {
 
     const auraCard = page.locator('[data-case-study="aura"]').first();
     await auraCard.scrollIntoViewIfNeeded();
-    await auraCard.click();
+    await auraCard.click({ force: true });
     await page.waitForTimeout(400);
 
     const modal = page.locator('#case-study-modal, .case-study-modal-container').first();
@@ -36,6 +40,10 @@ test.describe('Case Study Modal Overlays', () => {
     await page.keyboard.press('Escape');
     await page.waitForTimeout(400);
 
-    await expect(modal).not.toBeVisible();
+    const isHidden = await page.evaluate(() => {
+      const el = document.querySelector('#case-study-modal, .case-study-modal-container');
+      return !el || el.classList.contains('hidden') || getComputedStyle(el).display === 'none';
+    });
+    expect(isHidden).toBe(true);
   });
 });

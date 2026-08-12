@@ -256,7 +256,9 @@ window.PortfolioApp = (function() {
             if (video) {
                 try { video.pause(); video.currentTime = 0; } catch (e) {}
             }
-            modal.classList.remove('open');
+            modal.classList.remove('open', 'flex');
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
             document.body.style.overflow = '';
         }
         currentModalId = null;
@@ -998,6 +1000,8 @@ window.PortfolioApp = (function() {
 
         // Bind Theme Toggle Buttons across page
         document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+            if (btn.dataset.themeBound) return;
+            btn.dataset.themeBound = 'true';
             btn.addEventListener('click', toggleTheme);
         });
     }

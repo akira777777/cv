@@ -56,6 +56,8 @@
     applyTheme(currentTheme);
 
     themeBtns.forEach(btn => {
+      if (btn.dataset.themeBound) return;
+      btn.dataset.themeBound = 'true';
       btn.addEventListener('click', () => {
         currentTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
         applyTheme(currentTheme);
