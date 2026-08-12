@@ -27,7 +27,7 @@ const fs = require('fs');
             page.on('console', msg => { if (msg.type() === 'error') errors.push('CONSOLE: ' + msg.text()); });
 
             try {
-                await page.goto(`http://localhost:8090/${pageName}`, { waitUntil: 'domcontentloaded', timeout: 8000 });
+                await page.goto(`http://127.0.0.1:9123/${pageName}`, { waitUntil: 'domcontentloaded', timeout: 8000 });
                 await page.waitForTimeout(1500);
 
                 const ss = `/tmp/screenshots/${pageName.replace('.html','')}-${vp.name}.png`;

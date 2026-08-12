@@ -125,11 +125,37 @@
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;600&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
+    <!-- Preload LCP Hero Image -->
+    <link rel="preload" as="image" href="assets/images/hero_portrait.webp" fetchpriority="high">
+
     <!-- Shared Stylesheet & App Logic -->
     <link href="styles.css" rel="stylesheet">
     <script src="assets/js/app.js" defer></script>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Elizaveta Vakalova",
+      "jobTitle": "Multidisciplinary Designer",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Prague",
+        "addressCountry": "Czech Republic"
+      },
+      "url": "https://vakalova.design",
+      "sameAs": [
+        "https://instagram.com",
+        "https://twitter.com"
+      ]
+    }
+    </script>
 </head>
-<body class="text-on-background antialiased overflow-x-hidden selection:bg-secondary selection:text-on-secondary min-h-screen flex flex-col">
+<body class="font-body-md text-on-background antialiased overflow-x-hidden selection:bg-secondary selection:text-on-secondary min-h-screen flex flex-col">
+    <!-- Accessible Skip Link -->
+    <a class="skip-to-content" href="#main-content">Skip to main content</a>
+
     <!-- Paper Texture Overlay -->
     <div class="paper-grain"></div>
 
@@ -204,8 +230,19 @@
                 window.animationSettings.motion = false;
             }
 
+            // Optimize CPU/GPU: Pause rendering when hero container is scrolled out of view
+            let isCanvasVisible = true;
+            if ('IntersectionObserver' in window) {
+                const canvasObserver = new IntersectionObserver((entries) => {
+                    isCanvasVisible = entries[0].isIntersecting;
+                }, { threshold: 0 });
+                canvasObserver.observe(container);
+            }
+
             function animate() {
                 requestAnimationFrame(animate);
+                if (!isCanvasVisible) return;
+
                 const time = Date.now() * 0.001;
                 
                 if (window.animationSettings.motion) {
@@ -330,9 +367,9 @@
     </div>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-24 md:pt-32">
+    <main id="main-content" class="flex-grow pt-24 md:pt-32">
         <!-- Hero Section -->
-        <section class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop min-h-[60vh] md:min-h-[795px] flex items-center mb-section-gap relative">
+        <section class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop min-h-[60vh] md:min-h-[795px] flex items-center mb-section-gap relative overflow-hidden">
             <div class="grid grid-cols-4 md:grid-cols-12 gap-gutter w-full relative z-10">
                 <!-- Vertical Scroll Indicator -->
                 <div class="hidden md:flex col-span-1 flex-col justify-center items-start h-full fade-in-up" id="scroll-indicator" style="transition-delay: 0.4s;">
@@ -376,7 +413,7 @@
         </section>
 
         <!-- Selected Work Section -->
-        <section class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap relative" id="work">
+        <section class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap relative overflow-hidden" id="work">
             <!-- Project 01 -->
             <div class="grid grid-cols-4 md:grid-cols-12 gap-gutter mb-32 md:mb-56 fade-in-up items-center relative">
                 <div class="col-span-4 md:col-span-5 flex flex-col justify-center order-2 md:order-1 mt-8 md:mt-0 pr-0 md:pr-12 relative z-20">
@@ -517,7 +554,7 @@
         </section>
 
         <!-- About / Contact CTA Section -->
-        <section class="w-full px-margin-mobile md:px-margin-desktop py-40 mb-0 fade-in-up bg-surface-container-low" id="about">
+        <section class="w-full px-margin-mobile md:px-margin-desktop py-40 mb-0 fade-in-up bg-surface-container-low" id="about" style="content-visibility:auto;contain-intrinsic-size:0 400px;">
             <div class="max-w-container-max mx-auto grid grid-cols-4 md:grid-cols-12 gap-gutter">
                 <div class="col-span-4 md:col-span-8 md:col-start-3 text-center flex flex-col items-center">
                     <p class="font-headline-lg-mobile md:text-[56px] leading-[1.1] tracking-tight text-primary mb-16">
@@ -533,7 +570,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-surface w-full py-section-gap border-t border-outline/10">
+    <footer class="bg-surface w-full py-section-gap border-t border-outline/10" style="content-visibility:auto;contain-intrinsic-size:0 450px;">
         <div class="flex flex-col md:flex-row justify-between items-end px-margin-mobile md:px-margin-desktop w-full max-w-container-max mx-auto fade-in-up">
             <div class="mb-12 md:mb-0 w-full md:w-auto">
                 <h3 class="font-headline-lg text-[36px] sm:text-[48px] md:text-[72px] leading-tight tracking-tighter text-primary mb-12 max-w-2xl">Have a project in mind? Let's create something meaningful.</h3>
@@ -544,80 +581,13 @@
             <div class="flex flex-col md:items-end w-full md:w-auto">
                 <div class="flex space-x-8 mb-8 flex-wrap justify-start md:justify-end gap-y-2">
                     <a class="copy-email-btn font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1 cursor-pointer" data-email="hello@vakalova.design" href="mailto:hello@vakalova.design">Email</a>
-                    <a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="redirect.html">LinkedIn</a>
-                    <a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">Instagram</a>
-                    <a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">Twitter</a>
+                    <a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="redirect.html?url=https://linkedin.com">LinkedIn</a>
+                    <a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="redirect.html?url=https://instagram.com">Instagram</a>
+                    <a class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="redirect.html?url=https://x.com">Twitter</a>
                 </div>
                 <p class="font-body-md text-sm text-on-surface-variant uppercase tracking-widest">© 2026 Elizaveta Vakalova</p>
             </div>
         </div>
     </footer>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Controls panel sidebar logic (specific to index.html)
-            const settingsToggle = document.getElementById('settings-toggle');
-            const settingsClose = document.getElementById('settings-close');
-            const settingsPanel = document.getElementById('settings-panel');
-            const settingsBackdrop = document.getElementById('settings-backdrop');
-
-            function toggleSettings(open) {
-                if (!settingsPanel) return;
-                const isOpen = open !== undefined ? open : !settingsPanel.classList.contains('open');
-                if (isOpen) {
-                    settingsPanel.classList.add('open');
-                    if (settingsToggle) settingsToggle.setAttribute('aria-expanded', 'true');
-                    if (settingsBackdrop) {
-                        settingsBackdrop.classList.remove('hidden');
-                        requestAnimationFrame(() => settingsBackdrop.classList.add('opacity-100'));
-                    }
-                } else {
-                    settingsPanel.classList.remove('open');
-                    if (settingsToggle) settingsToggle.setAttribute('aria-expanded', 'false');
-                    if (settingsBackdrop) {
-                        settingsBackdrop.classList.remove('opacity-100');
-                        setTimeout(() => settingsBackdrop.classList.add('hidden'), 300);
-                    }
-                }
-            }
-
-            if (settingsToggle) settingsToggle.addEventListener('click', () => toggleSettings());
-            if (settingsClose) settingsClose.addEventListener('click', () => toggleSettings(false));
-            if (settingsBackdrop) settingsBackdrop.addEventListener('click', () => toggleSettings(false));
-
-            // Animation Settings Controls listeners
-            const toggleMotion = document.getElementById('toggle-motion');
-            const toggleNodes = document.getElementById('toggle-nodes');
-            const toggleGrid = document.getElementById('toggle-grid');
-            const colorPrimary = document.getElementById('color-primary');
-            const colorAccent = document.getElementById('color-accent');
-
-            if (toggleMotion) {
-                toggleMotion.addEventListener('change', (e) => {
-                    if (window.animationSettings) window.animationSettings.motion = e.target.checked;
-                });
-            }
-            if (toggleNodes) {
-                toggleNodes.addEventListener('change', (e) => {
-                    if (window.animationSettings) window.animationSettings.nodes = e.target.checked;
-                });
-            }
-            if (toggleGrid) {
-                toggleGrid.addEventListener('change', (e) => {
-                    if (window.animationSettings) window.animationSettings.grid = e.target.checked;
-                });
-            }
-            if (colorPrimary) {
-                colorPrimary.addEventListener('input', (e) => {
-                    if (window.animationSettings) window.animationSettings.primaryColor = parseInt(e.target.value.replace('#', '0x'), 16);
-                });
-            }
-            if (colorAccent) {
-                colorAccent.addEventListener('input', (e) => {
-                    if (window.animationSettings) window.animationSettings.accentColor = parseInt(e.target.value.replace('#', '0x'), 16);
-                });
-            }
-        });
-    </script>
 </body>
 </html>

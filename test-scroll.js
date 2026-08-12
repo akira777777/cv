@@ -18,7 +18,7 @@ const fs = require('fs');
             page.on('pageerror', e => errs.push(e.message));
             page.on('console', m => { if (m.type()==='error') errs.push(m.text()); });
 
-            await page.goto(`http://localhost:8090/${pn}`, { waitUntil: 'domcontentloaded', timeout: 8000 });
+            await page.goto(`http://127.0.0.1:9123/${pn}`, { waitUntil: 'domcontentloaded', timeout: 8000 });
             await page.waitForTimeout(1000);
             // Scroll through page to trigger lazy loading
             await page.evaluate(async () => {

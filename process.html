@@ -131,6 +131,9 @@
     <script src="assets/js/app.js" defer></script>
 </head>
 <body class="bg-background text-on-surface font-body-md overflow-x-hidden min-h-screen flex flex-col">
+    <!-- Accessible Skip Link -->
+    <a class="skip-to-content" href="#main-content">Skip to main content</a>
+
     <!-- Paper Texture Overlay -->
     <div class="paper-grain"></div>
 
@@ -164,8 +167,10 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="pt-32 md:pt-40 pb-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+    <!-- Main Content -->
+    <main id="main-content" class="flex-grow">
+        <!-- Hero Section -->
+        <header class="pt-32 md:pt-40 pb-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
 
         <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
             <div class="md:col-span-8">

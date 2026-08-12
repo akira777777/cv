@@ -391,12 +391,29 @@ window.PortfolioApp = (function() {
         highlightsContainer.innerHTML = p.highlights.map(h => `<li>${h}</li>`).join('');
     }
 
-    // Keyboard ESC Listener
+    // Keyboard Navigation & Hotkeys (ESC, Arrow Left/Right)
     document.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('case-study-modal');
+        const isModalOpen = modal && modal.classList.contains('open');
+
         if (e.key === 'Escape') {
-            closeCaseStudy();
+            if (isModalOpen) {
+                closeCaseStudy();
+            }
             const settingsPanel = document.getElementById('settings-panel');
-            if (settingsPanel) settingsPanel.classList.remove('open');
+            if (settingsPanel && settingsPanel.classList.contains('open')) {
+                settingsPanel.classList.remove('open');
+            }
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                const toggle = document.getElementById('mobile-menu-toggle');
+                if (toggle) toggle.setAttribute('aria-expanded', 'false');
+            }
+        } else if (isModalOpen && e.key === 'ArrowRight') {
+            navigateModal('next');
+        } else if (isModalOpen && e.key === 'ArrowLeft') {
+            navigateModal('prev');
         }
     });
 
@@ -404,6 +421,8 @@ window.PortfolioApp = (function() {
     function initWorkFilter() {
         const filterChips = document.querySelectorAll('.filter-chip');
         const searchInput = document.getElementById('work-search-input');
+        const searchClear = document.getElementById('work-search-clear');
+        const resetBtn = document.getElementById('reset-filters-btn');
         const projectItems = document.querySelectorAll('.project-item');
 
         if (!filterChips.length && !projectItems.length) return;
@@ -412,6 +431,7 @@ window.PortfolioApp = (function() {
         let searchQuery = '';
 
         function filterProjects() {
+            let visibleCount = 0;
             projectItems.forEach(item => {
                 const category = item.getAttribute('data-category') || '';
                 const title = (item.getAttribute('data-title') || '').toLowerCase();
@@ -423,18 +443,39 @@ window.PortfolioApp = (function() {
                 if (matchCategory && matchSearch) {
                     item.style.display = '';
                     item.classList.add('visible');
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'scale(1)';
-                    }, 50);
+                    item.style.opacity = '1';
+                    item.style.transform = 'scale(1)';
+                    visibleCount++;
                 } else {
                     item.style.opacity = '0';
                     item.style.transform = 'scale(0.95)';
                     setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
+                        if (!matchCategory || !matchSearch) item.style.display = 'none';
+                    }, 250);
                 }
             });
+
+            // Toggle empty state
+            const emptyState = document.getElementById('work-empty-state');
+            if (emptyState) {
+                if (visibleCount === 0) {
+                    emptyState.classList.remove('hidden');
+                } else {
+                    emptyState.classList.add('hidden');
+                }
+            }
+
+            // Update visible items count badge
+            const countEl = document.getElementById('work-count');
+            if (countEl) {
+                countEl.textContent = `Showing ${visibleCount} of ${projectItems.length} projects`;
+            }
+
+            // Toggle clear button
+            if (searchClear) {
+                if (searchQuery.length > 0) searchClear.classList.remove('hidden');
+                else searchClear.classList.add('hidden');
+            }
         }
 
         filterChips.forEach(chip => {
@@ -449,6 +490,27 @@ window.PortfolioApp = (function() {
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
                 searchQuery = e.target.value.trim().toLowerCase();
+                filterProjects();
+            });
+        }
+
+        if (searchClear) {
+            searchClear.addEventListener('click', () => {
+                if (searchInput) searchInput.value = '';
+                searchQuery = '';
+                filterProjects();
+            });
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                activeCategory = 'all';
+                searchQuery = '';
+                if (searchInput) searchInput.value = '';
+                filterChips.forEach(c => {
+                    if (c.getAttribute('data-filter') === 'all') c.classList.add('active');
+                    else c.classList.remove('active');
+                });
                 filterProjects();
             });
         }
@@ -593,6 +655,27 @@ window.PortfolioApp = (function() {
         if (form) {
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
+                
+                // Form input validation
+                const emailInput = form.querySelector('input[type="email"]');
+                const nameInput = form.querySelector('input[name="name"], input[placeholder*="Name"], input[id*="name"]');
+                const messageInput = form.querySelector('textarea');
+                
+                const emailVal = emailInput ? emailInput.value.trim() : '';
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (emailInput && (!emailVal || !emailRegex.test(emailVal))) {
+                    showToast('Please enter a valid email address.', 'warning');
+                    if (emailInput) emailInput.focus();
+                    return;
+                }
+                
+                if (messageInput && !messageInput.value.trim()) {
+                    showToast('Please provide a brief message.', 'warning');
+                    messageInput.focus();
+                    return;
+                }
+
                 const submitBtn = form.querySelector('button[type="submit"]');
                 if (submitBtn) {
                     submitBtn.disabled = true;
@@ -807,11 +890,92 @@ window.PortfolioApp = (function() {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                     observer.unobserve(entry.target);
+                    // Free GPU layer once animation settles
+                    setTimeout(() => {
+                        entry.target.style.willChange = 'auto';
+                    }, 1400);
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
         elements.forEach(el => observer.observe(el));
+    }
+
+    // Canvas Settings Panel Interaction
+    function initSettingsPanel() {
+        const toggleBtn = document.getElementById('settings-toggle');
+        const closeBtn = document.getElementById('settings-close');
+        const panel = document.getElementById('settings-panel');
+        const backdrop = document.getElementById('settings-backdrop');
+
+        if (!toggleBtn || !panel) return;
+
+        function openPanel() {
+            panel.classList.add('open');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            if (backdrop) {
+                backdrop.classList.remove('hidden');
+                requestAnimationFrame(() => backdrop.classList.add('opacity-100'));
+            }
+        }
+
+        function closePanel() {
+            panel.classList.remove('open');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            if (backdrop) {
+                backdrop.classList.remove('opacity-100');
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+            }
+        }
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (panel.classList.contains('open')) closePanel();
+            else openPanel();
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', closePanel);
+        if (backdrop) backdrop.addEventListener('click', closePanel);
+
+        // Bind canvas toggles & pickers
+        const toggleMotion = document.getElementById('toggle-motion');
+        const toggleNodes = document.getElementById('toggle-nodes');
+        const toggleGrid = document.getElementById('toggle-grid');
+        const colorPrimary = document.getElementById('color-primary');
+        const colorAccent = document.getElementById('color-accent');
+
+        if (toggleMotion) toggleMotion.addEventListener('change', (e) => {
+            if (window.animationSettings) window.animationSettings.motion = e.target.checked;
+        });
+        if (toggleNodes) toggleNodes.addEventListener('change', (e) => {
+            if (window.animationSettings) window.animationSettings.nodes = e.target.checked;
+        });
+        if (toggleGrid) toggleGrid.addEventListener('change', (e) => {
+            if (window.animationSettings) window.animationSettings.grid = e.target.checked;
+        });
+        if (colorPrimary) colorPrimary.addEventListener('input', (e) => {
+            if (window.animationSettings) window.animationSettings.primaryColor = parseInt(e.target.value.replace('#', '0x'), 16);
+        });
+        if (colorAccent) colorAccent.addEventListener('input', (e) => {
+            if (window.animationSettings) window.animationSettings.accentColor = parseInt(e.target.value.replace('#', '0x'), 16);
+        });
+    }
+
+    // Top Reading Scroll Progress Bar
+    function initScrollProgress() {
+        let progressBar = document.querySelector('.scroll-progress-bar');
+        if (!progressBar) {
+            progressBar = document.createElement('div');
+            progressBar.className = 'scroll-progress-bar';
+            document.body.appendChild(progressBar);
+        }
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = `${Math.min(100, Math.max(0, scrollPercent))}%`;
+        }, { passive: true });
     }
 
     // Initialize all modules on DOM ready
@@ -820,6 +984,8 @@ window.PortfolioApp = (function() {
         initActiveNav();
         initStickyNav();
         initMobileMenu();
+        initSettingsPanel();
+        initScrollProgress();
         initScrollReveal();
         initWorkFilter();
         initClipboardEmail();
@@ -845,3 +1011,4 @@ window.PortfolioApp = (function() {
         showToast
     };
 })();
+

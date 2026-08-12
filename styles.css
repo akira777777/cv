@@ -211,12 +211,23 @@ html, body {
 
 /* Control Panel Transition */
 #settings-panel {
-    transform: translateX(100%);
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(32px);
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0s linear 0.4s,
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     max-width: 100vw;
 }
 #settings-panel.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
     transform: translateX(0);
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0s linear 0s,
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @media (max-width: 400px) {
     #settings-panel {
@@ -424,4 +435,93 @@ nav a[aria-current="page"] {
     }
 }
 
+/* Accessible Focus Visible Ring */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--accent-gold) !important;
+    outline-offset: 3px !important;
+}
+
+/* GPU Promotion Hints via will-change */
+#navbar,
+#settings-panel,
+#case-study-modal,
+.toast-msg {
+    will-change: transform;
+}
+.fade-in-up {
+    will-change: opacity, transform;
+}
+.image-mask-reveal {
+    will-change: clip-path;
+}
+
+/* Parallax Wrapper Layout Containment */
+.parallax-wrapper {
+    contain: layout style;
+}
+
+
+
+
+/* Reading Scroll Progress Bar */
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent-gold);
+    z-index: 100;
+    width: 0%;
+    transition: width 0.1s ease-out;
+    pointer-events: none;
+}
+
+/* Accessible Skip Link */
+.skip-to-content {
+    position: absolute;
+    top: -100px;
+    left: 1.5rem;
+    z-index: 9999;
+    padding: 0.75rem 1.25rem;
+    background: var(--surface-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: top 0.3s ease;
+}
+.skip-to-content:focus {
+    top: 1rem;
+    outline: 2px solid var(--accent-gold);
+}
+
+
+/* Hardware Acceleration & GPU Compositing Hints for 60fps Smoothness */
+.parallax-bg,
+.project-card,
+#navbar,
+#settings-panel,
+.toast-msg,
+.modal-card {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+/* Image Skeleton Loading Placeholder */
+img {
+    background-color: var(--surface-card);
+}
+@keyframes pulse-bg {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+.img-skeleton {
+    animation: pulse-bg 1.8s ease-in-out infinite;
+}
 
