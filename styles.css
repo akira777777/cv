@@ -112,6 +112,54 @@ html.dark ::placeholder {
 html.dark .bg-surface-container-highest {
     background-color: #312f2e !important;
 }
+/* Dark mode: button hover overrides */
+html.dark .hover\:bg-primary:hover {
+    background-color: #f4f0ef !important;
+    color: #121111 !important;
+}
+html.dark .hover\:bg-secondary:hover {
+    background-color: #d4af37 !important;
+    color: #121111 !important;
+}
+html.dark .hover\:text-secondary:hover {
+    color: #d4af37 !important;
+}
+html.dark .hover\:border-secondary:hover {
+    border-color: #d4af37 !important;
+}
+/* Dark mode: input fields */
+html.dark .input-minimal {
+    border-bottom-color: rgba(244, 240, 239, 0.3) !important;
+    color: #f4f0ef !important;
+}
+html.dark .input-minimal:focus {
+    border-bottom-color: #d4af37 !important;
+}
+html.dark input,
+html.dark textarea,
+html.dark select {
+    color: #f4f0ef !important;
+}
+/* Dark mode: scope chip selected override */
+html.dark .scope-chip.selected {
+    background-color: #f4f0ef !important;
+    color: #121111 !important;
+    border-color: #f4f0ef !important;
+}
+/* Dark mode: filter chip active */
+html.dark .filter-chip.active {
+    background-color: #f4f0ef !important;
+    color: #121111 !important;
+}
+/* Dark mode: selection highlight */
+html.dark ::selection {
+    background-color: rgba(212, 175, 55, 0.3) !important;
+    color: inherit !important;
+}
+html.dark ::-moz-selection {
+    background-color: rgba(212, 175, 55, 0.3) !important;
+    color: inherit !important;
+}
 
 /* Mobile Masonry Grid Reset */
 @media (max-width: 767px) {
@@ -327,6 +375,7 @@ html, body {
     right: 32px;
     z-index: 10000;
     pointer-events: none;
+    max-width: calc(100vw - 48px);
 }
 .toast-msg {
     background: rgba(28, 27, 27, 0.92);
