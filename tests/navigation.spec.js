@@ -16,13 +16,11 @@ async function clickNavLink(page, href) {
     const isHidden = await mobileMenu.evaluate(el => el.classList.contains('hidden')).catch(() => false);
     if (isHidden) {
       await mobileToggle.click();
-      await page.waitForTimeout(300);
+      await expect(mobileMenu).not.toHaveClass(/hidden/);
     }
     const mobileLink = page.locator(`#mobile-menu a[href="${href}"]`).first();
-    if (await mobileLink.count() > 0) {
-      await mobileLink.click({ force: true });
-      return;
-    }
+    await mobileLink.click();
+    return;
   }
 
   const navLink = page.locator(`nav a[href="${href}"]`).first();
